@@ -1,0 +1,12 @@
+{
+  "rules": {
+    "user_logins": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "submissions": {
+      ".read": true,
+      ".write": "auth != null"
+    }
+  }
+}

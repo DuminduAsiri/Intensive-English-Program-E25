@@ -210,6 +210,9 @@
   <!-- Scripts -->
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
+  <!-- Firebase SDKs for real-time submission sync -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
   <script>
     const urlParams = new URLSearchParams(window.location.search);
     const slug = urlParams.get('slug') || 'group-cd-01';
@@ -237,13 +240,60 @@
     });
 
     const groupCollageContainer = document.getElementById('groupCollageContainer');
+    let groupUploadsLive = [...groupUploads]; // working copy, updated by Firebase
+
     function updateUploads() {
       const actId = activityFilter.value;
-      const filtered = groupUploads.filter(u => actId === 'all' || u.activity_id === actId);
+      const filtered = groupUploadsLive.filter(u => actId === 'all' || u.activity_id === actId);
       renderCollage(filtered, groupCollageContainer, 'No uploads found for this activity.');
+      document.getElementById('uploadsBadge').textContent = `${groupUploadsLive.length} uploads`;
     }
     activityFilter.addEventListener('change', updateUploads);
     updateUploads();
+
+    // Firebase real-time sync for submissions
+    (function initFirebaseSubmissions() {
+      const firebaseConfig = {
+        apiKey: "AIzaSyA3zM_fz3snYxd11zIO-lFuRYNA-VCfvfI",
+        authDomain: "intensive-english-program-e25.firebaseapp.com",
+        databaseURL: "https://intensive-english-program-e25-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "intensive-english-program-e25",
+        storageBucket: "intensive-english-program-e25.firebasestorage.app",
+        messagingSenderId: "819181152560",
+        appId: "1:819181152560:web:de3bf3ad50dbd2c58cc0f5"
+      };
+      try {
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        db.ref('submissions').on('value', (snapshot) => {
+          const data = snapshot.val();
+          if (!data) return;
+          // Get all Firebase submissions for this group
+          const allFirebaseSubs = Object.values(data);
+          const thisGroupSubs = allFirebaseSubs.filter(s => s.group_id === group.id);
+          // Merge with local static ones without duplicates
+          const localStatic = [...groupUploads];
+          const merged = [...thisGroupSubs];
+          localStatic.forEach(ls => {
+            if (!merged.some(fs => fs.id === ls.id)) merged.push(ls);
+          });
+          // Also save to localStorage for offline fallback
+          try {
+            let local = JSON.parse(localStorage.getItem('e25_custom_content') || '[]');
+            allFirebaseSubs.forEach(fs => {
+              if (!local.some(ls => ls.id === fs.id)) local.push(fs);
+            });
+            localStorage.setItem('e25_custom_content', JSON.stringify(local));
+          } catch(e) {}
+          groupUploadsLive = merged;
+          updateUploads();
+        }, (err) => {
+          console.warn('Firebase submissions listener:', err.message);
+        });
+      } catch (err) {
+        console.warn('Firebase not ready on group page:', err);
+      }
+    })();
 
     // Render Students
     const membersContainer = document.getElementById('membersContainer');

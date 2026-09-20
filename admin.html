@@ -1980,6 +1980,7 @@
       refreshDashboard();
       initSearchListeners();
       initUserLoginsMonitor();
+      initSubmissionsMonitor();
     });
 
     // Mobile Sidebar Drawer Controller
@@ -2055,6 +2056,32 @@
       const days = Math.floor(hours / 24);
       if (days < 30) return `${days}d ago`;
       return new Date(timestamp).toLocaleDateString();
+    }
+
+    // Submissions Firebase Real-Time Sync
+    function initSubmissionsMonitor() {
+      try {
+        if (typeof firebase !== 'undefined' && firebase.database) {
+          const db = firebase.database();
+          db.ref('submissions').on('value', (snapshot) => {
+            const data = snapshot.val();
+            if (!data) return;
+            const firebaseSubmissions = Object.values(data);
+            // Merge with localStorage without duplicates
+            let localSubs = JSON.parse(localStorage.getItem('e25_custom_content') || '[]');
+            const merged = [...firebaseSubmissions];
+            localSubs.forEach(ls => {
+              if (!merged.some(fs => fs.id === ls.id)) merged.push(ls);
+            });
+            localStorage.setItem('e25_custom_content', JSON.stringify(merged));
+            refreshDashboard();
+          }, (err) => {
+            console.warn('Submissions RTDB listener:', err.message);
+          });
+        }
+      } catch (err) {
+        console.warn('Submissions monitor init:', err);
+      }
     }
 
     // User Logins Real-Time Listener & UI Controller
@@ -2875,11 +2902,24 @@
         created_at: new Date().toISOString()
       };
 
+      // Save to localStorage (local fallback)
       let customContent = JSON.parse(localStorage.getItem('e25_custom_content') || '[]');
       customContent.push(newSubmission);
       localStorage.setItem('e25_custom_content', JSON.stringify(customContent));
 
-      showToast(`Submission "${title}" published successfully!`);
+      // Push to Firebase RTDB for cross-device sync
+      try {
+        if (typeof firebase !== 'undefined' && firebase.database) {
+          const db = firebase.database();
+          db.ref('submissions/' + newSubmission.id).set(newSubmission)
+            .then(() => console.log('Submission synced to Firebase.'))
+            .catch(err => console.warn('Firebase sync error:', err));
+        }
+      } catch (err) {
+        console.warn('Firebase not ready:', err);
+      }
+
+      showToast(`Submission "${title}" published to portal successfully!`);
       closeSubmissionModal();
       refreshDashboard();
     }
@@ -2894,6 +2934,16 @@
       const defaultIdx = DATA.contentItems.findIndex(c => c.id === id);
       if (defaultIdx !== -1) {
         DATA.contentItems.splice(defaultIdx, 1);
+      }
+
+      // Remove from Firebase RTDB
+      try {
+        if (typeof firebase !== 'undefined' && firebase.database) {
+          firebase.database().ref('submissions/' + id).remove()
+            .catch(err => console.warn('Firebase delete error:', err));
+        }
+      } catch (err) {
+        console.warn('Firebase not ready:', err);
       }
 
       showToast('Submission removed from portal.');
