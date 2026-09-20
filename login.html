@@ -796,6 +796,10 @@
         const user =
           userCredential.user;
 
+        // Keep the signed-in user name available on the home page.
+        localStorage.setItem("loggedInUserName", user.displayName || user.email || "User");
+        localStorage.setItem("loggedInUserEmail", user.email || "");
+
 
         showAlert(
           "Login successful! Welcome " +
@@ -918,6 +922,10 @@
 
           const user =
             result.user;
+
+          // Keep the signed-in Google account name available on the home page.
+          localStorage.setItem("loggedInUserName", user.displayName || user.email || "User");
+          localStorage.setItem("loggedInUserEmail", user.email || "");
 
 
           showAlert(
