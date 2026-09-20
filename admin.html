@@ -259,7 +259,7 @@
       padding: 2rem;
       overflow-y: auto;
       background: radial-gradient(circle at 80% 20%, rgba(100, 255, 218, 0.04) 0%, transparent 50%),
-                  radial-gradient(circle at 10% 80%, rgba(0, 64, 255, 0.05) 0%, transparent 60%);
+        radial-gradient(circle at 10% 80%, rgba(0, 64, 255, 0.05) 0%, transparent 60%);
     }
 
     /* Tab Content Panels */
@@ -1072,7 +1072,8 @@
         </div>
 
         <!-- Cohort Distribution & Quick Links -->
-        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:1.5rem; margin-bottom:2rem;">
+        <div
+          style="display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:1.5rem; margin-bottom:2rem;">
           <div class="admin-card" style="margin-bottom:0;">
             <div class="admin-card-header">
               <h2 class="admin-card-title">Group Enrollment Distribution</h2>
@@ -1088,27 +1089,33 @@
               <h2 class="admin-card-title">Quick Administrative Actions</h2>
             </div>
             <div style="display:flex; flex-direction:column; gap:0.75rem;">
-              <button class="btn btn-secondary btn-md" onclick="switchTab('students')" style="justify-content:flex-start;">
+              <button class="btn btn-secondary btn-md" onclick="switchTab('students')"
+                style="justify-content:flex-start;">
                 <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                 </svg>
                 <span>Manage & Register Students</span>
               </button>
-              <button class="btn btn-secondary btn-md" onclick="switchTab('submissions')" style="justify-content:flex-start;">
+              <button class="btn btn-secondary btn-md" onclick="switchTab('submissions')"
+                style="justify-content:flex-start;">
                 <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
                 </svg>
                 <span>Publish Assignment or Project Work</span>
               </button>
               <button class="btn btn-secondary btn-md" onclick="exportDataBackup()" style="justify-content:flex-start;">
                 <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4">
+                  </path>
                 </svg>
                 <span>Download Portal Data JSON Backup</span>
               </button>
               <a href="group.html?slug=group-cd-01" class="btn btn-outline btn-md" style="justify-content:flex-start;">
                 <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                 </svg>
                 <span>Visit Student Group Pages</span>
               </a>
@@ -1135,7 +1142,8 @@
         <div class="page-head">
           <div>
             <h1 class="page-title">Student Directory</h1>
-            <p class="page-subtitle">Manage enrolled students, registration numbers, and committee roles across Groups CD01–CD04.</p>
+            <p class="page-subtitle">Manage enrolled students, registration numbers, and committee roles across Groups
+              CD01–CD04.</p>
           </div>
           <div class="head-action-group">
             <button class="btn btn-primary btn-sm" onclick="openAddStudentModal()">
@@ -1193,7 +1201,8 @@
         <div class="page-head">
           <div>
             <h1 class="page-title">Content & Submissions Archive</h1>
-            <p class="page-subtitle">Publish, inspect, and organize assignments, slides, presentations, and group projects.</p>
+            <p class="page-subtitle">Publish, inspect, and organize assignments, slides, presentations, and group
+              projects.</p>
           </div>
           <div class="head-action-group">
             <button class="btn btn-primary btn-sm" onclick="openAddSubmissionModal()">
@@ -1252,7 +1261,8 @@
         <div class="page-head">
           <div>
             <h1 class="page-title">Study Groups Control</h1>
-            <p class="page-subtitle">Overview and details of the four official cohort groups in the Intensive English Program.</p>
+            <p class="page-subtitle">Overview and details of the four official cohort groups in the Intensive English
+              Program.</p>
           </div>
         </div>
 
@@ -1268,7 +1278,8 @@
         <div class="page-head">
           <div>
             <h1 class="page-title">Faculty Panel & Web Committee</h1>
-            <p class="page-subtitle">Directory of lecturing staff, course instructors, and student web committee members.</p>
+            <p class="page-subtitle">Directory of lecturing staff, course instructors, and student web committee
+              members.</p>
           </div>
         </div>
 
@@ -1312,7 +1323,8 @@
               <h2 class="admin-card-title">Export Complete Backup</h2>
             </div>
             <p style="font-size:0.875rem; color:var(--muted-foreground); margin-bottom:1.25rem; line-height:1.6;">
-              Download a complete JSON backup file containing all student records, group rosters, and uploaded assignments. Store this file securely to ensure data safety.
+              Download a complete JSON backup file containing all student records, group rosters, and uploaded
+              assignments. Store this file securely to ensure data safety.
             </p>
             <button class="btn btn-primary btn-md" onclick="exportDataBackup()">
               <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1328,9 +1340,11 @@
               <h2 class="admin-card-title">Restore / Import Data</h2>
             </div>
             <p style="font-size:0.875rem; color:var(--muted-foreground); margin-bottom:1.25rem; line-height:1.6;">
-              Upload a previously exported <code>.json</code> backup to restore your custom student records and submissions.
+              Upload a previously exported <code>.json</code> backup to restore your custom student records and
+              submissions.
             </p>
-            <input type="file" id="importFileInput" accept=".json" style="display:none;" onchange="handleFileImport(event)" />
+            <input type="file" id="importFileInput" accept=".json" style="display:none;"
+              onchange="handleFileImport(event)" />
             <button class="btn btn-secondary btn-md" onclick="document.getElementById('importFileInput').click()">
               <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -1348,7 +1362,8 @@
           <p style="font-size:0.875rem; color:var(--muted-foreground); margin-bottom:1.25rem;">
             Clears locally added students and submissions, reverting the portal back to initial baseline records.
           </p>
-          <button class="btn btn-outline btn-sm" onclick="resetCustomData()" style="border-color:#ff6b6b; color:#ff8585;">
+          <button class="btn btn-outline btn-sm" onclick="resetCustomData()"
+            style="border-color:#ff6b6b; color:#ff8585;">
             <span>Reset Local Storage Data</span>
           </button>
         </div>
@@ -1472,6 +1487,7 @@
   <!-- Scripts -->
   <script src="js/data.js"></script>
   <script>
+
     /**
      * Admin Dashboard Controller
      */
@@ -2176,6 +2192,87 @@
         setTimeout(() => toast.remove(), 300);
       }, 3500);
     }
+  </script>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+
+  <script>
+    // 1. ඔබේ Firebase Project Config එක මෙතැනට දාන්න
+    const firebaseConfig = {
+      apiKey: "AIzaSyA3zM_fz3snYxd11zIO-lFuRYNA-VCfvfI",
+      authDomain: "intensive-english-program-e25.firebaseapp.com",
+      databaseURL: "https://intensive-english-program-e25-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "intensive-english-program-e25",
+      storageBucket: "intensive-english-program-e25.firebasestorage.app",
+      messagingSenderId: "819181152560",
+      appId: "1:819181152560:web:de3bf3ad50dbd2c58cc0f5",
+      measurementId: "G-05EWGZK6HJ"
+    };
+
+    // Firebase Initialize කිරීම
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    const auth = firebase.auth();
+
+    // Log වෙන්න අවසර ඇති E-mail ලිපින 5
+    const allowedEmails = [
+      "e25eise041@eng.pdn.ac.lk",
+      "e25362@eng.pdn.ac.lk",
+      "e25300@eng.pdn.ac.lk",
+      "e25381@eng.pdn.ac.lk",
+      "e25371@eng.pdn.ac.lk"
+    ];
+
+    // User Auth status එක පරීක්ෂා කිරීම
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        const userEmail = user.email.toLowerCase();
+
+        // Email එක Allowed list එකේ තියෙනවාදැයි බැලීම
+        if (allowedEmails.includes(userEmail)) {
+          // Log වුණු userගේ විස්තර UI එකේ update කිරීම
+          updateAdminProfile(user);
+        } else {
+          // අවසර නැති Email එකක් නම් Logout කර Login page එකට redirect කිරීම
+          alert("Access Denied! Your email (" + user.email + ") is not authorized to access this dashboard.");
+          auth.signOut().then(() => {
+            window.location.href = "login.html";
+          });
+        }
+      } else {
+        // User log වී නැත්නම් Login page එකට යැවීම
+        window.location.href = "login.html";
+      }
+    });
+
+    // User details UI එකට දාන Function එක
+    function updateAdminProfile(user) {
+      const userChip = document.querySelector('.admin-user-chip');
+      if (userChip) {
+        userChip.innerHTML = `
+        <img src="${user.photoURL || 'assets/logo.png'}" alt="Avatar" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover; border: 1px solid var(--neon-cyan);">
+        <div class="admin-user-info">
+          <span class="admin-user-name">${user.displayName || 'Faculty Admin'}</span>
+          <span class="admin-user-role">${user.email}</span>
+        </div>
+      `;
+      }
+    }
+
+    // Logout Button එක වැඩ කරවන්න
+    document.addEventListener('DOMContentLoaded', () => {
+      const logoutBtn = document.querySelector('a[title="Sign out"]');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          auth.signOut().then(() => {
+            window.location.href = "login.html";
+          });
+        });
+      }
+    });
   </script>
 </body>
 
