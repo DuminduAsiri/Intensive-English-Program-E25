@@ -812,32 +812,298 @@
       }
     }
 
-    /* Responsive adjustments */
-    @media (max-width: 900px) {
-      .admin-layout {
-        flex-direction: column;
+    /* Mobile Hamburger Toggle */
+    .admin-mobile-toggle {
+      display: none;
+      background: rgba(100, 255, 218, 0.08);
+      border: 1px solid rgba(100, 255, 218, 0.28);
+      color: var(--neon-cyan);
+      border-radius: 0.5rem;
+      padding: 0.45rem;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .admin-mobile-toggle:hover {
+      background: rgba(100, 255, 218, 0.18);
+      box-shadow: 0 0 10px rgba(100, 255, 218, 0.25);
+    }
+
+    /* Mobile Sidebar Backdrop */
+    .admin-sidebar-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 12, 27, 0.75);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 95;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .admin-sidebar-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Sidebar Counter Badge */
+    .sidebar-counter-badge {
+      margin-left: auto;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 0.15rem 0.45rem;
+      border-radius: 999px;
+      background: rgba(100, 255, 218, 0.15);
+      color: var(--neon-cyan);
+      border: 1px solid rgba(100, 255, 218, 0.35);
+    }
+
+    /* Login Activity Component Styles */
+    .role-pill-admin {
+      background: rgba(255, 77, 77, 0.15);
+      color: #ff6b6b;
+      border: 1px solid rgba(255, 77, 77, 0.35);
+      font-weight: 700;
+      font-size: 0.7rem;
+      padding: 0.18rem 0.55rem;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .role-pill-student {
+      background: rgba(100, 255, 218, 0.12);
+      color: var(--neon-cyan);
+      border: 1px solid rgba(100, 255, 218, 0.3);
+      font-weight: 600;
+      font-size: 0.7rem;
+      padding: 0.18rem 0.55rem;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .method-badge {
+      font-size: 0.72rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 0.4rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(2, 12, 27, 0.65);
+      border: 1px solid rgba(100, 255, 218, 0.2);
+      color: var(--foreground);
+    }
+
+    .device-badge {
+      font-size: 0.7rem;
+      color: var(--muted-foreground);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .time-badge-cell {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.25;
+    }
+
+    .time-relative {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--ink-foreground);
+    }
+
+    .time-exact {
+      font-size: 0.7rem;
+      color: var(--muted-foreground);
+    }
+
+    .table-container-responsive {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border-radius: 0.75rem;
+      border: 1px solid rgba(100, 255, 218, 0.18);
+      background: rgba(17, 34, 64, 0.55);
+    }
+
+    .table-container-responsive table {
+      min-width: 680px;
+    }
+
+    /* Live pulse indicator */
+    .live-dot-green {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #00e676;
+      box-shadow: 0 0 8px #00e676;
+      display: inline-block;
+      animation: liveBlink 1.8s infinite;
+    }
+
+    @keyframes liveBlink {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    /* ==========================================================================
+       Comprehensive Responsive Breakpoints (Tablet & Mobile)
+       ========================================================================== */
+    @media (max-width: 1024px) {
+      .admin-mobile-toggle {
+        display: flex;
       }
 
       .admin-sidebar {
-        width: 100%;
-        border-right: none;
-        border-bottom: 1px solid rgba(100, 255, 218, 0.15);
-        flex-direction: row;
-        overflow-x: auto;
-        padding: 0.75rem;
+        position: fixed;
+        top: 72px;
+        left: 0;
+        bottom: 0;
+        width: 280px;
+        z-index: 100;
+        transform: translateX(-100%);
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        box-shadow: 10px 0 30px rgba(2, 12, 27, 0.8);
+        overflow-y: auto;
       }
 
-      .sidebar-section-title,
-      .sidebar-footer {
-        display: none;
-      }
-
-      .sidebar-nav-item {
-        white-space: nowrap;
+      .admin-sidebar.open {
+        transform: translateX(0);
       }
 
       .admin-main {
-        padding: 1.25rem;
+        padding: 1.5rem 1.25rem;
+        width: 100%;
+        max-width: 100vw;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .admin-navbar {
+        height: auto;
+        padding: 0.75rem 1rem;
+        flex-wrap: wrap;
+      }
+
+      .admin-brand-title {
+        font-size: 0.95rem;
+      }
+
+      .admin-brand-sub {
+        display: none;
+      }
+
+      .admin-nav-actions {
+        gap: 0.5rem;
+      }
+
+      .admin-status-indicator {
+        display: none;
+      }
+
+      .admin-user-chip {
+        padding: 0.25rem 0.5rem 0.25rem 0.35rem;
+      }
+
+      .admin-user-name {
+        max-width: 90px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .admin-user-role {
+        display: none;
+      }
+
+      .admin-main {
+        padding: 1rem 0.75rem;
+      }
+
+      .page-head {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.85rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .head-action-group {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 0.5rem;
+      }
+
+      .head-action-group .btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 0.75rem;
+      }
+
+      .stat-card {
+        padding: 1rem;
+      }
+
+      .stat-value {
+        font-size: 1.5rem;
+      }
+
+      .stat-icon-bubble {
+        width: 30px;
+        height: 30px;
+      }
+
+      .admin-filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+      }
+
+      .filter-pills-wrap {
+        display: flex;
+        overflow-x: auto;
+        padding-bottom: 0.35rem;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .filter-pill {
+        white-space: nowrap;
+        font-size: 0.75rem;
+        padding: 0.3rem 0.65rem;
+      }
+
+      .modal-dialog {
+        width: 94vw;
+        max-height: 88vh;
+        margin: 1rem auto;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .admin-brand-logo {
+        width: 34px;
+        height: 34px;
+      }
+
+      .admin-user-chip {
+        display: none;
       }
     }
   </style>
@@ -847,7 +1113,16 @@
 
   <!-- Admin Top Navbar -->
   <header class="admin-navbar">
-    <div style="display:flex; align-items:center; gap:1rem;">
+    <div style="display:flex; align-items:center; gap:0.75rem;">
+      <!-- Mobile Sidebar Toggle -->
+      <button class="admin-mobile-toggle" id="adminSidebarToggle" aria-label="Toggle Menu" title="Open Navigation">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+
       <a href="index.html" class="admin-brand">
         <img src="assets/logo.png" alt="University Logo" class="admin-brand-logo" />
         <div class="admin-brand-text">
@@ -895,12 +1170,19 @@
     </div>
   </header>
 
+  <!-- Mobile Drawer Backdrop -->
+  <div class="admin-sidebar-backdrop" id="adminSidebarBackdrop"></div>
+
   <!-- Dashboard Main Layout -->
   <div class="admin-layout">
 
     <!-- Sidebar Navigation -->
-    <aside class="admin-sidebar">
-      <div class="sidebar-section-title">Navigation</div>
+    <aside class="admin-sidebar" id="adminSidebar">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.25rem;">
+        <div class="sidebar-section-title" style="margin:0; padding-left:0.25rem;">Navigation</div>
+        <button class="btn btn-outline btn-xs" id="closeSidebarMobileBtn" style="display:none; padding:0.2rem 0.45rem;">&times; Close</button>
+      </div>
+
       <button class="sidebar-nav-item active" data-tab="overview">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -910,10 +1192,20 @@
         <span>Overview</span>
       </button>
 
-      <button class="sidebar-nav-item" data-tab="students">
+      <button class="sidebar-nav-item" data-tab="user-logins">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
+          </path>
+        </svg>
+        <span>User Logins & Activity</span>
+        <span class="sidebar-counter-badge" id="sidebarLoginsCount">0</span>
+      </button>
+
+      <button class="sidebar-nav-item" data-tab="students">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
           </path>
         </svg>
         <span>Students Directory</span>
@@ -1069,6 +1361,24 @@
               <span>Teachers & Web Committee</span>
             </div>
           </div>
+          <div class="stat-card" onclick="switchTab('user-logins')" style="cursor:pointer;" title="View all user login activity">
+            <div class="stat-card-glow"></div>
+            <div class="stat-card-header">
+              <span class="stat-label">User Logins</span>
+              <div class="stat-icon-bubble">
+                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1">
+                  </path>
+                </svg>
+              </div>
+            </div>
+            <div class="stat-value" id="kpiTotalLogins">0</div>
+            <div class="stat-meta">
+              <span class="live-dot-green"></span>
+              <span id="kpiUniqueUsersLabel">0 Unique Users</span>
+            </div>
+          </div>
         </div>
 
         <!-- Cohort Distribution & Quick Links -->
@@ -1089,6 +1399,14 @@
               <h2 class="admin-card-title">Quick Administrative Actions</h2>
             </div>
             <div style="display:flex; flex-direction:column; gap:0.75rem;">
+              <button class="btn btn-primary btn-md" onclick="switchTab('user-logins')"
+                style="justify-content:flex-start;">
+                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                </svg>
+                <span>View User Logins & Live Activity</span>
+              </button>
               <button class="btn btn-secondary btn-md" onclick="switchTab('students')"
                 style="justify-content:flex-start;">
                 <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1112,21 +1430,28 @@
                 </svg>
                 <span>Download Portal Data JSON Backup</span>
               </button>
-              <a href="group.html?slug=group-cd-01" class="btn btn-outline btn-md" style="justify-content:flex-start;">
-                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                </svg>
-                <span>Visit Student Group Pages</span>
-              </a>
             </div>
+          </div>
+        </div>
+
+        <!-- Recent User Logins Overview Card -->
+        <div class="admin-card" style="margin-bottom:1.5rem;">
+          <div class="admin-card-header">
+            <div style="display:flex; align-items:center; gap:0.65rem;">
+              <span class="live-dot-green"></span>
+              <h2 class="admin-card-title">Recent User Logins (Live Monitor)</h2>
+            </div>
+            <button class="btn btn-outline btn-xs" onclick="switchTab('user-logins')">View All Logins →</button>
+          </div>
+          <div id="overviewRecentLogins" style="display:flex; flex-direction:column; gap:0.65rem;">
+            <!-- Rendered via JS -->
           </div>
         </div>
 
         <!-- Recent Activity Feed -->
         <div class="admin-card">
           <div class="admin-card-header">
-            <h2 class="admin-card-title">Recent System Logs & Submissions</h2>
+            <h2 class="admin-card-title">System Status & Data Records</h2>
             <span class="badge badge-outline">Live Audit</span>
           </div>
           <div id="recentActivityList" style="display:flex; flex-direction:column; gap:0.75rem;">
@@ -1136,7 +1461,154 @@
       </section>
 
       <!-- ============================================== -->
-      <!-- TAB 2: STUDENTS DIRECTORY -->
+      <!-- TAB 2: USER LOGINS & ACTIVITY (REAL-TIME) -->
+      <!-- ============================================== -->
+      <section id="tab-user-logins" class="admin-tab-pane">
+        <div class="page-head">
+          <div>
+            <h1 class="page-title" style="display:flex; align-items:center; gap:0.75rem;">
+              <span>User Logins & Activity</span>
+              <span class="badge badge-secondary" style="font-size:0.75rem; display:inline-flex; align-items:center; gap:0.35rem;">
+                <span class="live-dot-green"></span> Live Monitor
+              </span>
+            </h1>
+            <p class="page-subtitle">Real-time log of student and faculty logins with timestamps, methods, and device tracking.</p>
+          </div>
+          <div class="head-action-group">
+            <button class="btn btn-primary btn-sm" onclick="syncAndRefreshLogins()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M23 4v6h-6"></path>
+                <path d="M1 20v-6h6"></path>
+                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+              </svg>
+              <span>Refresh Logins</span>
+            </button>
+            <button class="btn btn-secondary btn-sm" onclick="exportLoginsCSV()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span>Export CSV</span>
+            </button>
+            <button class="btn btn-outline btn-sm" onclick="clearLoginsHistory()" style="color:#ff6b6b; border-color:rgba(255,107,107,0.3);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+              <span>Clear History</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 Logins KPI Cards -->
+        <div class="stats-grid" style="margin-bottom:1.5rem;">
+          <div class="stat-card">
+            <div class="stat-card-glow"></div>
+            <div class="stat-card-header">
+              <span class="stat-label">Total Logins</span>
+              <div class="stat-icon-bubble">
+                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+                </svg>
+              </div>
+            </div>
+            <div class="stat-value" id="kpiLoginsTotal">0</div>
+            <div class="stat-meta"><span>All-time recorded sessions</span></div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-glow"></div>
+            <div class="stat-card-header">
+              <span class="stat-label">Unique Users</span>
+              <div class="stat-icon-bubble">
+                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                </svg>
+              </div>
+            </div>
+            <div class="stat-value" id="kpiLoginsUnique">0</div>
+            <div class="stat-meta"><span>Distinct accounts</span></div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-glow"></div>
+            <div class="stat-card-header">
+              <span class="stat-label">Today's Logins</span>
+              <div class="stat-icon-bubble">
+                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+              </div>
+            </div>
+            <div class="stat-value" id="kpiLoginsToday">0</div>
+            <div class="stat-meta"><span class="live-dot-green"></span> <span>Active today</span></div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-glow"></div>
+            <div class="stat-card-header">
+              <span class="stat-label">Admin Logins</span>
+              <div class="stat-icon-bubble">
+                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                </svg>
+              </div>
+            </div>
+            <div class="stat-value" id="kpiLoginsAdmins">0</div>
+            <div class="stat-meta"><span>Authorized staff logins</span></div>
+          </div>
+        </div>
+
+        <!-- Logins Table Card -->
+        <div class="admin-card">
+          <div class="table-toolbar">
+            <div class="search-box" style="flex:1;">
+              <svg class="search-icon" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="text" id="userLoginSearchInput" placeholder="Search by name, email, role, or date..." />
+            </div>
+
+            <div class="filter-pills" id="loginFilterPills" style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+              <button class="filter-pill active" data-filter="all">All (<span id="pillCountAll">0</span>)</button>
+              <button class="filter-pill" data-filter="today">Today</button>
+              <button class="filter-pill" data-filter="students">Students</button>
+              <button class="filter-pill" data-filter="admins">Admins</button>
+              <button class="filter-pill" data-filter="google">Google</button>
+              <button class="filter-pill" data-filter="email">Email</button>
+            </div>
+          </div>
+
+          <div class="table-container-responsive">
+            <table class="admin-table" id="userLoginsTable">
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Login Time</th>
+                  <th>Method</th>
+                  <th>Device</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="userLoginsTableBody">
+                <tr>
+                  <td colspan="7" style="text-align:center; padding:2.5rem; color:var(--muted-foreground);">
+                    Loading login records...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- TAB 3: STUDENTS DIRECTORY -->
       <!-- ============================================== -->
       <section id="tab-students" class="admin-tab-pane">
         <div class="page-head">
@@ -1494,15 +1966,47 @@
 
     let currentGroupFilter = 'all';
     let currentActivityFilter = 'all';
+    let allUserLogins = [];
+    let currentUserLoginFilter = 'all';
 
     document.addEventListener('DOMContentLoaded', () => {
+      initMobileSidebar();
       initNavigationTabs();
       initGroupFilterPills();
       initActivityFilterPills();
+      initUserLoginFilterPills();
+      initUserLoginSearch();
       populateSelectOptions();
       refreshDashboard();
       initSearchListeners();
+      initUserLoginsMonitor();
     });
+
+    // Mobile Sidebar Drawer Controller
+    function initMobileSidebar() {
+      const toggleBtn = document.getElementById('adminSidebarToggle');
+      const closeBtn = document.getElementById('closeSidebarMobileBtn');
+      const backdrop = document.getElementById('adminSidebarBackdrop');
+      const sidebar = document.getElementById('adminSidebar');
+
+      if (!sidebar) return;
+
+      const openDrawer = () => {
+        sidebar.classList.add('open');
+        if (backdrop) backdrop.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      };
+
+      const closeDrawer = () => {
+        sidebar.classList.remove('open');
+        if (backdrop) backdrop.classList.remove('active');
+        document.body.style.overflow = '';
+      };
+
+      if (toggleBtn) toggleBtn.addEventListener('click', openDrawer);
+      if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+      if (backdrop) backdrop.addEventListener('click', closeDrawer);
+    }
 
     // Navigation Tab Switching
     function initNavigationTabs() {
@@ -1525,9 +2029,329 @@
       if (activeBtn) activeBtn.classList.add('active');
       if (targetPane) targetPane.classList.add('active');
 
-      if (tabId === 'overview' || tabId === 'students' || tabId === 'submissions' || tabId === 'groups') {
+      // Auto close mobile drawer on tab click
+      const sidebar = document.getElementById('adminSidebar');
+      const backdrop = document.getElementById('adminSidebarBackdrop');
+      if (sidebar && sidebar.classList.contains('open')) {
+        sidebar.classList.remove('open');
+        if (backdrop) backdrop.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      if (tabId === 'overview' || tabId === 'students' || tabId === 'submissions' || tabId === 'groups' || tabId === 'user-logins') {
         refreshDashboard();
       }
+    }
+
+    // Relative Time Helper
+    function timeAgo(timestamp) {
+      if (!timestamp) return 'Just now';
+      const seconds = Math.floor((Date.now() - timestamp) / 1000);
+      if (seconds < 45) return 'Just now';
+      const minutes = Math.floor(seconds / 60);
+      if (minutes < 60) return `${minutes}m ago`;
+      const hours = Math.floor(minutes / 60);
+      if (hours < 24) return `${hours}h ago`;
+      const days = Math.floor(hours / 24);
+      if (days < 30) return `${days}d ago`;
+      return new Date(timestamp).toLocaleDateString();
+    }
+
+    // User Logins Real-Time Listener & UI Controller
+    function initUserLoginsMonitor() {
+      // 1. Initial render from localStorage cache
+      try {
+        const cached = JSON.parse(localStorage.getItem('e25_user_logins') || '[]');
+        if (Array.isArray(cached) && cached.length > 0) {
+          allUserLogins = cached;
+          renderUserLoginsUI();
+        }
+      } catch (err) {
+        console.warn("Could not read local login cache:", err);
+      }
+
+      // 2. Attach Firebase Realtime Database live listener if available
+      try {
+        if (typeof firebase !== 'undefined' && firebase.database) {
+          const db = firebase.database();
+          const loginsRef = db.ref('user_logins');
+          loginsRef.on('value', (snapshot) => {
+            const data = snapshot.val();
+            let firebaseLogins = [];
+            if (data) {
+              Object.keys(data).forEach(key => {
+                firebaseLogins.push({ ...data[key], id: key });
+              });
+            }
+
+            // Merge with local storage logins for resilience
+            let localLogins = JSON.parse(localStorage.getItem('e25_user_logins') || '[]');
+            localLogins.forEach(ll => {
+              if (!firebaseLogins.some(fl => fl.id === ll.id || (fl.timestamp === ll.timestamp && fl.email === ll.email))) {
+                firebaseLogins.push(ll);
+              }
+            });
+
+            // Sort descending by timestamp
+            firebaseLogins.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+            allUserLogins = firebaseLogins;
+
+            // Sync back to localStorage
+            localStorage.setItem('e25_user_logins', JSON.stringify(allUserLogins.slice(0, 250)));
+            renderUserLoginsUI();
+          }, (err) => {
+            console.warn("Firebase RTDB listener note:", err.message);
+          });
+        }
+      } catch (err) {
+        console.warn("Firebase user logins monitor init note:", err);
+      }
+    }
+
+    function renderUserLoginsUI() {
+      // Calculate Stats
+      const total = allUserLogins.length;
+      const uniqueEmails = new Set(allUserLogins.map(l => (l.email || '').toLowerCase()).filter(Boolean));
+      const todayStr = new Date().toDateString();
+      const todayCount = allUserLogins.filter(l => new Date(l.timestamp).toDateString() === todayStr).length;
+      const adminCount = allUserLogins.filter(l => l.role === 'Admin').length;
+
+      // Update KPI Elements
+      const kpiTotalOverview = document.getElementById('kpiTotalLogins');
+      const kpiUniqueOverview = document.getElementById('kpiUniqueUsersLabel');
+      const sidebarBadge = document.getElementById('sidebarLoginsCount');
+      const pillAll = document.getElementById('pillCountAll');
+
+      const kpiTabTotal = document.getElementById('kpiLoginsTotal');
+      const kpiTabUnique = document.getElementById('kpiLoginsUnique');
+      const kpiTabToday = document.getElementById('kpiLoginsToday');
+      const kpiTabAdmins = document.getElementById('kpiLoginsAdmins');
+
+      if (kpiTotalOverview) kpiTotalOverview.textContent = total;
+      if (kpiUniqueOverview) kpiUniqueOverview.textContent = `${uniqueEmails.size} Unique Users`;
+      if (sidebarBadge) sidebarBadge.textContent = total;
+      if (pillAll) pillAll.textContent = total;
+
+      if (kpiTabTotal) kpiTabTotal.textContent = total;
+      if (kpiTabUnique) kpiTabUnique.textContent = uniqueEmails.size;
+      if (kpiTabToday) kpiTabToday.textContent = todayCount;
+      if (kpiTabAdmins) kpiTabAdmins.textContent = adminCount;
+
+      // Render Overview Recent Logins
+      renderOverviewRecentLogins();
+
+      // Render Main Logins Table
+      renderUserLoginsTable();
+    }
+
+    function renderOverviewRecentLogins() {
+      const container = document.getElementById('overviewRecentLogins');
+      if (!container) return;
+
+      if (allUserLogins.length === 0) {
+        container.innerHTML = `
+          <div style="padding:1.5rem; text-align:center; color:var(--muted-foreground); font-size:0.85rem; border:1px dashed rgba(100,255,218,0.2); border-radius:0.5rem;">
+            No user logins recorded yet. Real-time logins will appear here live when students and staff authenticate.
+          </div>
+        `;
+        return;
+      }
+
+      const recentFive = allUserLogins.slice(0, 4);
+      container.innerHTML = recentFive.map(l => {
+        const initials = (l.displayName || l.email || 'U').substring(0, 2).toUpperCase();
+        const rolePill = l.role === 'Admin' 
+          ? `<span class="role-pill-admin">Admin</span>` 
+          : `<span class="role-pill-student">Student</span>`;
+        const avatarHtml = l.photoURL 
+          ? `<img src="${l.photoURL}" style="width:32px; height:32px; border-radius:50%; object-fit:cover; border:1px solid rgba(100,255,218,0.4);" />`
+          : `<div style="width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg, var(--neon-cyan), #0040ff); color:#0a192f; font-weight:700; font-size:0.75rem; display:flex; align-items:center; justify-content:center;">${initials}</div>`;
+
+        return `
+          <div style="display:flex; align-items:center; justify-content:space-between; padding:0.65rem 0.85rem; background:rgba(2,12,27,0.55); border:1px solid rgba(100,255,218,0.14); border-radius:0.5rem; gap:0.75rem;">
+            <div style="display:flex; align-items:center; gap:0.75rem; min-width:0;">
+              ${avatarHtml}
+              <div style="overflow:hidden;">
+                <div style="font-size:0.875rem; font-weight:600; color:var(--ink-foreground); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                  ${l.displayName || 'Unknown User'}
+                </div>
+                <div style="font-size:0.75rem; color:var(--muted-foreground); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                  ${l.email}
+                </div>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; gap:0.6rem; flex-shrink:0;">
+              ${rolePill}
+              <span class="method-badge" style="font-size:0.68rem;">${l.method || 'Email'}</span>
+              <span style="font-size:0.75rem; color:var(--neon-cyan); font-weight:500;">${timeAgo(l.timestamp)}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderUserLoginsTable() {
+      const tbody = document.getElementById('userLoginsTableBody');
+      if (!tbody) return;
+
+      const searchQuery = (document.getElementById('userLoginSearchInput')?.value || '').toLowerCase().trim();
+      let filtered = [...allUserLogins];
+
+      // Filter by Pill
+      if (currentUserLoginFilter === 'today') {
+        const todayStr = new Date().toDateString();
+        filtered = filtered.filter(l => new Date(l.timestamp).toDateString() === todayStr);
+      } else if (currentUserLoginFilter === 'students') {
+        filtered = filtered.filter(l => l.role !== 'Admin');
+      } else if (currentUserLoginFilter === 'admins') {
+        filtered = filtered.filter(l => l.role === 'Admin');
+      } else if (currentUserLoginFilter === 'google') {
+        filtered = filtered.filter(l => (l.method || '').toLowerCase().includes('google'));
+      } else if (currentUserLoginFilter === 'email') {
+        filtered = filtered.filter(l => (l.method || '').toLowerCase().includes('email') || (l.method || '').toLowerCase().includes('password'));
+      }
+
+      // Filter by Search Query
+      if (searchQuery) {
+        filtered = filtered.filter(l =>
+          (l.displayName && l.displayName.toLowerCase().includes(searchQuery)) ||
+          (l.email && l.email.toLowerCase().includes(searchQuery)) ||
+          (l.role && l.role.toLowerCase().includes(searchQuery)) ||
+          (l.method && l.method.toLowerCase().includes(searchQuery)) ||
+          (l.loginTimeFormatted && l.loginTimeFormatted.toLowerCase().includes(searchQuery))
+        );
+      }
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" style="text-align:center; padding:3rem 1.5rem; color:var(--muted-foreground);">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin:0 auto 0.75rem; color:var(--neon-cyan); opacity:0.6;">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <div style="font-weight:600; color:var(--ink-foreground); margin-bottom:0.25rem;">No Login Records Found</div>
+              <div style="font-size:0.8rem;">No users match the selected filter or search terms.</div>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(l => {
+        const initials = (l.displayName || l.email || 'U').substring(0, 2).toUpperCase();
+        const roleHtml = l.role === 'Admin'
+          ? `<span class="role-pill-admin"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg> Admin</span>`
+          : `<span class="role-pill-student"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Student</span>`;
+
+        const avatarHtml = l.photoURL
+          ? `<img src="${l.photoURL}" class="user-avatar-badge" style="width:32px; height:32px; border-radius:50%; object-fit:cover; border:1px solid rgba(100,255,218,0.4);" />`
+          : `<div style="width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg, var(--neon-cyan), #0040ff); color:#0a192f; font-weight:700; font-size:0.75rem; display:flex; align-items:center; justify-content:center; flex-shrink:0;">${initials}</div>`;
+
+        const isGoogle = (l.method || '').toLowerCase().includes('google');
+        const methodHtml = isGoogle
+          ? `<span class="method-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"/></svg> Google</span>`
+          : `<span class="method-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg> Email</span>`;
+
+        const deviceHtml = l.device === 'Mobile'
+          ? `<span class="device-badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg> Mobile</span>`
+          : `<span class="device-badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg> Desktop</span>`;
+
+        const formattedTime = l.loginTimeFormatted || (l.timestamp ? new Date(l.timestamp).toLocaleString('en-US', { timeZone: 'Asia/Colombo', dateStyle: 'medium', timeStyle: 'short' }) : 'Recorded');
+
+        return `
+          <tr>
+            <td>
+              <div style="display:flex; align-items:center; gap:0.65rem;">
+                ${avatarHtml}
+                <div style="font-weight:600; color:var(--ink-foreground); line-height:1.2;">
+                  ${l.displayName || 'User'}
+                </div>
+              </div>
+            </td>
+            <td>
+              <code style="color:var(--neon-cyan); font-size:0.8rem;">${l.email || 'No Email'}</code>
+            </td>
+            <td>${roleHtml}</td>
+            <td>
+              <div class="time-badge-cell">
+                <span class="time-relative">${timeAgo(l.timestamp)}</span>
+                <span class="time-exact">${formattedTime}</span>
+              </div>
+            </td>
+            <td>${methodHtml}</td>
+            <td>${deviceHtml}</td>
+            <td>
+              <span style="display:inline-flex; align-items:center; gap:0.35rem; color:#00e676; font-size:0.75rem; font-weight:600;">
+                <span class="live-dot-green"></span> Active
+              </span>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function initUserLoginFilterPills() {
+      const pills = document.querySelectorAll('#loginFilterPills .filter-pill');
+      pills.forEach(pill => {
+        pill.addEventListener('click', () => {
+          pills.forEach(p => p.classList.remove('active'));
+          pill.classList.add('active');
+          currentUserLoginFilter = pill.getAttribute('data-filter');
+          renderUserLoginsTable();
+        });
+      });
+    }
+
+    function initUserLoginSearch() {
+      const searchInput = document.getElementById('userLoginSearchInput');
+      if (searchInput) {
+        searchInput.addEventListener('input', () => {
+          renderUserLoginsTable();
+        });
+      }
+    }
+
+    function syncAndRefreshLogins() {
+      initUserLoginsMonitor();
+      showToast("User login logs refreshed!");
+    }
+
+    function exportLoginsCSV() {
+      if (!allUserLogins || allUserLogins.length === 0) {
+        showToast("No login records available to export.");
+        return;
+      }
+
+      const headers = ["User Name", "Email", "Role", "Login Timestamp", "Formatted Time", "Login Method", "Device"];
+      const rows = allUserLogins.map(l => [
+        `"${(l.displayName || '').replace(/"/g, '""')}"`,
+        `"${(l.email || '').replace(/"/g, '""')}"`,
+        `"${l.role || 'Student'}"`,
+        `"${l.timestamp || ''}"`,
+        `"${(l.loginTimeFormatted || '').replace(/"/g, '""')}"`,
+        `"${(l.method || '').replace(/"/g, '""')}"`,
+        `"${(l.device || 'Desktop')}"`
+      ]);
+
+      const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map(r => r.join(","))].join("\n");
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `e25_user_logins_${new Date().toISOString().slice(0, 10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      showToast("Login logs exported as CSV!");
+    }
+
+    function clearLoginsHistory() {
+      if (!confirm("Are you sure you want to clear local login records?")) return;
+      localStorage.removeItem('e25_user_logins');
+      allUserLogins = [];
+      renderUserLoginsUI();
+      showToast("Local user logins history cleared.");
     }
 
     // Populate Dynamic Select Menus in Modals
@@ -2196,9 +3020,10 @@
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
   <script>
-    // 1. ඔබේ Firebase Project Config එක මෙතැනට දාන්න
+    // 1. Firebase Project Config
     const firebaseConfig = {
       apiKey: "AIzaSyA3zM_fz3snYxd11zIO-lFuRYNA-VCfvfI",
       authDomain: "intensive-english-program-e25.firebaseapp.com",
@@ -2210,39 +3035,43 @@
       measurementId: "G-05EWGZK6HJ"
     };
 
-    // Firebase Initialize කිරීම
+    // Initialize Firebase
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);
     }
     const auth = firebase.auth();
 
-    // Log වෙන්න අවසර ඇති E-mail ලිපින 5
+    // Allowed Admin Email addresses
     const allowedEmails = [
       "e25eise041@eng.pdn.ac.lk",
       "e25362@eng.pdn.ac.lk",
       "e25300@eng.pdn.ac.lk",
       "e25381@eng.pdn.ac.lk",
-      "e25371@eng.pdn.ac.lk"
+      "e25371@eng.pdn.ac.lk",
+      "admin@eng.pdn.ac.lk"
     ];
 
-    // User Auth status එක පරීක්ෂා කිරීම
+    // User Auth status check
     auth.onAuthStateChanged((user) => {
       if (user) {
-        const userEmail = user.email.toLowerCase();
+        const userEmail = (user.email || "").toLowerCase().trim();
 
-        // Email එක Allowed list එකේ තියෙනවාදැයි බැලීම
+        // Check if email is in allowed list
         if (allowedEmails.includes(userEmail)) {
-          // Log වුණු userගේ විස්තර UI එකේ update කිරීම
+          // Update admin profile chip
           updateAdminProfile(user);
+          // Initialize Realtime User Logins monitor
+          if (typeof initUserLoginsMonitor === 'function') {
+            initUserLoginsMonitor();
+          }
         } else {
-          // අවසර නැති Email එකක් නම් Logout කර Login page එකට redirect කිරීම
           alert("Access Denied! Your email (" + user.email + ") is not authorized to access this dashboard.");
           auth.signOut().then(() => {
             window.location.href = "login.html";
           });
         }
       } else {
-        // User log වී නැත්නම් Login page එකට යැවීම
+        // Not logged in -> redirect to login
         window.location.href = "login.html";
       }
     });

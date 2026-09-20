@@ -644,6 +644,7 @@
       signInWithPopup,
       sendPasswordResetEmail
     } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+    import { logUserActivity } from "./js/auth-nav.js";
 
 
     // ==============================
@@ -800,6 +801,12 @@
         localStorage.setItem("loggedInUserName", user.displayName || user.email || "User");
         localStorage.setItem("loggedInUserEmail", user.email || "");
 
+        // Record User Login in DB & Local Storage
+        try {
+          logUserActivity(user, "Email / Password");
+        } catch (e) {
+          console.warn("Log user activity note:", e);
+        }
 
         showAlert(
           "Login successful! Welcome " +
@@ -807,31 +814,28 @@
           true
         );
 
-
         // ==============================
-        // ADMIN LOGIN
+        // ADMIN / STUDENT REDIRECT
         // ==============================
-
-        if (
-          user.email &&
-          user.email.toLowerCase() ===
+        const adminList = [
+          "e25eise041@eng.pdn.ac.lk",
+          "e25362@eng.pdn.ac.lk",
+          "e25300@eng.pdn.ac.lk",
+          "e25381@eng.pdn.ac.lk",
+          "e25371@eng.pdn.ac.lk",
           "admin@eng.pdn.ac.lk"
-        ) {
+        ];
 
+        const userEmail = (user.email || "").toLowerCase().trim();
+
+        if (adminList.includes(userEmail)) {
           setTimeout(() => {
             window.location.href = "admin.html";
-          }, 1000);
-
+          }, 900);
         } else {
-
-          // ==============================
-          // STUDENT LOGIN
-          // ==============================
-
           setTimeout(() => {
             window.location.href = "index.html";
-          }, 1000);
-
+          }, 900);
         }
 
 
@@ -927,6 +931,12 @@
           localStorage.setItem("loggedInUserName", user.displayName || user.email || "User");
           localStorage.setItem("loggedInUserEmail", user.email || "");
 
+          // Record User Login in DB & Local Storage
+          try {
+            logUserActivity(user, "Google Sign-In");
+          } catch (e) {
+            console.warn("Log user activity note:", e);
+          }
 
           showAlert(
             "Google login successful! Welcome " +
@@ -934,13 +944,26 @@
             true
           );
 
+          const adminList = [
+            "e25eise041@eng.pdn.ac.lk",
+            "e25362@eng.pdn.ac.lk",
+            "e25300@eng.pdn.ac.lk",
+            "e25381@eng.pdn.ac.lk",
+            "e25371@eng.pdn.ac.lk",
+            "admin@eng.pdn.ac.lk"
+          ];
 
-          setTimeout(() => {
+          const userEmail = (user.email || "").toLowerCase().trim();
 
-            window.location.href =
-              "index.html";
-
-          }, 1000);
+          if (adminList.includes(userEmail)) {
+            setTimeout(() => {
+              window.location.href = "admin.html";
+            }, 900);
+          } else {
+            setTimeout(() => {
+              window.location.href = "index.html";
+            }, 900);
+          }
 
 
         } catch (error) {

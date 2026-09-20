@@ -1054,3 +1054,165 @@ footer.site-footer {
 }
 
 
+
+/* ==========================================================================
+   User Auth Badge & Welcome Component (Navbar & Drawer)
+   ========================================================================== */
+.user-auth-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  background: rgba(17, 34, 64, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(100, 255, 218, 0.35);
+  box-shadow: 0 4px 14px rgba(2, 12, 27, 0.6), 0 0 10px rgba(100, 255, 218, 0.12);
+  padding: 0.25rem 0.6rem 0.25rem 0.35rem;
+  border-radius: 9999px;
+  animation: fadeIn 0.3s ease-out;
+  max-width: 280px;
+}
+
+.user-avatar-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--neon-cyan), #0040ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 1px solid rgba(100, 255, 218, 0.6);
+  box-shadow: 0 0 8px rgba(100, 255, 218, 0.3);
+}
+
+.user-avatar-badge img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-avatar-badge .user-avatar-text {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #0a192f;
+  line-height: 1;
+}
+
+.user-info-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+  text-align: left;
+  overflow: hidden;
+}
+
+.user-welcome-title {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--neon-cyan);
+  font-weight: 600;
+}
+
+.user-display-name {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink-foreground);
+  max-width: 110px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-portal-btn {
+  font-size: 0.68rem !important;
+  padding: 0.15rem 0.45rem !important;
+  border-radius: 9999px !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: rgba(100, 255, 218, 0.12);
+  border-color: var(--neon-cyan) !important;
+  color: var(--neon-cyan) !important;
+}
+
+.user-logout-icon-btn {
+  background: transparent;
+  border: none;
+  color: var(--muted-foreground);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: 0.1rem;
+}
+
+.user-logout-icon-btn:hover {
+  color: #ff5252;
+  background: rgba(255, 82, 82, 0.12);
+  transform: scale(1.1);
+}
+
+/* Mobile Drawer User Card */
+.drawer-user-box {
+  background: rgba(17, 34, 64, 0.9);
+  border: 1px solid rgba(100, 255, 218, 0.28);
+  border-radius: 0.85rem;
+  padding: 1rem;
+  box-shadow: 0 8px 24px rgba(2, 12, 27, 0.7);
+}
+
+.drawer-user-info-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.drawer-user-info-row .user-avatar-badge {
+  width: 36px;
+  height: 36px;
+}
+
+.drawer-user-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+  overflow: hidden;
+}
+
+.drawer-welcome-msg {
+  font-size: 0.7rem;
+  color: var(--neon-cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+}
+
+.drawer-user-name {
+  font-size: 0.92rem;
+  color: var(--ink-foreground);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.drawer-user-email {
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.drawer-user-actions {
+  margin-top: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
