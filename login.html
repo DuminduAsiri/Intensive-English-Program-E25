@@ -54,6 +54,7 @@
         opacity: 0;
         transform: translateY(12px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
@@ -351,6 +352,7 @@
         opacity: 0;
         transform: translateY(-8px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
@@ -415,7 +417,8 @@
         <a href="memories.html" class="nav-link">Memories</a>
       </nav>
       <div class="header-actions">
-        <a href="login.html" class="btn btn-primary btn-sm" style="box-shadow: 0 0 15px rgba(100, 255, 218, 0.5);">Login</a>
+        <a href="login.html" class="btn btn-primary btn-sm"
+          style="box-shadow: 0 0 15px rgba(100, 255, 218, 0.5);">Login</a>
       </div>
       <button class="mobile-menu-btn" data-toggle="mobile-menu" aria-label="Open menu">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -507,7 +510,8 @@
               </span>
               <input type="password" id="passwordInput" class="form-input has-toggle" placeholder="••••••••" required
                 autocomplete="current-password" />
-              <button type="button" id="togglePasswordBtn" class="input-toggle-btn" aria-label="Toggle password visibility">
+              <button type="button" id="togglePasswordBtn" class="input-toggle-btn"
+                aria-label="Toggle password visibility">
                 <!-- Eye Icon -->
                 <svg id="eyeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -563,11 +567,13 @@
 
         <div class="demo-hint">
           <span>Student: <code>student@eng.pdn.ac.lk</code> / <code>e25pass</code></span><br>
-          <span style="display:inline-block; margin-top:0.35rem;">Faculty Admin: <code>admin@eng.pdn.ac.lk</code> / <code>e25pass</code></span>
+          <span style="display:inline-block; margin-top:0.35rem;">Faculty Admin: <code>admin@eng.pdn.ac.lk</code> /
+            <code>e25pass</code></span>
         </div>
 
         <div style="margin-top: 1rem; text-align: center;">
-          <a href="admin.html" class="btn btn-secondary btn-sm" style="width: 100%; font-size: 0.825rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; text-decoration: none;">
+          <a href="admin.html" class="btn btn-secondary btn-sm"
+            style="width: 100%; font-size: 0.825rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; text-decoration: none;">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
               <line x1="3" y1="9" x2="21" y2="9"></line>
@@ -629,100 +635,399 @@
 
   <!-- Scripts -->
   <script src="js/main.js"></script>
-  <script>
-    // Password toggle
-    const toggleBtn = document.getElementById('togglePasswordBtn');
-    const passwordInput = document.getElementById('passwordInput');
-    const eyeIcon = document.getElementById('eyeIcon');
-    const eyeOffIcon = document.getElementById('eyeOffIcon');
+  <script type="module">
+    import { initializeApp }
+      from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 
-    if (toggleBtn && passwordInput) {
-      toggleBtn.addEventListener('click', () => {
-        const isPassword = passwordInput.getAttribute('type') === 'password';
-        passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
-        eyeIcon.style.display = isPassword ? 'none' : 'block';
-        eyeOffIcon.style.display = isPassword ? 'block' : 'none';
-      });
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      GoogleAuthProvider,
+      signInWithPopup,
+      sendPasswordResetEmail
+    } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+
+
+    // ==============================
+    // FIREBASE CONFIG
+    // ==============================
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyA3zM_fz3snYxd11zIO-lFuRYNA-VCfvfI",
+      authDomain: "intensive-english-program-e25.firebaseapp.com",
+      databaseURL: "https://intensive-english-program-e25-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "intensive-english-program-e25",
+      storageBucket: "intensive-english-program-e25.firebasestorage.app",
+      messagingSenderId: "819181152560",
+      appId: "1:819181152560:web:de3bf3ad50dbd2c58cc0f5",
+      measurementId: "G-05EWGZK6HJ"
+    };
+
+
+    // ==============================
+    // INITIALIZE FIREBASE
+    // ==============================
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+
+    // ==============================
+    // ELEMENTS
+    // ==============================
+
+    const loginForm = document.getElementById("loginForm");
+    const emailInput = document.getElementById("emailInput");
+    const passwordInput = document.getElementById("passwordInput");
+
+    const authAlert = document.getElementById("authAlert");
+    const alertIcon = document.getElementById("alertIcon");
+    const alertMessage = document.getElementById("alertMessage");
+
+    const submitBtn = document.getElementById("submitBtn");
+    const googleLoginBtn = document.getElementById("googleLoginBtn");
+    const forgotPasswordLink =
+      document.getElementById("forgotPasswordLink");
+
+    const toggleBtn =
+      document.getElementById("togglePasswordBtn");
+
+    const eyeIcon =
+      document.getElementById("eyeIcon");
+
+    const eyeOffIcon =
+      document.getElementById("eyeOffIcon");
+
+
+    // ==============================
+    // ALERT FUNCTION
+    // ==============================
+
+    function showAlert(message, success = false) {
+
+      authAlert.className =
+        "auth-alert show " +
+        (success ? "alert-success" : "alert-error");
+
+      alertMessage.textContent = message;
+
+      alertIcon.innerHTML = success
+        ? `<svg width="18" height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+          <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>`
+        : `<svg width="18" height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>`;
     }
 
-    // Form Submission & Validation
-    const loginForm = document.getElementById('loginForm');
-    const emailInput = document.getElementById('emailInput');
-    const authAlert = document.getElementById('authAlert');
-    const alertIcon = document.getElementById('alertIcon');
-    const alertMessage = document.getElementById('alertMessage');
-    const submitBtn = document.getElementById('submitBtn');
 
-    function showAlert(msg, isSuccess = false) {
-      authAlert.className = 'auth-alert show ' + (isSuccess ? 'alert-success' : 'alert-error');
-      alertMessage.textContent = msg;
-      alertIcon.innerHTML = isSuccess
-        ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>`
-        : `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>`;
-    }
+    // ==============================
+    // SHOW / HIDE PASSWORD
+    // ==============================
 
-    loginForm.addEventListener('submit', (e) => {
+    toggleBtn.addEventListener("click", () => {
+
+      const isPassword =
+        passwordInput.type === "password";
+
+      passwordInput.type =
+        isPassword ? "text" : "password";
+
+      eyeIcon.style.display =
+        isPassword ? "none" : "block";
+
+      eyeOffIcon.style.display =
+        isPassword ? "block" : "none";
+    });
+
+
+    // ==============================
+    // EMAIL + PASSWORD LOGIN
+    // ==============================
+
+    loginForm.addEventListener("submit", async (e) => {
+
       e.preventDefault();
-      const email = emailInput.value.trim();
-      const password = passwordInput.value;
+
+      const email =
+        emailInput.value.trim();
+
+      const password =
+        passwordInput.value;
+
 
       if (!email) {
-        showAlert('Please enter your email address.', false);
+        showAlert("Please enter your email address.");
         emailInput.focus();
         return;
       }
 
-      // Basic email format check
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        showAlert('Please enter a valid email address.', false);
-        emailInput.focus();
-        return;
-      }
 
       if (!password) {
-        showAlert('Please enter your password.', false);
+        showAlert("Please enter your password.");
         passwordInput.focus();
         return;
       }
 
-      // Successful simulated login
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = `<span>Signing In...</span>`;
-      
-      const isAdmin = email.toLowerCase().includes('admin');
-      showAlert(isAdmin ? 'Admin credentials verified! Opening Admin Dashboard...' : 'Login successful! Welcome to Intensive English Program E25.', true);
 
-      setTimeout(() => {
-        window.location.href = isAdmin ? 'admin.html' : 'index.html';
-      }, 1200);
+      submitBtn.disabled = true;
+      submitBtn.innerHTML =
+        "<span>Signing In...</span>";
+
+
+      try {
+
+        const userCredential =
+          await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+
+        const user =
+          userCredential.user;
+
+
+        showAlert(
+          "Login successful! Welcome " +
+          (user.displayName || user.email),
+          true
+        );
+
+
+        // ==============================
+        // ADMIN LOGIN
+        // ==============================
+
+        if (
+          user.email &&
+          user.email.toLowerCase() ===
+          "admin@eng.pdn.ac.lk"
+        ) {
+
+          setTimeout(() => {
+            window.location.href = "admin.html";
+          }, 1000);
+
+        } else {
+
+          // ==============================
+          // STUDENT LOGIN
+          // ==============================
+
+          setTimeout(() => {
+            window.location.href = "index.html";
+          }, 1000);
+
+        }
+
+
+      } catch (error) {
+
+        console.error("Firebase Login Error:", error);
+
+        let message =
+          "Login failed. Please check your email and password.";
+
+
+        if (
+          error.code ===
+          "auth/invalid-credential"
+        ) {
+          message =
+            "Incorrect email or password.";
+        }
+
+
+        if (
+          error.code ===
+          "auth/user-not-found"
+        ) {
+          message =
+            "No account found with this email.";
+        }
+
+
+        if (
+          error.code ===
+          "auth/wrong-password"
+        ) {
+          message =
+            "Incorrect password.";
+        }
+
+
+        if (
+          error.code ===
+          "auth/too-many-requests"
+        ) {
+          message =
+            "Too many login attempts. Please try again later.";
+        }
+
+
+        showAlert(message);
+
+        submitBtn.disabled = false;
+
+        submitBtn.innerHTML =
+          "<span>Sign In</span>";
+      }
+
     });
 
-    // Forgot password handler
-    const forgotPasswordLink = document.getElementById('forgotPasswordLink');
-    if (forgotPasswordLink) {
-      forgotPasswordLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        showAlert('Password reset link sent to registered student administration.', true);
-      });
-    }
 
-    // Google / Gmail Login Handler
-    const googleLoginBtn = document.getElementById('googleLoginBtn');
-    if (googleLoginBtn) {
-      googleLoginBtn.addEventListener('click', () => {
+    // ==============================
+    // GOOGLE / GMAIL LOGIN
+    // ==============================
+
+    googleLoginBtn.addEventListener(
+      "click",
+      async () => {
+
         googleLoginBtn.disabled = true;
-        googleLoginBtn.style.opacity = '0.75';
-        showAlert('Connecting to Google (Gmail) authentication...', true);
+        googleLoginBtn.style.opacity = "0.75";
 
-        setTimeout(() => {
-          showAlert('Signed in successfully with Google! Redirecting...', true);
+        showAlert(
+          "Connecting to Google...",
+          true
+        );
+
+
+        try {
+
+          const provider =
+            new GoogleAuthProvider();
+
+
+          const result =
+            await signInWithPopup(
+              auth,
+              provider
+            );
+
+
+          const user =
+            result.user;
+
+
+          showAlert(
+            "Google login successful! Welcome " +
+            (user.displayName || user.email),
+            true
+          );
+
+
           setTimeout(() => {
-            window.location.href = 'index.html';
-          }, 1200);
-        }, 1000);
-      });
-    }
+
+            window.location.href =
+              "index.html";
+
+          }, 1000);
+
+
+        } catch (error) {
+
+          console.error(
+            "Google Login Error:",
+            error
+          );
+
+
+          if (
+            error.code ===
+            "auth/popup-closed-by-user"
+          ) {
+
+            showAlert(
+              "Google sign-in was cancelled."
+            );
+
+          } else {
+
+            showAlert(
+              "Google sign-in failed. Please try again."
+            );
+
+          }
+
+
+          googleLoginBtn.disabled = false;
+          googleLoginBtn.style.opacity = "1";
+        }
+
+      }
+    );
+
+
+    // ==============================
+    // FORGOT PASSWORD
+    // ==============================
+
+    forgotPasswordLink.addEventListener(
+      "click",
+      async (e) => {
+
+        e.preventDefault();
+
+
+        const email =
+          emailInput.value.trim();
+
+
+        if (!email) {
+
+          showAlert(
+            "Enter your email address first."
+          );
+
+          emailInput.focus();
+
+          return;
+        }
+
+
+        try {
+
+          await sendPasswordResetEmail(
+            auth,
+            email
+          );
+
+
+          showAlert(
+            "Password reset email has been sent.",
+            true
+          );
+
+
+        } catch (error) {
+
+          console.error(
+            "Password Reset Error:",
+            error
+          );
+
+
+          showAlert(
+            "Unable to send password reset email."
+          );
+        }
+
+      }
+    );
+
   </script>
 </body>
 
