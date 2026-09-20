@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title id="pageTitle">Group Details — 01-04 Group CD</title>
+  <meta name="description" content="Group details, members and uploaded work of the English language program." />
+  <link rel="icon" href="assets/logo.png" type="image/png" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="section-shell header-inner">
+      <a href="index.html" class="brand-link">
+        <img src="assets/logo.png" alt="English Language Program logo" class="brand-logo" />
+        <span class="brand-text">
+          <span class="brand-title">English Language Teaching Unit</span>
+          <span class="brand-sub">Faculty of Engineering</span>
+        </span>
+      </a>
+      <nav class="desktop-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="groups.html" class="nav-link active">Groups</a>
+        <a href="memories.html" class="nav-link">Memories</a>
+      </nav>
+      <div class="header-actions">
+        <a href="login.html" class="btn btn-primary btn-sm">Login</a>
+      </div>
+      <button class="mobile-menu-btn" data-toggle="mobile-menu" aria-label="Open menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" y1="6" x2="20" y2="6"></line>
+          <line x1="4" y1="12" x2="20" y2="12"></line>
+          <line x1="4" y1="18" x2="20" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div id="mobileDrawer" class="mobile-drawer">
+    <div class="drawer-panel">
+      <div class="drawer-header">
+        <span class="brand-title">Menu</span>
+        <button data-toggle="close-drawer" style="font-size:1.5rem; line-height:1;">&times;</button>
+      </div>
+      <nav class="drawer-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="groups.html" class="nav-link active">Groups</a>
+        <a href="memories.html" class="nav-link">Memories</a>
+      </nav>
+      <div style="margin-top:auto; padding-top:2rem;">
+        <a href="login.html" class="btn btn-primary btn-md" style="width:100%;">Login</a>
+      </div>
+    </div>
+  </div>
+
+  <main style="flex:1;">
+    <!-- Group Hero Banner -->
+    <section class="border-b" style="border-color:var(--border); background-color:var(--primary-soft);">
+      <div class="section-shell py-16">
+        <a href="groups.html" style="font-size:0.875rem; font-weight:600; color:var(--primary);">← All groups</a>
+        <p id="groupTagline" class="eyebrow" style="margin-top:1.5rem;"></p>
+        <h1 id="groupName" style="margin-top:0.75rem; font-size:2.25rem; font-weight:600;"></h1>
+        <p id="groupDesc" style="margin-top:1rem; max-width:42rem; color:var(--muted-foreground); line-height:1.6;"></p>
+        <div style="margin-top:1.5rem; display:flex; gap:0.5rem;">
+          <span id="uploadsBadge" class="badge badge-secondary">0 uploads</span>
+          <span id="membersBadge" class="badge badge-outline">0 students</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Uploaded Work Section -->
+    <section class="section-shell py-16">
+      <div style="display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:1rem;">
+        <div>
+          <h2 style="font-size:1.5rem; font-weight:600;">Uploaded work</h2>
+          <p style="margin-top:0.25rem; font-size:0.875rem; color:var(--muted-foreground);">Filter this group's
+            submissions by activity type.</p>
+        </div>
+        <div style="width:100%; max-width:16rem;">
+          <label for="activityFilter" style="font-size:0.875rem; font-weight:600;">Activity type</label>
+          <select id="activityFilter" class="select-control">
+            <option value="all">All activities</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="groupCollageContainer" style="margin-top:1.5rem;">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- Students Section -->
+    <section class="bg-secondary-soft py-16">
+      <div class="section-shell">
+        <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem;">
+          <div>
+            <h2 style="font-size:1.5rem; font-weight:600;">Students</h2>
+            <p style="margin-top:0.25rem; font-size:0.875rem; color:var(--muted-foreground);">Students registered under this group.</p>
+          </div>
+          <button id="addStudentBtn" class="btn btn-primary btn-sm" style="display:inline-flex; align-items:center; gap:0.4rem; border-radius:0.5rem; font-weight:600;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            Add Student
+          </button>
+        </div>
+
+        <div id="membersContainer" class="grid-3" style="margin-top:1.5rem;">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Content Preview Modal -->
+  <div id="contentModal" class="modal-backdrop">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div>
+          <div style="display:flex; flex-wrap:wrap; align-items:center; gap:0.5rem;">
+            <h3 id="modalTitle" style="font-size:1.125rem; font-weight:600;"></h3>
+            <span id="modalKind" class="badge badge-secondary" style="text-transform:capitalize;"></span>
+            <span id="modalSubtitle" class="badge badge-outline"></span>
+          </div>
+          <p id="modalDesc" style="margin-top:0.35rem; font-size:0.875rem; color:var(--muted-foreground);"></p>
+        </div>
+        <button data-toggle="close-modal" class="btn btn-outline btn-sm"
+          style="border-radius:9999px; width:2rem; height:2rem; padding:0;" aria-label="Close">✕</button>
+      </div>
+      <div id="modalBody" class="modal-body"></div>
+      <div class="modal-footer">
+        <p id="modalDate" style="font-size:0.75rem; color:var(--muted-foreground);"></p>
+        <button id="modalActionBtn" class="btn btn-outline btn-sm" style="border-radius:9999px;">Open original
+          ↗</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Student Modal -->
+  <div id="addStudentModal" class="modal-backdrop">
+    <div class="modal-dialog" style="max-width:440px;">
+      <div class="modal-header">
+        <div>
+          <h3 style="font-size:1.15rem; font-weight:600;">Add Student</h3>
+          <p id="addStudentGroupSubtitle" style="margin-top:0.25rem; font-size:0.85rem; color:var(--muted-foreground);"></p>
+        </div>
+        <button id="closeAddStudentModal" class="btn btn-outline btn-sm"
+          style="border-radius:9999px; width:2rem; height:2rem; padding:0;" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body" style="padding:1.5rem 1.75rem;">
+        <form id="addStudentForm" style="display:flex; flex-direction:column; gap:1.25rem;">
+          <div style="display:flex; flex-direction:column; gap:0.4rem;">
+            <label for="studentNameInput" style="font-size:0.85rem; font-weight:600; color:var(--foreground);">Student Name</label>
+            <input type="text" id="studentNameInput" required placeholder="e.g. Kasun Perera" style="width:100%; height:2.75rem; padding:0 1rem; background:rgba(2, 12, 27, 0.85); border:1px solid rgba(100, 255, 218, 0.3); border-radius:0.5rem; color:var(--foreground); font-size:0.925rem; outline:none;" />
+          </div>
+          <div style="display:flex; flex-direction:column; gap:0.4rem;">
+            <label for="studentRegInput" style="font-size:0.85rem; font-weight:600; color:var(--foreground);">Registration Number (E25/000)</label>
+            <input type="text" id="studentRegInput" required placeholder="e.g. E25/001" style="width:100%; height:2.75rem; padding:0 1rem; background:rgba(2, 12, 27, 0.85); border:1px solid rgba(100, 255, 218, 0.3); border-radius:0.5rem; color:var(--foreground); font-size:0.925rem; outline:none;" />
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%; height:2.75rem; font-weight:600; margin-top:0.5rem; border-radius:0.5rem; cursor:pointer;">
+            Save Student
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="section-shell footer-inner">
+      <div>
+        <p class="font-display" style="font-size:1.125rem; font-weight:600;">01-04 Group CD</p>
+        <p
+          style="margin-top:0.75rem; max-width:24rem; font-size:0.875rem; color:color-mix(in oklab, var(--ink-foreground) 70%, transparent); line-height:1.6;">
+          The English language program team of the Faculty of Engineering, University of Peradeniya. This site collects
+          our assignments, group activities and presentations in one place.</p>
+      </div>
+      <div>
+        <p class="eyebrow" style="color:color-mix(in oklab, var(--ink-foreground) 60%, transparent);">Explore</p>
+        <ul
+          style="margin-top:1rem; list-style:none; display:flex; flex-direction:column; gap:0.5rem; font-size:0.875rem; color:color-mix(in oklab, var(--ink-foreground) 80%, transparent);">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="groups.html">Groups</a></li>
+          <li><a href="memories.html">Memories</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="eyebrow" style="color:color-mix(in oklab, var(--ink-foreground) 60%, transparent);">Faculty</p>
+        <ul
+          style="margin-top:1rem; list-style:none; display:flex; flex-direction:column; gap:0.5rem; font-size:0.875rem; color:color-mix(in oklab, var(--ink-foreground) 80%, transparent);">
+          <li>Faculty of Engineering</li>
+          <li>University of Peradeniya</li>
+          <li>Peradeniya, Sri Lanka</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom section-shell">
+      <p>&copy; 2026 01-04 Group CD. All rights reserved.</p>
+      <p>Faculty of Engineering, University of Peradeniya</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const slug = urlParams.get('slug') || 'group-cd-01';
+    const group = getGroupBySlug(slug) || DATA.groups[0];
+
+    // Populate Group Header Info
+    document.title = `${group.name} — 01-04 Group CD`;
+    document.getElementById('groupTagline').textContent = group.tagline;
+    document.getElementById('groupName').textContent = group.name;
+    document.getElementById('groupDesc').textContent = group.description;
+
+    const groupUploads = getContentByGroupId(group.id);
+    const groupMembers = getMembersByGroupId(group.id);
+
+    document.getElementById('uploadsBadge').textContent = `${groupUploads.length} uploads`;
+    document.getElementById('membersBadge').textContent = `${groupMembers.length} students`;
+
+    // Activity Filter
+    const activityFilter = document.getElementById('activityFilter');
+    DATA.activities.forEach(a => {
+      const opt = document.createElement('option');
+      opt.value = a.id;
+      opt.textContent = a.title;
+      activityFilter.appendChild(opt);
+    });
+
+    const groupCollageContainer = document.getElementById('groupCollageContainer');
+    function updateUploads() {
+      const actId = activityFilter.value;
+      const filtered = groupUploads.filter(u => actId === 'all' || u.activity_id === actId);
+      renderCollage(filtered, groupCollageContainer, 'No uploads found for this activity.');
+    }
+    activityFilter.addEventListener('change', updateUploads);
+    updateUploads();
+
+    // Render Students
+    const membersContainer = document.getElementById('membersContainer');
+    function updateMembers() {
+      if (groupMembers.length === 0) {
+        membersContainer.innerHTML = '<p style="font-size:0.875rem; color:var(--muted-foreground); grid-column:1/-1;">No students added to this group yet. Click "+ Add Student" to add one.</p>';
+        return;
+      }
+
+      membersContainer.innerHTML = groupMembers.map(m => `
+        <div class="card card-rounded-2xl card-padding" style="display:flex; flex-direction:column; justify-content:space-between; gap:1rem;">
+          <div style="display:flex; align-items:center; gap:1rem;">
+            ${m.photo_url
+              ? `<img src="${m.photo_url}" alt="${m.full_name}" class="size-12 rounded-full" style="object-fit:cover;" />`
+              : `<span class="size-12 rounded-full icon-bubble icon-bubble-lg font-display" style="font-weight:600; font-size:0.875rem;">${(m.full_name || 'ST').slice(0, 2).toUpperCase()}</span>`
+            }
+            <div style="flex:1; min-width:0;">
+              <p style="font-weight:600; font-size:1.05rem; color:var(--ink-foreground); text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">${m.full_name}</p>
+              <div style="margin-top:0.35rem; display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
+                <span class="badge" style="background:rgba(100, 255, 218, 0.12); color:var(--neon-cyan); border:1px solid rgba(100, 255, 218, 0.35); font-weight:600; font-family:monospace; font-size:0.825rem; padding:0.2rem 0.55rem; border-radius:0.375rem;">
+                  ${m.registration_no || 'E25/000'}
+                </span>
+                ${m.committee ? `<span class="badge badge-secondary" style="font-size:0.75rem;">${m.committee}</span>` : ''}
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+    updateMembers();
+
+    // Add Student Modal Logic
+    const addStudentModal = document.getElementById('addStudentModal');
+    const addStudentBtn = document.getElementById('addStudentBtn');
+    const closeAddStudentModal = document.getElementById('closeAddStudentModal');
+    const addStudentForm = document.getElementById('addStudentForm');
+    const studentNameInput = document.getElementById('studentNameInput');
+    const studentRegInput = document.getElementById('studentRegInput');
+    const addStudentGroupSubtitle = document.getElementById('addStudentGroupSubtitle');
+
+    if (addStudentGroupSubtitle) addStudentGroupSubtitle.textContent = group.name;
+
+    if (addStudentBtn && addStudentModal) {
+      addStudentBtn.addEventListener('click', () => {
+        addStudentModal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        studentNameInput.focus();
+      });
+    }
+
+    const hideStudentModal = () => {
+      if (addStudentModal) {
+        addStudentModal.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    };
+
+    if (closeAddStudentModal) closeAddStudentModal.addEventListener('click', hideStudentModal);
+    if (addStudentModal) {
+      addStudentModal.addEventListener('click', (e) => {
+        if (e.target === addStudentModal) hideStudentModal();
+      });
+    }
+
+    if (addStudentForm) {
+      addStudentForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = studentNameInput.value.trim();
+        let reg = studentRegInput.value.trim();
+        if (!name) return;
+        if (!reg) reg = 'E25/000';
+
+        const newStudent = {
+          id: 'custom-' + Date.now(),
+          group_id: group.id,
+          full_name: name,
+          registration_no: reg,
+          role_in_group: 'Student',
+          photo_url: null,
+          committee: null
+        };
+
+        let customList = [];
+        try {
+          const saved = localStorage.getItem('e25_custom_students');
+          if (saved) customList = JSON.parse(saved);
+        } catch (err) {}
+        customList.push(newStudent);
+        localStorage.setItem('e25_custom_students', JSON.stringify(customList));
+
+        groupMembers.push(newStudent);
+        document.getElementById('membersBadge').textContent = `${groupMembers.length} students`;
+        updateMembers();
+        addStudentForm.reset();
+        hideStudentModal();
+      });
+    }
+  </script>
+</body>
+
+</html>

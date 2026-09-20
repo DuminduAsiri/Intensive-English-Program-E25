@@ -1,0 +1,46 @@
+[
+    {
+        "id": "cd01-student-01",
+        "group_id": "765941e5-ce97-442b-8c01-a45f56c007e4",
+        "full_name": "Student Name",
+        "role_in_group": "Student",
+        "registration_no": "E25/001",
+        "bio": null,
+        "photo_url": null,
+        "sort_order": 1,
+        "committee": null
+    },
+    {
+        "id": "cd02-student-01",
+        "group_id": "87ddf96e-deea-4ebc-b2b8-64bb27480567",
+        "full_name": "Student Name",
+        "role_in_group": "Student",
+        "registration_no": "E25/002",
+        "bio": null,
+        "photo_url": null,
+        "sort_order": 1,
+        "committee": null
+    },
+    {
+        "id": "cd03-student-01",
+        "group_id": "edcd3049-1802-474c-a473-9f1ee8116b53",
+        "full_name": "Student Name",
+        "role_in_group": "Student",
+        "registration_no": "E25/003",
+        "bio": null,
+        "photo_url": null,
+        "sort_order": 1,
+        "committee": null
+    },
+    {
+        "id": "d05f8703-0095-499f-b7ff-846ef641ebac",
+        "group_id": "33170e6f-f850-4cb2-b300-5f97e6c31a88",
+        "full_name": "Dumindu Asiri",
+        "role_in_group": "Student",
+        "registration_no": "E25/004",
+        "bio": null,
+        "photo_url": "assets/dumindu.jpeg",
+        "sort_order": 1,
+        "committee": "Web Committee"
+    }
+]

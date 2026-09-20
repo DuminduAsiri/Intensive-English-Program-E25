@@ -1,0 +1,38 @@
+[
+    {
+        "id":  "e723a2bb-ee67-45e5-a151-9e7a6f311c00",
+        "slug":  "group-activities",
+        "title":  "Group Activities",
+        "description":  "Collaborative in-class and out-of-class activities carried out by the groups.",
+        "sort_order":  2,
+        "created_at":  "2026-09-02T02:05:03.894119+00:00",
+        "updated_at":  "2026-09-02T02:05:03.894119+00:00"
+    },
+    {
+        "id":  "49361060-cb6e-48bc-a968-56be93253402",
+        "slug":  "presentations",
+        "title":  "Presentations",
+        "description":  "Slide decks and recorded presentations delivered by the groups.",
+        "sort_order":  3,
+        "created_at":  "2026-09-02T02:05:03.894119+00:00",
+        "updated_at":  "2026-09-02T02:05:03.894119+00:00"
+    },
+    {
+        "id":  "c3b51ece-dfda-4e0a-8882-63a78763001e",
+        "slug":  "projects",
+        "title":  "Projects",
+        "description":  "Larger project work and reports produced during the program.",
+        "sort_order":  4,
+        "created_at":  "2026-09-02T02:05:03.894119+00:00",
+        "updated_at":  "2026-09-02T02:05:03.894119+00:00"
+    },
+    {
+        "id":  "1370eefe-af82-4b20-a466-077df24ed8ba",
+        "slug":  "creative-corner",
+        "title":  "Creative Corner",
+        "description":  "Written assignments submitted by each group for the English language program.",
+        "sort_order":  1,
+        "created_at":  "2026-09-02T02:05:03.894119+00:00",
+        "updated_at":  "2026-09-03T00:27:23.940975+00:00"
+    }
+]

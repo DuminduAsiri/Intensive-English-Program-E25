@@ -1,0 +1,68 @@
+[
+    {
+        "id":  "11a7719e-f32a-4728-b628-a4eeb7c4f813",
+        "panel":  "teachers",
+        "full_name":  "To be announced",
+        "role":  "Senior Lecturer in English",
+        "bio":  null,
+        "photo_url":  null,
+        "sort_order":  1,
+        "created_at":  "2026-09-02T16:40:39.662511+00:00",
+        "updated_at":  "2026-09-02T16:40:39.662511+00:00"
+    },
+    {
+        "id":  "659ee82a-3ffc-4afe-9c5f-e807ba96234e",
+        "panel":  "teachers",
+        "full_name":  "To be announced",
+        "role":  "Lecturer in English",
+        "bio":  null,
+        "photo_url":  null,
+        "sort_order":  2,
+        "created_at":  "2026-09-02T16:40:39.662511+00:00",
+        "updated_at":  "2026-09-02T16:40:39.662511+00:00"
+    },
+    {
+        "id":  "0689b8d6-289f-4137-9cd1-7a3ff42dabee",
+        "panel":  "teachers",
+        "full_name":  "To be announced",
+        "role":  "Instructor in English",
+        "bio":  null,
+        "photo_url":  null,
+        "sort_order":  3,
+        "created_at":  "2026-09-02T16:40:39.662511+00:00",
+        "updated_at":  "2026-09-02T16:40:39.662511+00:00"
+    },
+    {
+        "id":  "eefd1662-289b-48e7-9c1f-cfbb2e267f55",
+        "panel":  "web",
+        "full_name":  "To be announced",
+        "role":  "Content Coordinator",
+        "bio":  null,
+        "photo_url":  null,
+        "sort_order":  2,
+        "created_at":  "2026-09-02T16:40:39.662511+00:00",
+        "updated_at":  "2026-09-02T16:40:39.662511+00:00"
+    },
+    {
+        "id":  "cfae0abd-db66-40ae-b20e-6cfb80eb9179",
+        "panel":  "web",
+        "full_name":  "To be announced",
+        "role":  "Developer",
+        "bio":  null,
+        "photo_url":  null,
+        "sort_order":  3,
+        "created_at":  "2026-09-02T16:40:39.662511+00:00",
+        "updated_at":  "2026-09-02T16:40:39.662511+00:00"
+    },
+    {
+        "id":  "ac964380-d246-4c7a-bff7-f3e4db8c4b8c",
+        "panel":  "web",
+        "full_name":  "Dumindu Asiri",
+        "role":  null,
+        "bio":  null,
+        "photo_url":  "assets/dumindu.jpeg",
+        "sort_order":  1,
+        "created_at":  "2026-09-02T16:40:39.662511+00:00",
+        "updated_at":  "2026-09-02T16:56:32.923948+00:00"
+    }
+]

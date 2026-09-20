@@ -1,0 +1,46 @@
+[
+    {
+        "id":  "765941e5-ce97-442b-8c01-a45f56c007e4",
+        "slug":  "group-cd-01",
+        "name":  "Group CD 01",
+        "tagline":  "",
+        "description":  "Group CD 01 of the 01-04 Group CD English language program, Faculty of Engineering, University of Peradeniya.",
+        "cover_url":  null,
+        "sort_order":  1,
+        "created_at":  "2026-09-02T02:05:03.894119+00:00",
+        "updated_at":  "2026-09-04T00:40:22.682731+00:00"
+    },
+    {
+        "id":  "87ddf96e-deea-4ebc-b2b8-64bb27480567",
+        "slug":  "group-cd-02",
+        "name":  "Group CD 02",
+        "tagline":  "",
+        "description":  "Group CD 02 of the 01-04 Group CD English language program, Faculty of Engineering, University of Peradeniya.",
+        "cover_url":  null,
+        "sort_order":  2,
+        "created_at":  "2026-09-02T02:05:03.894119+00:00",
+        "updated_at":  "2026-09-04T00:40:22.682731+00:00"
+    },
+    {
+        "id":  "edcd3049-1802-474c-a473-9f1ee8116b53",
+        "slug":  "group-cd-03",
+        "name":  "Group CD 03",
+        "tagline":  "",
+        "description":  "Group CD 03 of the 01-04 Group CD English language program, Faculty of Engineering, University of Peradeniya.",
+        "cover_url":  null,
+        "sort_order":  3,
+        "created_at":  "2026-09-02T02:05:03.894119+00:00",
+        "updated_at":  "2026-09-04T00:40:22.682731+00:00"
+    },
+    {
+        "id":  "33170e6f-f850-4cb2-b300-5f97e6c31a88",
+        "slug":  "group-cd-04",
+        "name":  "Group CD 04",
+        "tagline":  "",
+        "description":  "Group CD 04 of the 01-04 Group CD English language program, Faculty of Engineering, University of Peradeniya.",
+        "cover_url":  "assets/group8-cover.png",
+        "sort_order":  4,
+        "created_at":  "2026-09-02T02:05:03.894119+00:00",
+        "updated_at":  "2026-09-04T00:54:29.026689+00:00"
+    }
+]

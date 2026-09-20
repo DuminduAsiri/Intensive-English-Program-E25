@@ -1,0 +1,2182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Dashboard — Intensive English Program E25 | Faculty of Engineering</title>
+  <meta name="description"
+    content="Administrative dashboard for the Intensive English Program E25, Faculty of Engineering, University of Peradeniya." />
+  <link rel="icon" href="assets/logo.png" type="image/png" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* Admin Dashboard Specific Styles */
+    :root {
+      --admin-sidebar-width: 260px;
+    }
+
+    body {
+      background-color: var(--background);
+      color: var(--foreground);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Admin Top Header */
+    .admin-navbar {
+      height: 72px;
+      background: rgba(10, 25, 47, 0.95);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(100, 255, 218, 0.22);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+      gap: 1rem;
+    }
+
+    .admin-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      text-decoration: none;
+    }
+
+    .admin-brand-logo {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 8px rgba(100, 255, 218, 0.4));
+    }
+
+    .admin-brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .admin-brand-title {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ink-foreground);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .admin-badge {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.15rem 0.45rem;
+      border-radius: 999px;
+      background: rgba(100, 255, 218, 0.15);
+      border: 1px solid var(--neon-cyan);
+      color: var(--neon-cyan);
+      font-weight: 700;
+    }
+
+    .admin-brand-sub {
+      font-size: 0.75rem;
+      color: var(--muted-foreground);
+    }
+
+    .admin-nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .admin-status-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--muted-foreground);
+      background: rgba(2, 12, 27, 0.6);
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid rgba(100, 255, 218, 0.18);
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--neon-cyan);
+      box-shadow: 0 0 10px var(--neon-cyan);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(100, 255, 218, 0.7);
+      }
+
+      70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 8px rgba(100, 255, 218, 0);
+      }
+
+      100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(100, 255, 218, 0);
+      }
+    }
+
+    .admin-user-chip {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      background: rgba(17, 34, 64, 0.7);
+      border: 1px solid rgba(100, 255, 218, 0.25);
+      padding: 0.3rem 0.75rem 0.3rem 0.4rem;
+      border-radius: 999px;
+    }
+
+    .admin-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--neon-cyan), #0040ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #0a192f;
+      font-size: 0.75rem;
+    }
+
+    .admin-user-info {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .admin-user-name {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--ink-foreground);
+    }
+
+    .admin-user-role {
+      font-size: 0.65rem;
+      color: var(--muted-foreground);
+    }
+
+    /* Dashboard Layout */
+    .admin-layout {
+      display: flex;
+      flex: 1;
+      min-height: calc(100vh - 72px);
+    }
+
+    /* Sidebar */
+    .admin-sidebar {
+      width: var(--admin-sidebar-width);
+      background: rgba(17, 34, 64, 0.65);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-right: 1px solid rgba(100, 255, 218, 0.15);
+      padding: 1.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      flex-shrink: 0;
+    }
+
+    .sidebar-section-title {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted-foreground);
+      padding: 0.5rem 0.75rem 0.25rem;
+      margin-top: 0.75rem;
+      font-weight: 700;
+    }
+
+    .sidebar-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.7rem 0.9rem;
+      border-radius: 0.6rem;
+      color: var(--foreground);
+      text-decoration: none;
+      font-size: 0.885rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+
+    .sidebar-nav-item svg {
+      width: 18px;
+      height: 18px;
+      color: var(--muted-foreground);
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+
+    .sidebar-nav-item:hover {
+      background: rgba(100, 255, 218, 0.08);
+      color: var(--neon-cyan);
+      border-color: rgba(100, 255, 218, 0.25);
+    }
+
+    .sidebar-nav-item:hover svg {
+      color: var(--neon-cyan);
+      transform: translateX(2px);
+    }
+
+    .sidebar-nav-item.active {
+      background: rgba(100, 255, 218, 0.12);
+      color: var(--neon-cyan);
+      font-weight: 600;
+      border-color: rgba(100, 255, 218, 0.4);
+      box-shadow: 0 0 15px rgba(100, 255, 218, 0.1);
+    }
+
+    .sidebar-nav-item.active svg {
+      color: var(--neon-cyan);
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(100, 255, 218, 0.12);
+    }
+
+    /* Main Content Area */
+    .admin-main {
+      flex: 1;
+      padding: 2rem;
+      overflow-y: auto;
+      background: radial-gradient(circle at 80% 20%, rgba(100, 255, 218, 0.04) 0%, transparent 50%),
+                  radial-gradient(circle at 10% 80%, rgba(0, 64, 255, 0.05) 0%, transparent 60%);
+    }
+
+    /* Tab Content Panels */
+    .admin-tab-pane {
+      display: none;
+      animation: fadeInTab 0.3s ease;
+    }
+
+    .admin-tab-pane.active {
+      display: block;
+    }
+
+    @keyframes fadeInTab {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Section Headers */
+    .page-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .page-title {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--ink-foreground);
+      margin: 0;
+    }
+
+    .page-subtitle {
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+      margin-top: 0.25rem;
+    }
+
+    .head-action-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    /* KPI Cards Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: rgba(17, 34, 64, 0.75);
+      border: 1px solid rgba(100, 255, 218, 0.22);
+      backdrop-filter: blur(10px);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--neon-cyan);
+      box-shadow: 0 10px 25px rgba(2, 12, 27, 0.6), 0 0 20px rgba(100, 255, 218, 0.15);
+    }
+
+    .stat-card-glow {
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(100, 255, 218, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .stat-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+    }
+
+    .stat-label {
+      font-size: 0.825rem;
+      font-weight: 600;
+      color: var(--muted-foreground);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .stat-icon-bubble {
+      width: 38px;
+      height: 38px;
+      border-radius: 0.6rem;
+      background: rgba(100, 255, 218, 0.1);
+      border: 1px solid rgba(100, 255, 218, 0.3);
+      color: var(--neon-cyan);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .stat-value {
+      font-family: var(--font-display);
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: var(--ink-foreground);
+      line-height: 1;
+    }
+
+    .stat-meta {
+      margin-top: 0.5rem;
+      font-size: 0.775rem;
+      color: var(--neon-cyan);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    /* Admin Cards & Panels */
+    .admin-card {
+      background: rgba(17, 34, 64, 0.85);
+      border: 1px solid rgba(100, 255, 218, 0.22);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 30px rgba(2, 12, 27, 0.5);
+    }
+
+    .admin-card-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(100, 255, 218, 0.15);
+    }
+
+    .admin-card-title {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--ink-foreground);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Filter & Search Bar */
+    .table-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .search-box {
+      position: relative;
+      min-width: 260px;
+      max-width: 360px;
+      flex: 1;
+    }
+
+    .search-box input {
+      width: 100%;
+      height: 2.4rem;
+      padding: 0 1rem 0 2.4rem;
+      background: rgba(2, 12, 27, 0.8);
+      border: 1px solid rgba(100, 255, 218, 0.25);
+      border-radius: 0.5rem;
+      color: var(--foreground);
+      font-size: 0.875rem;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .search-box input:focus {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 12px rgba(100, 255, 218, 0.2);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted-foreground);
+      pointer-events: none;
+    }
+
+    .filter-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .filter-pill {
+      background: rgba(2, 12, 27, 0.6);
+      border: 1px solid rgba(100, 255, 218, 0.2);
+      color: var(--muted-foreground);
+      padding: 0.35rem 0.8rem;
+      border-radius: 999px;
+      font-size: 0.785rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .filter-pill:hover,
+    .filter-pill.active {
+      background: rgba(100, 255, 218, 0.15);
+      border-color: var(--neon-cyan);
+      color: var(--neon-cyan);
+    }
+
+    /* Admin Tables */
+    .table-container {
+      overflow-x: auto;
+      border-radius: 0.5rem;
+      border: 1px solid rgba(100, 255, 218, 0.15);
+      background: rgba(2, 12, 27, 0.4);
+    }
+
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.875rem;
+    }
+
+    .admin-table th {
+      padding: 0.85rem 1.1rem;
+      background: rgba(2, 12, 27, 0.8);
+      color: var(--neon-cyan);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-bottom: 1px solid rgba(100, 255, 218, 0.2);
+      white-space: nowrap;
+    }
+
+    .admin-table td {
+      padding: 0.95rem 1.1rem;
+      border-bottom: 1px solid rgba(100, 255, 218, 0.08);
+      color: var(--foreground);
+      vertical-align: middle;
+    }
+
+    .admin-table tr:hover td {
+      background: rgba(100, 255, 218, 0.03);
+    }
+
+    .admin-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .student-cell {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .student-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(100, 255, 218, 0.15);
+      border: 1px solid rgba(100, 255, 218, 0.35);
+      color: var(--neon-cyan);
+      font-weight: 700;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .group-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.65rem;
+      border-radius: 0.35rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border: 1px solid transparent;
+    }
+
+    .group-pill-cd01 {
+      background: rgba(100, 255, 218, 0.12);
+      border-color: rgba(100, 255, 218, 0.4);
+      color: var(--neon-cyan);
+    }
+
+    .group-pill-cd02 {
+      background: rgba(0, 150, 255, 0.15);
+      border-color: rgba(0, 150, 255, 0.4);
+      color: #38bdf8;
+    }
+
+    .group-pill-cd03 {
+      background: rgba(168, 85, 247, 0.15);
+      border-color: rgba(168, 85, 247, 0.4);
+      color: #c084fc;
+    }
+
+    .group-pill-cd04 {
+      background: rgba(251, 146, 60, 0.15);
+      border-color: rgba(251, 146, 60, 0.4);
+      color: #fb923c;
+    }
+
+    /* Action Buttons in Table */
+    .row-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .action-btn {
+      background: transparent;
+      border: 1px solid rgba(100, 255, 218, 0.2);
+      border-radius: 0.4rem;
+      padding: 0.35rem 0.6rem;
+      color: var(--muted-foreground);
+      font-size: 0.775rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s ease;
+    }
+
+    .action-btn:hover {
+      background: rgba(100, 255, 218, 0.1);
+      border-color: var(--neon-cyan);
+      color: var(--neon-cyan);
+    }
+
+    .action-btn.delete-btn:hover {
+      background: rgba(255, 107, 107, 0.15);
+      border-color: #ff6b6b;
+      color: #ff8585;
+    }
+
+    /* Groups Card Grid */
+    .groups-overview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .group-admin-card {
+      background: rgba(17, 34, 64, 0.85);
+      border: 1px solid rgba(100, 255, 218, 0.2);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1rem;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .group-admin-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--neon-cyan);
+    }
+
+    /* Modals */
+    .admin-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 12, 27, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      z-index: 100;
+    }
+
+    .admin-modal-backdrop.open {
+      display: flex;
+    }
+
+    .admin-modal-box {
+      width: 100%;
+      max-width: 520px;
+      background: #0d1f38;
+      border: 1px solid rgba(100, 255, 218, 0.35);
+      border-radius: var(--radius);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(100, 255, 218, 0.12);
+      padding: 1.75rem;
+      position: relative;
+      animation: modalSlideIn 0.25s ease-out;
+    }
+
+    @keyframes modalSlideIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95) translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid rgba(100, 255, 218, 0.15);
+    }
+
+    .modal-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--ink-foreground);
+    }
+
+    .modal-close-btn {
+      background: transparent;
+      border: none;
+      color: var(--muted-foreground);
+      font-size: 1.5rem;
+      cursor: pointer;
+      line-height: 1;
+      padding: 0.25rem;
+      transition: color 0.2s ease;
+    }
+
+    .modal-close-btn:hover {
+      color: var(--neon-cyan);
+    }
+
+    .form-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .form-row label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+
+    .form-row input,
+    .form-row select,
+    .form-row textarea {
+      width: 100%;
+      height: 2.65rem;
+      padding: 0 0.85rem;
+      background: rgba(2, 12, 27, 0.85);
+      border: 1px solid rgba(100, 255, 218, 0.25);
+      border-radius: 0.5rem;
+      color: var(--foreground);
+      font-size: 0.875rem;
+      outline: none;
+      font-family: inherit;
+      transition: all 0.2s ease;
+    }
+
+    .form-row textarea {
+      height: 5rem;
+      padding: 0.6rem 0.85rem;
+      resize: vertical;
+    }
+
+    .form-row input:focus,
+    .form-row select:focus,
+    .form-row textarea:focus {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 10px rgba(100, 255, 218, 0.2);
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(100, 255, 218, 0.15);
+    }
+
+    /* Toast Notifications */
+    .toast-container {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      pointer-events: none;
+    }
+
+    .admin-toast {
+      background: rgba(10, 25, 47, 0.95);
+      border: 1px solid var(--neon-cyan);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), 0 0 15px rgba(100, 255, 218, 0.3);
+      color: var(--ink-foreground);
+      padding: 0.85rem 1.25rem;
+      border-radius: 0.6rem;
+      font-size: 0.875rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      animation: toastSlideUp 0.3s ease forwards;
+      pointer-events: auto;
+    }
+
+    @keyframes toastSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 900px) {
+      .admin-layout {
+        flex-direction: column;
+      }
+
+      .admin-sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid rgba(100, 255, 218, 0.15);
+        flex-direction: row;
+        overflow-x: auto;
+        padding: 0.75rem;
+      }
+
+      .sidebar-section-title,
+      .sidebar-footer {
+        display: none;
+      }
+
+      .sidebar-nav-item {
+        white-space: nowrap;
+      }
+
+      .admin-main {
+        padding: 1.25rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Admin Top Navbar -->
+  <header class="admin-navbar">
+    <div style="display:flex; align-items:center; gap:1rem;">
+      <a href="index.html" class="admin-brand">
+        <img src="assets/logo.png" alt="University Logo" class="admin-brand-logo" />
+        <div class="admin-brand-text">
+          <span class="admin-brand-title">
+            ELTU Portal
+            <span class="admin-badge">Admin</span>
+          </span>
+          <span class="admin-brand-sub">Faculty of Engineering · IEP E25</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="admin-nav-actions">
+      <div class="admin-status-indicator">
+        <span class="pulse-dot"></span>
+        <span>Semester 01-04 Active</span>
+      </div>
+
+      <a href="index.html" class="btn btn-secondary btn-sm" title="Open public portal in view mode">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        <span>Public Site</span>
+      </a>
+
+      <div class="admin-user-chip">
+        <div class="admin-avatar">EL</div>
+        <div class="admin-user-info">
+          <span class="admin-user-name">Faculty Admin</span>
+          <span class="admin-user-role">Coordinator</span>
+        </div>
+      </div>
+
+      <a href="login.html" class="btn btn-outline btn-sm" title="Sign out" style="padding:0.4rem 0.6rem;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Dashboard Main Layout -->
+  <div class="admin-layout">
+
+    <!-- Sidebar Navigation -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-section-title">Navigation</div>
+      <button class="sidebar-nav-item active" data-tab="overview">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
+          </path>
+        </svg>
+        <span>Overview</span>
+      </button>
+
+      <button class="sidebar-nav-item" data-tab="students">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
+          </path>
+        </svg>
+        <span>Students Directory</span>
+      </button>
+
+      <button class="sidebar-nav-item" data-tab="submissions">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+          </path>
+        </svg>
+        <span>Submissions & Content</span>
+      </button>
+
+      <button class="sidebar-nav-item" data-tab="groups">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+          </path>
+        </svg>
+        <span>Groups CD01–CD04</span>
+      </button>
+
+      <button class="sidebar-nav-item" data-tab="faculty">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+          </path>
+        </svg>
+        <span>Faculty & Committee</span>
+      </button>
+
+      <div class="sidebar-section-title">System</div>
+      <button class="sidebar-nav-item" data-tab="backup">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+        </svg>
+        <span>Backup & Storage</span>
+      </button>
+
+      <div class="sidebar-footer">
+        <p style="font-size:0.75rem; color:var(--muted-foreground); text-align:center;">
+          &copy; 2026 ELTU · E25<br>University of Peradeniya
+        </p>
+      </div>
+    </aside>
+
+    <!-- Main Content Body -->
+    <main class="admin-main">
+
+      <!-- ============================================== -->
+      <!-- TAB 1: OVERVIEW -->
+      <!-- ============================================== -->
+      <section id="tab-overview" class="admin-tab-pane active">
+        <div class="page-head">
+          <div>
+            <h1 class="page-title">Executive Dashboard</h1>
+            <p class="page-subtitle">Intensive English Program E25 — 01-04 Group CD Portal Control Center</p>
+          </div>
+          <div class="head-action-group">
+            <button class="btn btn-primary btn-sm" onclick="openAddStudentModal()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              <span>Add Student</span>
+            </button>
+            <button class="btn btn-secondary btn-sm" onclick="openAddSubmissionModal()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              <span>Add Submission</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 KPI Cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-card-glow"></div>
+            <div class="stat-card-header">
+              <span class="stat-label">Enrolled Students</span>
+              <div class="stat-icon-bubble">
+                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
+                  </path>
+                </svg>
+              </div>
+            </div>
+            <div class="stat-value" id="kpiTotalStudents">4</div>
+            <div class="stat-meta">
+              <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                <polyline points="17 6 23 6 23 12"></polyline>
+              </svg>
+              <span>CD01–CD04 Cohort</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-glow"></div>
+            <div class="stat-card-header">
+              <span class="stat-label">Active Groups</span>
+              <div class="stat-icon-bubble">
+                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
+                  </path>
+                </svg>
+              </div>
+            </div>
+            <div class="stat-value">4</div>
+            <div class="stat-meta">
+              <span>CD 01 · 02 · 03 · 04</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-glow"></div>
+            <div class="stat-card-header">
+              <span class="stat-label">Submissions</span>
+              <div class="stat-icon-bubble">
+                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                  </path>
+                </svg>
+              </div>
+            </div>
+            <div class="stat-value" id="kpiTotalUploads">0</div>
+            <div class="stat-meta">
+              <span>Assignments & Projects</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-glow"></div>
+            <div class="stat-card-header">
+              <span class="stat-label">Faculty & Panel</span>
+              <div class="stat-icon-bubble">
+                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+                  </path>
+                </svg>
+              </div>
+            </div>
+            <div class="stat-value">6</div>
+            <div class="stat-meta">
+              <span>Teachers & Web Committee</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cohort Distribution & Quick Links -->
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:1.5rem; margin-bottom:2rem;">
+          <div class="admin-card" style="margin-bottom:0;">
+            <div class="admin-card-header">
+              <h2 class="admin-card-title">Group Enrollment Distribution</h2>
+              <span class="badge badge-secondary">Real-time</span>
+            </div>
+            <div id="groupDistributionBars" style="display:flex; flex-direction:column; gap:1rem;">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <div class="admin-card" style="margin-bottom:0;">
+            <div class="admin-card-header">
+              <h2 class="admin-card-title">Quick Administrative Actions</h2>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:0.75rem;">
+              <button class="btn btn-secondary btn-md" onclick="switchTab('students')" style="justify-content:flex-start;">
+                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                <span>Manage & Register Students</span>
+              </button>
+              <button class="btn btn-secondary btn-md" onclick="switchTab('submissions')" style="justify-content:flex-start;">
+                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+                </svg>
+                <span>Publish Assignment or Project Work</span>
+              </button>
+              <button class="btn btn-secondary btn-md" onclick="exportDataBackup()" style="justify-content:flex-start;">
+                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
+                </svg>
+                <span>Download Portal Data JSON Backup</span>
+              </button>
+              <a href="group.html?slug=group-cd-01" class="btn btn-outline btn-md" style="justify-content:flex-start;">
+                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                </svg>
+                <span>Visit Student Group Pages</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity Feed -->
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <h2 class="admin-card-title">Recent System Logs & Submissions</h2>
+            <span class="badge badge-outline">Live Audit</span>
+          </div>
+          <div id="recentActivityList" style="display:flex; flex-direction:column; gap:0.75rem;">
+            <!-- Rendered via JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- TAB 2: STUDENTS DIRECTORY -->
+      <!-- ============================================== -->
+      <section id="tab-students" class="admin-tab-pane">
+        <div class="page-head">
+          <div>
+            <h1 class="page-title">Student Directory</h1>
+            <p class="page-subtitle">Manage enrolled students, registration numbers, and committee roles across Groups CD01–CD04.</p>
+          </div>
+          <div class="head-action-group">
+            <button class="btn btn-primary btn-sm" onclick="openAddStudentModal()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              <span>Add New Student</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="table-toolbar">
+            <div class="search-box">
+              <svg class="search-icon" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="text" id="studentSearchInput" placeholder="Search by name, reg no (e.g. E25/004)..." />
+            </div>
+
+            <div class="filter-pills" id="studentGroupFilter">
+              <button class="filter-pill active" data-group="all">All Groups</button>
+              <button class="filter-pill" data-group="group-cd-01">Group CD 01</button>
+              <button class="filter-pill" data-group="group-cd-02">Group CD 02</button>
+              <button class="filter-pill" data-group="group-cd-03">Group CD 03</button>
+              <button class="filter-pill" data-group="group-cd-04">Group CD 04</button>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Student Name</th>
+                  <th>Reg Number</th>
+                  <th>Group Assigned</th>
+                  <th>Role / Committee</th>
+                  <th style="text-align:right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="studentsTableBody">
+                <!-- Dynamically populated via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- TAB 3: SUBMISSIONS & CONTENT -->
+      <!-- ============================================== -->
+      <section id="tab-submissions" class="admin-tab-pane">
+        <div class="page-head">
+          <div>
+            <h1 class="page-title">Content & Submissions Archive</h1>
+            <p class="page-subtitle">Publish, inspect, and organize assignments, slides, presentations, and group projects.</p>
+          </div>
+          <div class="head-action-group">
+            <button class="btn btn-primary btn-sm" onclick="openAddSubmissionModal()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              <span>Add New Submission</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="table-toolbar">
+            <div class="search-box">
+              <svg class="search-icon" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="text" id="submissionSearchInput" placeholder="Filter submissions by title or group..." />
+            </div>
+
+            <div class="filter-pills" id="activityFilterPills">
+              <button class="filter-pill active" data-activity="all">All Activities</button>
+              <button class="filter-pill" data-activity="creative-corner">Creative Corner</button>
+              <button class="filter-pill" data-activity="group-activities">Group Activities</button>
+              <button class="filter-pill" data-activity="presentations">Presentations</button>
+              <button class="filter-pill" data-activity="projects">Projects</button>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Submission Title</th>
+                  <th>Activity Type</th>
+                  <th>Group</th>
+                  <th>Format / Media</th>
+                  <th>Date Added</th>
+                  <th style="text-align:right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="submissionsTableBody">
+                <!-- Dynamically populated via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- TAB 4: GROUPS (CD01 - CD04) -->
+      <!-- ============================================== -->
+      <section id="tab-groups" class="admin-tab-pane">
+        <div class="page-head">
+          <div>
+            <h1 class="page-title">Study Groups Control</h1>
+            <p class="page-subtitle">Overview and details of the four official cohort groups in the Intensive English Program.</p>
+          </div>
+        </div>
+
+        <div class="groups-overview-grid" id="groupsGridContainer">
+          <!-- Rendered via JS -->
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- TAB 5: FACULTY & COMMITTEE -->
+      <!-- ============================================== -->
+      <section id="tab-faculty" class="admin-tab-pane">
+        <div class="page-head">
+          <div>
+            <h1 class="page-title">Faculty Panel & Web Committee</h1>
+            <p class="page-subtitle">Directory of lecturing staff, course instructors, and student web committee members.</p>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:1.5rem;">
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <h2 class="admin-card-title">Teaching Panel</h2>
+              <span class="badge badge-secondary">ELTU Staff</span>
+            </div>
+            <div id="teachersPanelList" style="display:flex; flex-direction:column; gap:0.75rem;">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <h2 class="admin-card-title">Web & Content Committee</h2>
+              <span class="badge badge-outline">Student Leads</span>
+            </div>
+            <div id="webCommitteeList" style="display:flex; flex-direction:column; gap:0.75rem;">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- TAB 6: BACKUP & STORAGE -->
+      <!-- ============================================== -->
+      <section id="tab-backup" class="admin-tab-pane">
+        <div class="page-head">
+          <div>
+            <h1 class="page-title">Database Storage & Backup</h1>
+            <p class="page-subtitle">Export, backup or restore the portal student database and submitted works.</p>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:1.5rem;">
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <h2 class="admin-card-title">Export Complete Backup</h2>
+            </div>
+            <p style="font-size:0.875rem; color:var(--muted-foreground); margin-bottom:1.25rem; line-height:1.6;">
+              Download a complete JSON backup file containing all student records, group rosters, and uploaded assignments. Store this file securely to ensure data safety.
+            </p>
+            <button class="btn btn-primary btn-md" onclick="exportDataBackup()">
+              <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+              </svg>
+              <span>Download Backup (JSON)</span>
+            </button>
+          </div>
+
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <h2 class="admin-card-title">Restore / Import Data</h2>
+            </div>
+            <p style="font-size:0.875rem; color:var(--muted-foreground); margin-bottom:1.25rem; line-height:1.6;">
+              Upload a previously exported <code>.json</code> backup to restore your custom student records and submissions.
+            </p>
+            <input type="file" id="importFileInput" accept=".json" style="display:none;" onchange="handleFileImport(event)" />
+            <button class="btn btn-secondary btn-md" onclick="document.getElementById('importFileInput').click()">
+              <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+              </svg>
+              <span>Select Backup File...</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="admin-card" style="border-color: rgba(255, 107, 107, 0.4);">
+          <div class="admin-card-header">
+            <h2 class="admin-card-title" style="color:#ff8585;">Danger Zone · Reset Custom Data</h2>
+          </div>
+          <p style="font-size:0.875rem; color:var(--muted-foreground); margin-bottom:1.25rem;">
+            Clears locally added students and submissions, reverting the portal back to initial baseline records.
+          </p>
+          <button class="btn btn-outline btn-sm" onclick="resetCustomData()" style="border-color:#ff6b6b; color:#ff8585;">
+            <span>Reset Local Storage Data</span>
+          </button>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: ADD / EDIT STUDENT -->
+  <!-- ============================================== -->
+  <div id="studentModal" class="admin-modal-backdrop">
+    <div class="admin-modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title" id="studentModalTitle">Add New Student</h3>
+        <button class="modal-close-btn" onclick="closeStudentModal()">&times;</button>
+      </div>
+      <form id="studentForm" onsubmit="saveStudentForm(event)">
+        <input type="hidden" id="studentEditId" value="" />
+
+        <div class="form-row">
+          <label for="studentNameInput">Full Name *</label>
+          <input type="text" id="studentNameInput" placeholder="e.g. Kasun Perera" required />
+        </div>
+
+        <div class="form-row">
+          <label for="studentRegInput">Registration Number *</label>
+          <input type="text" id="studentRegInput" placeholder="e.g. E25/005" required />
+        </div>
+
+        <div class="form-row">
+          <label for="studentGroupSelect">Assigned Group *</label>
+          <select id="studentGroupSelect" required>
+            <!-- Populated via JS -->
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="studentRoleSelect">Role in Group</label>
+          <select id="studentRoleSelect">
+            <option value="Student">Student</option>
+            <option value="Group Leader">Group Leader</option>
+            <option value="Presenter">Presenter</option>
+            <option value="Secretary">Secretary</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="studentCommitteeInput">Committee (Optional)</label>
+          <input type="text" id="studentCommitteeInput" placeholder="e.g. Web Committee, Media, Editorial" />
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline btn-sm" onclick="closeStudentModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Save Student</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: ADD / EDIT SUBMISSION -->
+  <!-- ============================================== -->
+  <div id="submissionModal" class="admin-modal-backdrop">
+    <div class="admin-modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title" id="submissionModalTitle">Add Assignment / Submission</h3>
+        <button class="modal-close-btn" onclick="closeSubmissionModal()">&times;</button>
+      </div>
+      <form id="submissionForm" onsubmit="saveSubmissionForm(event)">
+        <div class="form-row">
+          <label for="subTitleInput">Submission Title *</label>
+          <input type="text" id="subTitleInput" placeholder="e.g. Creative Essay: Innovations in Peradeniya" required />
+        </div>
+
+        <div class="form-row">
+          <label for="subActivitySelect">Activity Category *</label>
+          <select id="subActivitySelect" required>
+            <!-- Populated via JS -->
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="subGroupSelect">Submitting Group *</label>
+          <select id="subGroupSelect" required>
+            <!-- Populated via JS -->
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="subKindSelect">Content Format *</label>
+          <select id="subKindSelect" required>
+            <option value="document">PDF Document / Report</option>
+            <option value="presentation">Slide Deck / Presentation</option>
+            <option value="video">Video (YouTube / Link)</option>
+            <option value="image">Image / Graphic Poster</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="subUrlInput">External URL / Media Link</label>
+          <input type="url" id="subUrlInput" placeholder="https://..." />
+        </div>
+
+        <div class="form-row">
+          <label for="subDescInput">Brief Description</label>
+          <textarea id="subDescInput" placeholder="Summary of this project or task submission..."></textarea>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline btn-sm" onclick="closeSubmissionModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Publish Submission</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Floating Toast Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script>
+    /**
+     * Admin Dashboard Controller
+     */
+
+    let currentGroupFilter = 'all';
+    let currentActivityFilter = 'all';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initNavigationTabs();
+      initGroupFilterPills();
+      initActivityFilterPills();
+      populateSelectOptions();
+      refreshDashboard();
+      initSearchListeners();
+    });
+
+    // Navigation Tab Switching
+    function initNavigationTabs() {
+      const navButtons = document.querySelectorAll('.sidebar-nav-item[data-tab]');
+      navButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const tab = btn.getAttribute('data-tab');
+          switchTab(tab);
+        });
+      });
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.sidebar-nav-item').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.admin-tab-pane').forEach(p => p.classList.remove('active'));
+
+      const activeBtn = document.querySelector(`.sidebar-nav-item[data-tab="${tabId}"]`);
+      const targetPane = document.getElementById(`tab-${tabId}`);
+
+      if (activeBtn) activeBtn.classList.add('active');
+      if (targetPane) targetPane.classList.add('active');
+
+      if (tabId === 'overview' || tabId === 'students' || tabId === 'submissions' || tabId === 'groups') {
+        refreshDashboard();
+      }
+    }
+
+    // Populate Dynamic Select Menus in Modals
+    function populateSelectOptions() {
+      const groups = getGroups();
+      const activities = getActivities();
+
+      const studentGroupSelect = document.getElementById('studentGroupSelect');
+      const subGroupSelect = document.getElementById('subGroupSelect');
+      const subActivitySelect = document.getElementById('subActivitySelect');
+
+      if (studentGroupSelect) {
+        studentGroupSelect.innerHTML = groups.map(g => `<option value="${g.id}">${g.name}</option>`).join('');
+      }
+
+      if (subGroupSelect) {
+        subGroupSelect.innerHTML = groups.map(g => `<option value="${g.id}">${g.name}</option>`).join('');
+      }
+
+      if (subActivitySelect) {
+        subActivitySelect.innerHTML = activities.map(a => `<option value="${a.id}">${a.title}</option>`).join('');
+      }
+    }
+
+    // Refresh All Data Displays
+    function refreshDashboard() {
+      renderKPIs();
+      renderStudentsTable();
+      renderSubmissionsTable();
+      renderGroupDistribution();
+      renderGroupsGrid();
+      renderFacultyPanels();
+      renderRecentActivity();
+    }
+
+    // Render KPIs
+    function renderKPIs() {
+      const allStudents = getAllMembers();
+      const allSubmissions = getAllContentItems();
+
+      const kpiStudents = document.getElementById('kpiTotalStudents');
+      const kpiUploads = document.getElementById('kpiTotalUploads');
+
+      if (kpiStudents) kpiStudents.textContent = allStudents.length;
+      if (kpiUploads) kpiUploads.textContent = allSubmissions.length;
+    }
+
+    // Render Group Distribution Progress Bars
+    function renderGroupDistribution() {
+      const container = document.getElementById('groupDistributionBars');
+      if (!container) return;
+
+      const groups = getGroups();
+      const allStudents = getAllMembers();
+      const total = Math.max(allStudents.length, 1);
+
+      let html = '';
+      groups.forEach(g => {
+        const members = getMembersByGroupId(g.id);
+        const percent = Math.round((members.length / total) * 100);
+        html += `
+          <div>
+            <div style="display:flex; justify-content:space-between; font-size:0.825rem; margin-bottom:0.35rem;">
+              <span style="font-weight:600; color:var(--ink-foreground);">${g.name}</span>
+              <span style="color:var(--neon-cyan); font-weight:700;">${members.length} students (${percent}%)</span>
+            </div>
+            <div style="width:100%; height:8px; background:rgba(2,12,27,0.8); border-radius:999px; overflow:hidden; border:1px solid rgba(100,255,218,0.15);">
+              <div style="width:${Math.max(percent, 5)}%; height:100%; background:linear-gradient(90deg, var(--neon-cyan), #0040ff); border-radius:999px;"></div>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    // Render Students Table
+    function renderStudentsTable() {
+      const tbody = document.getElementById('studentsTableBody');
+      if (!tbody) return;
+
+      const searchQuery = (document.getElementById('studentSearchInput')?.value || '').toLowerCase();
+      let students = getAllMembers();
+
+      // Filter by group pill
+      if (currentGroupFilter !== 'all') {
+        const group = DATA.groups.find(g => g.slug === currentGroupFilter);
+        if (group) {
+          students = students.filter(s => s.group_id === group.id);
+        }
+      }
+
+      // Filter by search
+      if (searchQuery) {
+        students = students.filter(s =>
+          (s.full_name && s.full_name.toLowerCase().includes(searchQuery)) ||
+          (s.registration_no && s.registration_no.toLowerCase().includes(searchQuery)) ||
+          (s.role_in_group && s.role_in_group.toLowerCase().includes(searchQuery)) ||
+          (s.committee && s.committee.toLowerCase().includes(searchQuery))
+        );
+      }
+
+      if (students.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="5" style="text-align:center; padding:2.5rem; color:var(--muted-foreground);">
+              No student records found matching the current criteria.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      let html = '';
+      students.forEach(s => {
+        const group = getGroupById(s.group_id);
+        const groupSlug = group ? group.slug : 'group-cd-01';
+        let pillClass = 'group-pill-cd01';
+        if (groupSlug === 'group-cd-02') pillClass = 'group-pill-cd02';
+        if (groupSlug === 'group-cd-03') pillClass = 'group-pill-cd03';
+        if (groupSlug === 'group-cd-04') pillClass = 'group-pill-cd04';
+
+        const initials = s.full_name ? s.full_name.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase() : 'ST';
+        const roleLabel = s.role_in_group || 'Student';
+        const committeeTag = s.committee ? `<span class="badge badge-outline" style="font-size:0.7rem; margin-left:0.4rem;">${s.committee}</span>` : '';
+
+        html += `
+          <tr>
+            <td>
+              <div class="student-cell">
+                <div class="student-avatar">${initials}</div>
+                <div>
+                  <div style="font-weight:600; color:var(--ink-foreground);">${s.full_name}</div>
+                  <div style="font-size:0.75rem; color:var(--muted-foreground);">ID: ${s.id.substring(0, 10)}...</div>
+                </div>
+              </div>
+            </td>
+            <td><code>${s.registration_no || 'E25/---'}</code></td>
+            <td>
+              <span class="group-pill ${pillClass}">${group ? group.name : 'Unknown'}</span>
+            </td>
+            <td>
+              <span>${roleLabel}</span>${committeeTag}
+            </td>
+            <td style="text-align:right;">
+              <div class="row-actions" style="justify-content:flex-end;">
+                <button class="action-btn" onclick='editStudent("${s.id}")' title="Edit student">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                  </svg>
+                  <span>Edit</span>
+                </button>
+                <button class="action-btn delete-btn" onclick='deleteStudent("${s.id}", "${s.full_name}")' title="Remove student">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  </svg>
+                  <span>Delete</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+
+      tbody.innerHTML = html;
+    }
+
+    // Render Submissions Table
+    function renderSubmissionsTable() {
+      const tbody = document.getElementById('submissionsTableBody');
+      if (!tbody) return;
+
+      const searchQuery = (document.getElementById('submissionSearchInput')?.value || '').toLowerCase();
+      let items = getAllContentItems();
+
+      // Filter by activity pill
+      if (currentActivityFilter !== 'all') {
+        const activity = DATA.activities.find(a => a.slug === currentActivityFilter);
+        if (activity) {
+          items = items.filter(i => i.activity_id === activity.id);
+        }
+      }
+
+      // Filter by search query
+      if (searchQuery) {
+        items = items.filter(i =>
+          (i.title && i.title.toLowerCase().includes(searchQuery)) ||
+          (i.description && i.description.toLowerCase().includes(searchQuery))
+        );
+      }
+
+      if (items.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="6" style="text-align:center; padding:2.5rem; color:var(--muted-foreground);">
+              No submissions recorded yet. Click "Add New Submission" to publish a report or presentation!
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      let html = '';
+      items.forEach(i => {
+        const group = getGroupById(i.group_id);
+        const activity = getActivityById(i.activity_id);
+        const dateStr = i.created_at ? new Date(i.created_at).toLocaleDateString() : 'Just now';
+
+        html += `
+          <tr>
+            <td>
+              <div style="font-weight:600; color:var(--ink-foreground);">${i.title}</div>
+              <div style="font-size:0.75rem; color:var(--muted-foreground);">${i.description ? i.description.substring(0, 60) + '...' : 'No description'}</div>
+            </td>
+            <td>
+              <span class="badge badge-secondary">${activity ? activity.title : 'General'}</span>
+            </td>
+            <td>
+              <span class="group-pill group-pill-cd01">${group ? group.name : 'Unknown Group'}</span>
+            </td>
+            <td>
+              <span class="badge badge-outline" style="text-transform:uppercase;">${i.kind || 'document'}</span>
+            </td>
+            <td>${dateStr}</td>
+            <td style="text-align:right;">
+              <div class="row-actions" style="justify-content:flex-end;">
+                ${i.external_url ? `
+                  <a href="${i.external_url}" target="_blank" class="action-btn" title="Open attachment">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                      <polyline points="15 3 21 3 21 9"></polyline>
+                      <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                    <span>View</span>
+                  </a>
+                ` : ''}
+                <button class="action-btn delete-btn" onclick='deleteSubmission("${i.id}")' title="Delete submission">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  </svg>
+                  <span>Delete</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+
+      tbody.innerHTML = html;
+    }
+
+    // Render Groups Overview Cards
+    function renderGroupsGrid() {
+      const container = document.getElementById('groupsGridContainer');
+      if (!container) return;
+
+      const groups = getGroups();
+      let html = '';
+
+      groups.forEach(g => {
+        const members = getMembersByGroupId(g.id);
+        const submissions = getContentByGroupId(g.id);
+
+        html += `
+          <div class="group-admin-card">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:0.75rem;">
+                <h3 style="font-family:var(--font-display); font-size:1.3rem; font-weight:700; color:var(--ink-foreground);">${g.name}</h3>
+                <span class="badge badge-secondary">Order #${g.sort_order}</span>
+              </div>
+              <p style="font-size:0.875rem; color:var(--muted-foreground); line-height:1.5; margin-bottom:1rem;">
+                ${g.description}
+              </p>
+              <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1rem;">
+                <span class="badge badge-outline">${members.length} Enrolled Students</span>
+                <span class="badge badge-outline">${submissions.length} Submissions</span>
+              </div>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding-top:0.75rem; border-top:1px solid rgba(100,255,218,0.12);">
+              <a href="group.html?slug=${g.slug}" target="_blank" class="form-link" style="font-size:0.85rem; display:flex; align-items:center; gap:0.35rem;">
+                <span>View Public Page</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                </svg>
+              </a>
+              <button class="btn btn-secondary btn-sm" onclick="filterStudentsByGroup('${g.slug}')">
+                <span>Show Students</span>
+              </button>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    function filterStudentsByGroup(slug) {
+      currentGroupFilter = slug;
+      document.querySelectorAll('#studentGroupFilter .filter-pill').forEach(p => {
+        p.classList.toggle('active', p.getAttribute('data-group') === slug);
+      });
+      switchTab('students');
+    }
+
+    // Render Faculty Panels
+    function renderFacultyPanels() {
+      const teachersContainer = document.getElementById('teachersPanelList');
+      const webContainer = document.getElementById('webCommitteeList');
+
+      if (teachersContainer) {
+        const teachers = DATA.panelMembers.filter(p => p.panel === 'teachers');
+        teachersContainer.innerHTML = teachers.map(t => `
+          <div style="display:flex; align-items:center; justify-content:space-between; padding:0.75rem 1rem; background:rgba(2,12,27,0.6); border:1px solid rgba(100,255,218,0.15); border-radius:0.5rem;">
+            <div>
+              <div style="font-weight:600; color:var(--ink-foreground);">${t.full_name}</div>
+              <div style="font-size:0.75rem; color:var(--neon-cyan);">${t.role}</div>
+            </div>
+            <span class="badge badge-secondary">Faculty</span>
+          </div>
+        `).join('');
+      }
+
+      if (webContainer) {
+        const web = DATA.panelMembers.filter(p => p.panel === 'web');
+        webContainer.innerHTML = web.map(w => `
+          <div style="display:flex; align-items:center; justify-content:space-between; padding:0.75rem 1rem; background:rgba(2,12,27,0.6); border:1px solid rgba(100,255,218,0.15); border-radius:0.5rem;">
+            <div>
+              <div style="font-weight:600; color:var(--ink-foreground);">${w.full_name}</div>
+              <div style="font-size:0.75rem; color:var(--muted-foreground);">${w.role || 'Member'}</div>
+            </div>
+            <span class="badge badge-outline">Web Lead</span>
+          </div>
+        `).join('');
+      }
+    }
+
+    // Render Recent Activity Logs
+    function renderRecentActivity() {
+      const container = document.getElementById('recentActivityList');
+      if (!container) return;
+
+      const submissions = getAllContentItems();
+      const customStudents = JSON.parse(localStorage.getItem('e25_custom_students') || '[]');
+
+      let logs = [];
+
+      submissions.slice(-3).forEach(s => {
+        logs.push({
+          type: 'submission',
+          title: `New submission: "${s.title}"`,
+          subtitle: `Registered under ${s.kind || 'document'} format`,
+          time: 'Active'
+        });
+      });
+
+      customStudents.slice(-3).forEach(st => {
+        logs.push({
+          type: 'student',
+          title: `Student enrolled: ${st.full_name} (${st.registration_no || 'E25'})`,
+          subtitle: `Added to roster successfully`,
+          time: 'Active'
+        });
+      });
+
+      if (logs.length === 0) {
+        logs = [
+          { type: 'system', title: 'Intensive English Program E25 portal initialized', subtitle: 'Ready for student submissions and assessment', time: 'Semester 01-04' },
+          { type: 'system', title: 'Four Cohort Groups loaded (CD01–CD04)', subtitle: 'Faculty of Engineering, University of Peradeniya', time: 'Active' }
+        ];
+      }
+
+      container.innerHTML = logs.map(l => `
+        <div style="display:flex; align-items:center; gap:0.75rem; padding:0.75rem 1rem; background:rgba(2,12,27,0.5); border:1px solid rgba(100,255,218,0.12); border-radius:0.5rem;">
+          <div style="width:10px; height:10px; border-radius:50%; background:var(--neon-cyan); box-shadow:0 0 6px var(--neon-cyan);"></div>
+          <div style="flex:1;">
+            <div style="font-size:0.875rem; font-weight:600; color:var(--ink-foreground);">${l.title}</div>
+            <div style="font-size:0.75rem; color:var(--muted-foreground);">${l.subtitle}</div>
+          </div>
+          <span style="font-size:0.75rem; color:var(--neon-cyan);">${l.time}</span>
+        </div>
+      `).join('');
+    }
+
+    // Student CRUD
+    function openAddStudentModal() {
+      document.getElementById('studentModalTitle').textContent = 'Add New Student';
+      document.getElementById('studentEditId').value = '';
+      document.getElementById('studentForm').reset();
+      document.getElementById('studentModal').classList.add('open');
+    }
+
+    function closeStudentModal() {
+      document.getElementById('studentModal').classList.remove('open');
+    }
+
+    function editStudent(id) {
+      const student = getAllMembers().find(s => s.id === id);
+      if (!student) return;
+
+      document.getElementById('studentModalTitle').textContent = 'Edit Student Details';
+      document.getElementById('studentEditId').value = student.id;
+      document.getElementById('studentNameInput').value = student.full_name || '';
+      document.getElementById('studentRegInput').value = student.registration_no || '';
+      document.getElementById('studentGroupSelect').value = student.group_id || '';
+      document.getElementById('studentRoleSelect').value = student.role_in_group || 'Student';
+      document.getElementById('studentCommitteeInput').value = student.committee || '';
+
+      document.getElementById('studentModal').classList.add('open');
+    }
+
+    function saveStudentForm(e) {
+      e.preventDefault();
+      const editId = document.getElementById('studentEditId').value;
+      const name = document.getElementById('studentNameInput').value.trim();
+      const reg = document.getElementById('studentRegInput').value.trim();
+      const groupId = document.getElementById('studentGroupSelect').value;
+      const role = document.getElementById('studentRoleSelect').value;
+      const committee = document.getElementById('studentCommitteeInput').value.trim() || null;
+
+      if (!name || !reg) return;
+
+      let customStudents = JSON.parse(localStorage.getItem('e25_custom_students') || '[]');
+
+      if (editId) {
+        // Check if editing a custom student
+        const customIdx = customStudents.findIndex(s => s.id === editId);
+        if (customIdx !== -1) {
+          customStudents[customIdx] = {
+            ...customStudents[customIdx],
+            full_name: name,
+            registration_no: reg,
+            group_id: groupId,
+            role_in_group: role,
+            committee: committee
+          };
+        } else {
+          // It was a default student, override by storing in custom
+          const existing = DATA.groupMembers.find(s => s.id === editId);
+          customStudents.push({
+            id: editId,
+            full_name: name,
+            registration_no: reg,
+            group_id: groupId,
+            role_in_group: role,
+            committee: committee,
+            photo_url: existing ? existing.photo_url : null
+          });
+        }
+        showToast(`Student record for "${name}" updated successfully!`);
+      } else {
+        // New student
+        const newStudent = {
+          id: 'custom-' + Date.now(),
+          full_name: name,
+          registration_no: reg,
+          group_id: groupId,
+          role_in_group: role,
+          committee: committee,
+          photo_url: null,
+          sort_order: 99
+        };
+        customStudents.push(newStudent);
+        showToast(`Student "${name}" (${reg}) registered successfully!`);
+      }
+
+      localStorage.setItem('e25_custom_students', JSON.stringify(customStudents));
+      closeStudentModal();
+      refreshDashboard();
+    }
+
+    function deleteStudent(id, name) {
+      if (!confirm(`Are you sure you want to remove student "${name}"?`)) return;
+
+      let customStudents = JSON.parse(localStorage.getItem('e25_custom_students') || '[]');
+      customStudents = customStudents.filter(s => s.id !== id);
+      localStorage.setItem('e25_custom_students', JSON.stringify(customStudents));
+
+      // If it's a default student, we can mark it deleted or filter it
+      const defaultIdx = DATA.groupMembers.findIndex(s => s.id === id);
+      if (defaultIdx !== -1) {
+        DATA.groupMembers.splice(defaultIdx, 1);
+      }
+
+      showToast(`Student "${name}" has been removed.`);
+      refreshDashboard();
+    }
+
+    // Submissions CRUD
+    function openAddSubmissionModal() {
+      document.getElementById('submissionForm').reset();
+      document.getElementById('submissionModal').classList.add('open');
+    }
+
+    function closeSubmissionModal() {
+      document.getElementById('submissionModal').classList.remove('open');
+    }
+
+    function saveSubmissionForm(e) {
+      e.preventDefault();
+      const title = document.getElementById('subTitleInput').value.trim();
+      const activityId = document.getElementById('subActivitySelect').value;
+      const groupId = document.getElementById('subGroupSelect').value;
+      const kind = document.getElementById('subKindSelect').value;
+      const url = document.getElementById('subUrlInput').value.trim() || null;
+      const desc = document.getElementById('subDescInput').value.trim() || null;
+
+      if (!title) return;
+
+      const newSubmission = {
+        id: 'content-' + Date.now(),
+        title: title,
+        activity_id: activityId,
+        group_id: groupId,
+        kind: kind,
+        external_url: url,
+        description: desc,
+        created_at: new Date().toISOString()
+      };
+
+      let customContent = JSON.parse(localStorage.getItem('e25_custom_content') || '[]');
+      customContent.push(newSubmission);
+      localStorage.setItem('e25_custom_content', JSON.stringify(customContent));
+
+      showToast(`Submission "${title}" published successfully!`);
+      closeSubmissionModal();
+      refreshDashboard();
+    }
+
+    function deleteSubmission(id) {
+      if (!confirm('Are you sure you want to remove this submission?')) return;
+
+      let customContent = JSON.parse(localStorage.getItem('e25_custom_content') || '[]');
+      customContent = customContent.filter(c => c.id !== id);
+      localStorage.setItem('e25_custom_content', JSON.stringify(customContent));
+
+      const defaultIdx = DATA.contentItems.findIndex(c => c.id === id);
+      if (defaultIdx !== -1) {
+        DATA.contentItems.splice(defaultIdx, 1);
+      }
+
+      showToast('Submission removed from portal.');
+      refreshDashboard();
+    }
+
+    // Filters and Search Listeners
+    function initGroupFilterPills() {
+      const pills = document.querySelectorAll('#studentGroupFilter .filter-pill');
+      pills.forEach(pill => {
+        pill.addEventListener('click', () => {
+          pills.forEach(p => p.classList.remove('active'));
+          pill.classList.add('active');
+          currentGroupFilter = pill.getAttribute('data-group');
+          renderStudentsTable();
+        });
+      });
+    }
+
+    function initActivityFilterPills() {
+      const pills = document.querySelectorAll('#activityFilterPills .filter-pill');
+      pills.forEach(pill => {
+        pill.addEventListener('click', () => {
+          pills.forEach(p => p.classList.remove('active'));
+          pill.classList.add('active');
+          currentActivityFilter = pill.getAttribute('data-activity');
+          renderSubmissionsTable();
+        });
+      });
+    }
+
+    function initSearchListeners() {
+      const studentSearch = document.getElementById('studentSearchInput');
+      if (studentSearch) {
+        studentSearch.addEventListener('input', () => renderStudentsTable());
+      }
+
+      const subSearch = document.getElementById('submissionSearchInput');
+      if (subSearch) {
+        subSearch.addEventListener('input', () => renderSubmissionsTable());
+      }
+    }
+
+    // Backup & Export
+    function exportDataBackup() {
+      const backupData = {
+        meta: {
+          program: 'Intensive English Program E25',
+          cohort: '01-04 Group CD',
+          faculty: 'Faculty of Engineering, University of Peradeniya',
+          exported_at: new Date().toISOString()
+        },
+        students: getAllMembers(),
+        submissions: getAllContentItems(),
+        groups: getGroups()
+      };
+
+      const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(backupData, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute('href', dataStr);
+      downloadAnchor.setAttribute('download', `e25_portal_backup_${new Date().toISOString().slice(0, 10)}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+
+      showToast('Portal data backup exported successfully!');
+    }
+
+    function handleFileImport(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          const imported = JSON.parse(event.target.result);
+          if (imported.students && Array.isArray(imported.students)) {
+            localStorage.setItem('e25_custom_students', JSON.stringify(imported.students));
+          }
+          if (imported.submissions && Array.isArray(imported.submissions)) {
+            localStorage.setItem('e25_custom_content', JSON.stringify(imported.submissions));
+          }
+          showToast('Data backup restored successfully!');
+          refreshDashboard();
+        } catch (err) {
+          alert('Failed to parse backup JSON file. Please ensure it is a valid format.');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function resetCustomData() {
+      if (!confirm('This will wipe all custom students and submissions from your local browser storage. Continue?')) return;
+      localStorage.removeItem('e25_custom_students');
+      localStorage.removeItem('e25_custom_content');
+      showToast('Local custom records reset.');
+      refreshDashboard();
+    }
+
+    // Toast Notification System
+    function showToast(message) {
+      const container = document.getElementById('toastContainer');
+      if (!container) return;
+
+      const toast = document.createElement('div');
+      toast.className = 'admin-toast';
+      toast.innerHTML = `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--neon-cyan); flex-shrink:0;">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span>${message}</span>
+      `;
+
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(10px)';
+        toast.style.transition = 'all 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+  </script>
+</body>
+
+</html>
