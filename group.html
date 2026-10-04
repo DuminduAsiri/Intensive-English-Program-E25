@@ -91,10 +91,7 @@
               <option value="all">All activities</option>
             </select>
           </div>
-          <button id="addSubmissionBtn" class="btn btn-primary btn-sm" style="display:inline-flex; align-items:center; gap:0.4rem; border-radius:0.5rem; font-weight:600; height:2.55rem; white-space:nowrap;">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-            Add Work
-          </button>
+
         </div>
       </div>
 
@@ -177,56 +174,7 @@
     </div>
   </div>
 
-  <!-- Add Work / Submission Modal -->
-  <div id="addSubmissionModal" class="modal-backdrop">
-    <div class="modal-dialog" style="max-width:480px;">
-      <div class="modal-header">
-        <div>
-          <h3 style="font-size:1.15rem; font-weight:600;">Add Work / Submission</h3>
-          <p id="addSubmissionGroupSubtitle" style="margin-top:0.25rem; font-size:0.85rem; color:var(--muted-foreground);"></p>
-        </div>
-        <button id="closeAddSubmissionModal" class="btn btn-outline btn-sm"
-          style="border-radius:9999px; width:2rem; height:2rem; padding:0;" aria-label="Close">✕</button>
-      </div>
-      <div class="modal-body" style="padding:1.5rem 1.75rem;">
-        <form id="groupAddSubmissionForm" style="display:flex; flex-direction:column; gap:1.15rem;">
-          <div style="display:flex; flex-direction:column; gap:0.4rem;">
-            <label for="modalSubTitleInput" style="font-size:0.85rem; font-weight:600; color:var(--foreground);">Submission Title *</label>
-            <input type="text" id="modalSubTitleInput" required placeholder="e.g. Technical Presentation / Lab Report" style="width:100%; height:2.75rem; padding:0 1rem; background:rgba(2, 12, 27, 0.85); border:1px solid rgba(100, 255, 218, 0.3); border-radius:0.5rem; color:var(--foreground); font-size:0.925rem; outline:none;" />
-          </div>
-          <div style="display:flex; flex-direction:column; gap:0.4rem;">
-            <label for="modalSubActivitySelect" style="font-size:0.85rem; font-weight:600; color:var(--foreground);">Activity Category *</label>
-            <select id="modalSubActivitySelect" required class="select-control" style="background:rgba(2, 12, 27, 0.85); border:1px solid rgba(100, 255, 218, 0.3);">
-            </select>
-          </div>
-          <div style="display:flex; flex-direction:column; gap:0.4rem;">
-            <label for="modalSubKindSelect" style="font-size:0.85rem; font-weight:600; color:var(--foreground);">Content Format *</label>
-            <select id="modalSubKindSelect" required class="select-control" style="background:rgba(2, 12, 27, 0.85); border:1px solid rgba(100, 255, 218, 0.3);">
-              <option value="document">PDF Document / Report</option>
-              <option value="presentation">Slide Deck / Presentation</option>
-              <option value="video">Video (YouTube / Link)</option>
-              <option value="image">Image / Graphic Poster</option>
-            </select>
-          </div>
-          <div style="display:flex; flex-direction:column; gap:0.4rem;">
-            <label for="modalSubUrlInput" style="font-size:0.85rem; font-weight:600; color:var(--foreground);">External URL / YouTube Link</label>
-            <input type="url" id="modalSubUrlInput" placeholder="https://..." style="width:100%; height:2.75rem; padding:0 1rem; background:rgba(2, 12, 27, 0.85); border:1px solid rgba(100, 255, 218, 0.3); border-radius:0.5rem; color:var(--foreground); font-size:0.925rem; outline:none;" />
-          </div>
-          <div style="display:flex; flex-direction:column; gap:0.4rem;">
-            <label for="modalSubFileInput" style="font-size:0.85rem; font-weight:600; color:var(--foreground);">Or Upload Image / File (Optional)</label>
-            <input type="file" id="modalSubFileInput" accept="image/*,.pdf" style="font-size:0.85rem; color:var(--muted-foreground);" />
-          </div>
-          <div style="display:flex; flex-direction:column; gap:0.4rem;">
-            <label for="modalSubDescInput" style="font-size:0.85rem; font-weight:600; color:var(--foreground);">Description</label>
-            <textarea id="modalSubDescInput" rows="2" placeholder="Brief summary of this work..." style="width:100%; padding:0.6rem 1rem; background:rgba(2, 12, 27, 0.85); border:1px solid rgba(100, 255, 218, 0.3); border-radius:0.5rem; color:var(--foreground); font-size:0.925rem; outline:none; resize:vertical;"></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary" style="width:100%; height:2.75rem; font-weight:600; margin-top:0.25rem; border-radius:0.5rem; cursor:pointer;">
-            Publish Work
-          </button>
-        </form>
-      </div>
-    </div>
-  </div>
+
 
   <!-- Site Footer -->
   <footer class="site-footer">
@@ -379,117 +327,7 @@
       }
     })();
 
-    // Add Submission Modal Logic
-    const addSubmissionModal = document.getElementById('addSubmissionModal');
-    const addSubmissionBtn = document.getElementById('addSubmissionBtn');
-    const closeAddSubmissionModal = document.getElementById('closeAddSubmissionModal');
-    const groupAddSubmissionForm = document.getElementById('groupAddSubmissionForm');
-    const modalSubTitleInput = document.getElementById('modalSubTitleInput');
-    const modalSubActivitySelect = document.getElementById('modalSubActivitySelect');
-    const modalSubKindSelect = document.getElementById('modalSubKindSelect');
-    const modalSubUrlInput = document.getElementById('modalSubUrlInput');
-    const modalSubFileInput = document.getElementById('modalSubFileInput');
-    const modalSubDescInput = document.getElementById('modalSubDescInput');
-    const addSubmissionGroupSubtitle = document.getElementById('addSubmissionGroupSubtitle');
 
-    if (addSubmissionGroupSubtitle) addSubmissionGroupSubtitle.textContent = group.name;
-    if (modalSubActivitySelect) {
-      modalSubActivitySelect.innerHTML = DATA.activities.map(a => `<option value="${a.id}">${a.title}</option>`).join('');
-    }
-
-    const showAddSubModal = () => {
-      if (addSubmissionModal) {
-        addSubmissionModal.classList.add('open');
-        document.body.style.overflow = 'hidden';
-        if (modalSubTitleInput) modalSubTitleInput.focus();
-      }
-    };
-
-    const hideAddSubModal = () => {
-      if (addSubmissionModal) {
-        addSubmissionModal.classList.remove('open');
-        document.body.style.overflow = '';
-      }
-    };
-
-    if (addSubmissionBtn) addSubmissionBtn.addEventListener('click', showAddSubModal);
-    if (closeAddSubmissionModal) closeAddSubmissionModal.addEventListener('click', hideAddSubModal);
-    if (addSubmissionModal) {
-      addSubmissionModal.addEventListener('click', (e) => {
-        if (e.target === addSubmissionModal) hideAddSubModal();
-      });
-    }
-
-    if (groupAddSubmissionForm) {
-      groupAddSubmissionForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const title = modalSubTitleInput.value.trim();
-        const actId = modalSubActivitySelect.value;
-        const kind = modalSubKindSelect.value;
-        const url = modalSubUrlInput.value.trim() || null;
-        const desc = modalSubDescInput.value.trim() || null;
-        const file = modalSubFileInput.files && modalSubFileInput.files[0];
-
-        if (!title) return;
-
-        const processSave = (fileDataUrl = null) => {
-          let previewImg = null;
-          if (fileDataUrl) {
-            previewImg = fileDataUrl;
-          } else if (kind === 'image' && url) {
-            previewImg = url;
-          } else if (kind === 'video' && url) {
-            const ytId = extractYouTubeId(url);
-            if (ytId) previewImg = `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`;
-          }
-
-          const newSub = {
-            id: 'content-' + Date.now(),
-            title: title,
-            activity_id: actId,
-            group_id: group.id,
-            kind: kind,
-            external_url: url,
-            preview_image: previewImg,
-            file_data: fileDataUrl,
-            description: desc,
-            created_at: new Date().toISOString()
-          };
-
-          // 1. Save to Local Storage
-          let customList = [];
-          try {
-            const saved = localStorage.getItem('e25_custom_content');
-            if (saved) customList = JSON.parse(saved);
-          } catch(err) {}
-          customList.push(newSub);
-          localStorage.setItem('e25_custom_content', JSON.stringify(customList));
-
-          // 2. Push to Firebase RTDB
-          try {
-            if (typeof firebase !== 'undefined' && firebase.database) {
-              firebase.database().ref('submissions/' + newSub.id).set(newSub)
-                .catch(err => console.warn('Firebase RTDB error:', err));
-            }
-          } catch(err) {}
-
-          // 3. Immediately show in page
-          groupUploadsLive.unshift(newSub);
-          updateUploads();
-          groupAddSubmissionForm.reset();
-          hideAddSubModal();
-        };
-
-        if (file && file.type.startsWith('image/')) {
-          const reader = new FileReader();
-          reader.onload = () => processSave(reader.result);
-          reader.onerror = () => processSave(null);
-          reader.readAsDataURL(file);
-        } else {
-          processSave(null);
-        }
-      });
-    }
 
     // Render Students
     const membersContainer = document.getElementById('membersContainer');
