@@ -172,6 +172,9 @@
   <!-- Scripts -->
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
+  <!-- Firebase SDKs for real-time submission sync -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
   <script>
     const activitySelect = document.getElementById('activitySelect');
     const groupSelect = document.getElementById('groupSelect');
@@ -209,13 +212,15 @@
     const paramActivity = urlParams.get('activity');
 
     if (paramGroup) {
-      const matchedG = DATA.groups.find(g => g.slug === paramGroup || g.id === paramGroup);
+      const matchedG = DATA.groups.find(g => g.slug === paramGroup || g.id === paramGroup || isGroupMatch(g.id, paramGroup));
       if (matchedG) groupSelect.value = matchedG.id;
     }
     if (paramActivity) {
-      const matchedA = DATA.activities.find(a => a.slug === paramActivity || a.id === paramActivity);
+      const matchedA = DATA.activities.find(a => a.slug === paramActivity || a.id === paramActivity || isActivityMatch(a.id, paramActivity));
       if (matchedA) activitySelect.value = matchedA.id;
     }
+
+    let liveItems = getAllContentItems();
 
     function updateFilteredView() {
       const selActId = activitySelect.value;
@@ -248,9 +253,9 @@
       }
 
       // Filter Items
-      const filtered = DATA.contentItems.filter(item => {
-        const matchAct = (selActId === 'all' || item.activity_id === selActId);
-        const matchGrp = (selGrpId === 'all' || item.group_id === selGrpId);
+      const filtered = liveItems.filter(item => {
+        const matchAct = (selActId === 'all' || isActivityMatch(item.activity_id, selActId));
+        const matchGrp = (selGrpId === 'all' || isGroupMatch(item.group_id, selGrpId));
         return matchAct && matchGrp;
       });
 
@@ -263,7 +268,63 @@
 
     // Initial render
     updateFilteredView();
-  </script>
+
+    // Firebase real-time sync for all submissions
+    (function initFirebasePortal() {
+      const firebaseConfig = {
+        apiKey: "AIzaSyA3zM_fz3snYxd11zIO-lFuRYNA-VCfvfI",
+        authDomain: "intensive-english-program-e25.firebaseapp.com",
+        databaseURL: "https://intensive-english-program-e25-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "intensive-english-program-e25",
+        storageBucket: "intensive-english-program-e25.firebasestorage.app",
+        messagingSenderId: "819181152560",
+        appId: "1:819181152560:web:de3bf3ad50dbd2c58cc0f5"
+      };
+
+      // Listen for instant local updates across tabs
+      window.addEventListener('storage', (e) => {
+        if (e.key === 'e25_custom_content') {
+          liveItems = getAllContentItems();
+          updateFilteredView();
+        }
+      });
+
+      try {
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        db.ref('submissions').on('value', (snapshot) => {
+          const data = snapshot.val();
+          if (!data) return;
+          const allFirebaseSubs = Array.isArray(data) ? data.filter(Boolean) : Object.values(data);
+          const localItems = getAllContentItems();
+          const merged = [...allFirebaseSubs];
+          localItems.forEach(li => {
+            if (!merged.some(mi => mi.id === li.id)) merged.push(li);
+          });
+
+          // Sync to localStorage
+          try {
+            let local = JSON.parse(localStorage.getItem('e25_custom_content') || '[]');
+            allFirebaseSubs.forEach(fs => {
+              const idx = local.findIndex(ls => ls.id === fs.id);
+              if (idx !== -1) {
+                local[idx] = fs;
+              } else {
+                local.push(fs);
+              }
+            });
+            localStorage.setItem('e25_custom_content', JSON.stringify(local));
+          } catch(e) {}
+
+          liveItems = merged;
+          updateFilteredView();
+        }, (err) => {
+          console.warn('Firebase activities listener:', err.message);
+        });
+      } catch (err) {
+        console.warn('Firebase init error on activities page:', err);
+      }
+    })();
   <!-- Global Auth Navigation & Welcome State -->
   <script type="module" src="js/auth-nav.js"></script>
 </body>

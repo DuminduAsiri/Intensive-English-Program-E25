@@ -192,12 +192,26 @@ function getGroups() {
 
 function getGroupBySlug(slug) {
   if (!slug) return DATA.groups[0];
-  const normalized = slug.toLowerCase();
-  return DATA.groups.find(g => g.slug === normalized || normalized.endsWith(g.slug.replace('group-cd-', '')) || normalized.endsWith(g.slug.replace('group-cd-0', '')));
+  const normalized = String(slug).toLowerCase().trim();
+  return DATA.groups.find(g =>
+    g.slug === normalized ||
+    g.id === slug ||
+    g.name.toLowerCase() === normalized ||
+    normalized.endsWith(g.slug.replace('group-cd-', '')) ||
+    normalized.endsWith(g.slug.replace('group-cd-0', ''))
+  );
 }
 
 function getGroupById(id) {
-  return DATA.groups.find(g => g.id === id);
+  if (!id) return null;
+  const normalized = String(id).toLowerCase().trim();
+  return DATA.groups.find(g =>
+    g.id === id ||
+    g.slug.toLowerCase() === normalized ||
+    g.name.toLowerCase() === normalized ||
+    normalized.endsWith(g.slug.replace('group-cd-', '')) ||
+    normalized.endsWith(g.slug.replace('group-cd-0', ''))
+  );
 }
 
 function getActivities() {
@@ -205,7 +219,42 @@ function getActivities() {
 }
 
 function getActivityById(id) {
-  return DATA.activities.find(a => a.id === id);
+  if (!id) return null;
+  const normalized = String(id).toLowerCase().trim();
+  return DATA.activities.find(a =>
+    a.id === id ||
+    a.slug.toLowerCase() === normalized ||
+    a.title.toLowerCase() === normalized
+  );
+}
+
+function isGroupMatch(itemGroupId, targetGroupIdOrSlug) {
+  if (!itemGroupId || !targetGroupIdOrSlug) return false;
+  if (itemGroupId === targetGroupIdOrSlug) return true;
+  const targetGroup = typeof targetGroupIdOrSlug === 'object'
+    ? targetGroupIdOrSlug
+    : (getGroupById(targetGroupIdOrSlug) || getGroupBySlug(targetGroupIdOrSlug));
+  if (!targetGroup) return false;
+  if (itemGroupId === targetGroup.id || itemGroupId === targetGroup.slug) return true;
+  const normItem = String(itemGroupId).toLowerCase().replace(/[^a-z0-9]/g, '');
+  const normSlug = String(targetGroup.slug || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  const normName = String(targetGroup.name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  return normItem === normSlug || normItem === normName;
+}
+
+function isActivityMatch(itemActivityId, targetActivityIdOrSlug) {
+  if (!itemActivityId || !targetActivityIdOrSlug) return false;
+  if (targetActivityIdOrSlug === 'all') return true;
+  if (itemActivityId === targetActivityIdOrSlug) return true;
+  const targetAct = typeof targetActivityIdOrSlug === 'object'
+    ? targetActivityIdOrSlug
+    : getActivityById(targetActivityIdOrSlug);
+  if (!targetAct) return false;
+  if (itemActivityId === targetAct.id || itemActivityId === targetAct.slug) return true;
+  const normItem = String(itemActivityId).toLowerCase().replace(/[^a-z0-9]/g, '');
+  const normSlug = String(targetAct.slug || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  const normTitle = String(targetAct.title || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  return normItem === normSlug || normItem === normTitle;
 }
 
 function getAllMembers() {
@@ -218,7 +267,7 @@ function getAllMembers() {
 }
 
 function getMembersByGroupId(groupId) {
-  return getAllMembers().filter(m => m.group_id === groupId);
+  return getAllMembers().filter(m => isGroupMatch(m.group_id, groupId));
 }
 
 function getAllContentItems() {
@@ -231,11 +280,11 @@ function getAllContentItems() {
 }
 
 function getContentByGroupId(groupId) {
-  return getAllContentItems().filter(c => c.group_id === groupId);
+  return getAllContentItems().filter(c => isGroupMatch(c.group_id, groupId));
 }
 
 function getContentByActivityId(activityId) {
-  return getAllContentItems().filter(c => c.activity_id === activityId);
+  return getAllContentItems().filter(c => isActivityMatch(c.activity_id, activityId));
 }
 
 

@@ -102,36 +102,40 @@ function openContentModal(item) {
   if (bodyEl) {
     bodyEl.innerHTML = '';
     const ytId = extractYouTubeId(item.external_url);
+    const imgUrl = item.preview_image || (item.kind === 'image' ? (item.external_url || item.file_data) : null);
+
     if (ytId) {
       bodyEl.innerHTML = `
         <iframe src="https://www.youtube-nocookie.com/embed/${ytId}?autoplay=1&rel=0"
           title="${item.title}"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen
-          style="width:100%; height:450px; border:none; background:#000;">
+          style="width:100%; height:450px; border:none; background:#000; border-radius:0.5rem;">
         </iframe>`;
-    } else if (item.kind === 'image' && item.preview_image) {
+    } else if (imgUrl) {
       bodyEl.innerHTML = `
-        <img src="${item.preview_image}" alt="${item.title}" style="max-height:70vh; max-width:100%; object-fit:contain; border-radius:0.5rem;" />
+        <div style="display:flex; justify-content:center; align-items:center; background:rgba(0,0,0,0.3); border-radius:0.5rem; padding:1rem;">
+          <img src="${imgUrl}" alt="${item.title}" style="max-height:70vh; max-width:100%; object-fit:contain; border-radius:0.5rem;" />
+        </div>
       `;
     } else if (item.kind === 'document') {
       bodyEl.innerHTML = `
-        <div style="padding: 3rem; text-align:center;">
-          <svg style="width:4rem; height:4rem; margin: 0 auto; color: var(--primary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div style="padding: 3rem 1.5rem; text-align:center;">
+          <svg style="width:4rem; height:4rem; margin: 0 auto; color: var(--neon-cyan);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
           </svg>
-          <h4 style="margin-top:1rem; font-size:1.125rem;">${item.title}</h4>
-          <p style="margin-top:0.5rem; font-size:0.875rem; color:var(--muted-foreground);">Official PDF document submitted for evaluation.</p>
+          <h4 style="margin-top:1rem; font-size:1.125rem; font-weight:600;">${item.title}</h4>
+          <p style="margin-top:0.5rem; font-size:0.875rem; color:var(--muted-foreground);">${item.description || 'Official academic document / assignment submitted for evaluation.'}</p>
         </div>
       `;
     } else {
       bodyEl.innerHTML = `
-        <div style="padding: 3rem; text-align:center;">
-          <svg style="width:4rem; height:4rem; margin: 0 auto; color: var(--primary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div style="padding: 3rem 1.5rem; text-align:center;">
+          <svg style="width:4rem; height:4rem; margin: 0 auto; color: var(--neon-cyan);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
           </svg>
-          <h4 style="margin-top:1rem; font-size:1.125rem;">${item.title}</h4>
-          <p style="margin-top:0.5rem; font-size:0.875rem; color:var(--muted-foreground);">External project submission or presentation link.</p>
+          <h4 style="margin-top:1rem; font-size:1.125rem; font-weight:600;">${item.title}</h4>
+          <p style="margin-top:0.5rem; font-size:0.875rem; color:var(--muted-foreground);">${item.description || 'External project submission or presentation resource.'}</p>
         </div>
       `;
     }
@@ -139,11 +143,12 @@ function openContentModal(item) {
 
   // Update Action Button
   if (actionBtn) {
-    const targetUrl = item.external_url || item.preview_image || '#';
+    const targetUrl = item.external_url || item.preview_image || item.file_data || '#';
     actionBtn.onclick = () => {
       if (targetUrl && targetUrl !== '#') window.open(targetUrl, '_blank');
     };
-    actionBtn.textContent = item.external_url ? 'Open link â†—' : 'Open original â†—';
+    actionBtn.textContent = item.external_url ? 'Open link ↗' : 'Open resource ↗';
+    actionBtn.style.display = (targetUrl && targetUrl !== '#') ? 'inline-flex' : 'none';
   }
 
   backdrop.classList.add('open');
@@ -169,28 +174,36 @@ function renderCollage(items, containerEl, emptyText = 'No uploads found.') {
   }
 
   const aspectRatios = ['aspect-4-5', 'aspect-square', 'aspect-3-4', 'aspect-4-3'];
-  const gradientThemes = [
-    'from-primary/25 to-primary/5',
-    'from-accent/30 to-accent/5',
-    'from-secondary to-primary/10',
-    'from-primary/15 to-accent/15'
-  ];
 
   let html = '<div class="collage-masonry">';
   items.forEach((item, idx) => {
     const aspect = aspectRatios[idx % aspectRatios.length];
     const group = getGroupById(item.group_id);
     const activity = getActivityById(item.activity_id);
-    const subtitle = [group ? group.name : '', activity ? activity.title : ''].filter(Boolean).join(' Â· ');
+    const subtitle = [group ? group.name : '', activity ? activity.title : ''].filter(Boolean).join(' · ');
+
+    const ytId = extractYouTubeId(item.external_url);
+    const imgUrl = item.preview_image || (item.kind === 'image' ? (item.external_url || item.file_data) : null) || (ytId ? `https://img.youtube.com/vi/${ytId}/hqdefault.jpg` : null);
 
     let previewContent = '';
-    if (item.preview_image) {
+    if (imgUrl) {
       previewContent = `
-        <img src="${item.preview_image}" alt="${item.title}" loading="lazy" class="collage-img" />
+        <img src="${imgUrl}" alt="${item.title}" loading="lazy" class="collage-img" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='flex';" />
+        <div class="collage-card-body" style="display:none;">
+          <div class="collage-fallback-icon">
+            <svg style="width:1.75rem; height:1.75rem; color:var(--primary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+          </div>
+          <div>
+            <p style="font-family:var(--font-display); font-size:0.875rem; font-weight:600; line-height:1.25;">${item.title}</p>
+            <p style="margin-top:0.25rem; font-size:0.7rem; color:var(--muted-foreground); text-transform:uppercase;">${item.kind}</p>
+          </div>
+        </div>
       `;
     } else {
       let icon = `
-        <svg style="width:1.75rem; height:1.75rem; color:var(--primary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg style="width:1.75rem; height:1.75rem; color:var(--neon-cyan);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
         </svg>
       `;
@@ -205,12 +218,14 @@ function renderCollage(items, containerEl, emptyText = 'No uploads found.') {
       `;
     }
 
+    const safeItemJson = JSON.stringify(item).replace(/'/g, "&#39;");
+
     html += `
-      <div class="collage-item ${aspect}" onclick='openContentModal(${JSON.stringify(item)})' title="Open ${item.title}">
+      <div class="collage-item ${aspect}" onclick='openContentModal(${safeItemJson})' title="Open ${item.title}">
         ${previewContent}
         <div class="collage-overlay">
           <p style="font-size:0.75rem; font-weight:600; line-height:1.2; text-shadow: 0 1px 2px rgba(0,0,0,0.8);">${item.title}</p>
-          <p style="font-size:0.6875rem; opacity:0.85; text-transform:capitalize;">${item.kind}${subtitle ? ' Â· ' + subtitle : ''}</p>
+          <p style="font-size:0.6875rem; opacity:0.85; text-transform:capitalize;">${item.kind}${subtitle ? ' · ' + subtitle : ''}</p>
         </div>
       </div>
     `;

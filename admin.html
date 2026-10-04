@@ -1941,6 +1941,11 @@
         </div>
 
         <div class="form-row">
+          <label for="subFileInput">Or Upload File / Image (Optional)</label>
+          <input type="file" id="subFileInput" accept="image/*,.pdf,.doc,.docx" style="font-size:0.85rem; color:var(--muted-foreground);" />
+        </div>
+
+        <div class="form-row">
           <label for="subDescInput">Brief Description</label>
           <textarea id="subDescInput" placeholder="Summary of this project or task submission..."></textarea>
         </div>
@@ -1955,6 +1960,31 @@
 
   <!-- Floating Toast Container -->
   <div id="toastContainer" class="toast-container"></div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+
+  <script>
+    // 1. Firebase Project Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyA3zM_fz3snYxd11zIO-lFuRYNA-VCfvfI",
+      authDomain: "intensive-english-program-e25.firebaseapp.com",
+      databaseURL: "https://intensive-english-program-e25-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "intensive-english-program-e25",
+      storageBucket: "intensive-english-program-e25.firebasestorage.app",
+      messagingSenderId: "819181152560",
+      appId: "1:819181152560:web:de3bf3ad50dbd2c58cc0f5",
+      measurementId: "G-05EWGZK6HJ"
+    };
+
+    // Initialize Firebase
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    const auth = firebase.auth();
+  </script>
 
   <!-- Scripts -->
   <script src="js/data.js"></script>
@@ -2888,40 +2918,65 @@
       const kind = document.getElementById('subKindSelect').value;
       const url = document.getElementById('subUrlInput').value.trim() || null;
       const desc = document.getElementById('subDescInput').value.trim() || null;
+      const fileInput = document.getElementById('subFileInput');
+      const file = fileInput && fileInput.files && fileInput.files[0];
 
       if (!title) return;
 
-      const newSubmission = {
-        id: 'content-' + Date.now(),
-        title: title,
-        activity_id: activityId,
-        group_id: groupId,
-        kind: kind,
-        external_url: url,
-        description: desc,
-        created_at: new Date().toISOString()
+      const finishSave = (fileDataUrl = null) => {
+        let previewImg = null;
+        if (fileDataUrl) {
+          previewImg = fileDataUrl;
+        } else if (kind === 'image' && url) {
+          previewImg = url;
+        } else if (kind === 'video' && url) {
+          const ytMatch = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+          if (ytMatch) previewImg = `https://img.youtube.com/vi/${ytMatch[1]}/hqdefault.jpg`;
+        }
+
+        const newSubmission = {
+          id: 'content-' + Date.now(),
+          title: title,
+          activity_id: activityId,
+          group_id: groupId,
+          kind: kind,
+          external_url: url,
+          preview_image: previewImg,
+          file_data: fileDataUrl,
+          description: desc,
+          created_at: new Date().toISOString()
+        };
+
+        // Save to localStorage (local fallback)
+        let customContent = JSON.parse(localStorage.getItem('e25_custom_content') || '[]');
+        customContent.unshift(newSubmission);
+        localStorage.setItem('e25_custom_content', JSON.stringify(customContent));
+
+        // Push to Firebase RTDB for cross-device sync
+        try {
+          if (typeof firebase !== 'undefined' && firebase.database) {
+            const db = firebase.database();
+            db.ref('submissions/' + newSubmission.id).set(newSubmission)
+              .then(() => console.log('Submission synced to Firebase RTDB.'))
+              .catch(err => console.warn('Firebase sync error:', err));
+          }
+        } catch (err) {
+          console.warn('Firebase not ready:', err);
+        }
+
+        showToast(`Submission "${title}" published to portal successfully!`);
+        closeSubmissionModal();
+        refreshDashboard();
       };
 
-      // Save to localStorage (local fallback)
-      let customContent = JSON.parse(localStorage.getItem('e25_custom_content') || '[]');
-      customContent.push(newSubmission);
-      localStorage.setItem('e25_custom_content', JSON.stringify(customContent));
-
-      // Push to Firebase RTDB for cross-device sync
-      try {
-        if (typeof firebase !== 'undefined' && firebase.database) {
-          const db = firebase.database();
-          db.ref('submissions/' + newSubmission.id).set(newSubmission)
-            .then(() => console.log('Submission synced to Firebase.'))
-            .catch(err => console.warn('Firebase sync error:', err));
-        }
-      } catch (err) {
-        console.warn('Firebase not ready:', err);
+      if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = () => finishSave(reader.result);
+        reader.onerror = () => finishSave(null);
+        reader.readAsDataURL(file);
+      } else {
+        finishSave(null);
       }
-
-      showToast(`Submission "${title}" published to portal successfully!`);
-      closeSubmissionModal();
-      refreshDashboard();
     }
 
     function deleteSubmission(id) {
@@ -3067,30 +3122,7 @@
       }, 3500);
     }
   </script>
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
-
   <script>
-    // 1. Firebase Project Config
-    const firebaseConfig = {
-      apiKey: "AIzaSyA3zM_fz3snYxd11zIO-lFuRYNA-VCfvfI",
-      authDomain: "intensive-english-program-e25.firebaseapp.com",
-      databaseURL: "https://intensive-english-program-e25-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "intensive-english-program-e25",
-      storageBucket: "intensive-english-program-e25.firebasestorage.app",
-      messagingSenderId: "819181152560",
-      appId: "1:819181152560:web:de3bf3ad50dbd2c58cc0f5",
-      measurementId: "G-05EWGZK6HJ"
-    };
-
-    // Initialize Firebase
-    if (!firebase.apps.length) {
-      firebase.initializeApp(firebaseConfig);
-    }
-    const auth = firebase.auth();
-
     // Allowed Admin Email addresses
     const allowedEmails = [
       "e25eise041@eng.pdn.ac.lk",
@@ -3113,6 +3145,10 @@
           // Initialize Realtime User Logins monitor
           if (typeof initUserLoginsMonitor === 'function') {
             initUserLoginsMonitor();
+          }
+          // Initialize Realtime Submissions monitor
+          if (typeof initSubmissionsMonitor === 'function') {
+            initSubmissionsMonitor();
           }
         } else {
           alert("Access Denied! Your email (" + user.email + ") is not authorized to access this dashboard.");
