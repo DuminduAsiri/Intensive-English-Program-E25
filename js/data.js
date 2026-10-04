@@ -8,37 +8,37 @@ const DATA = {
     {
       "id": "765941e5-ce97-442b-8c01-a45f56c007e4",
       "slug": "group-cd-01",
-      "name": "Group CD 01",
-      "tagline": "",
-      "description": "Group CD 01 of the 01-04 Group CD English language program, Faculty of Engineering, University of Peradeniya.",
+      "name": "Group CD 01 – The Beginning",
+      "tagline": "WHERE IT ALL BEGINS",
+      "description": "Every journey starts with a single step. Discover new experiences, new friendships, and new opportunities to learn.",
       "cover_url": null,
       "sort_order": 1
     },
     {
       "id": "87ddf96e-deea-4ebc-b2b8-64bb27480567",
       "slug": "group-cd-02",
-      "name": "Group CD 02",
-      "tagline": "",
-      "description": "Group CD 02 of the 01-04 Group CD English language program, Faculty of Engineering, University of Peradeniya.",
+      "name": "Group CD 02 – The Second Chapter",
+      "tagline": "EXPLORE. LEARN. GROW.",
+      "description": "A space to explore ideas, develop new skills, and share meaningful experiences throughout our learning journey.",
       "cover_url": null,
       "sort_order": 2
     },
     {
       "id": "edcd3049-1802-474c-a473-9f1ee8116b53",
       "slug": "group-cd-03",
-      "name": "Group CD 03",
-      "tagline": "",
-      "description": "Group CD 03 of the 01-04 Group CD English language program, Faculty of Engineering, University of Peradeniya.",
+      "name": "Group CD 03 – Beyond the Words",
+      "tagline": "IDEAS THAT BRING US TOGETHER",
+      "description": "From creative activities to teamwork and presentations, discover how our ideas become memorable experiences.",
       "cover_url": null,
       "sort_order": 3
     },
     {
       "id": "33170e6f-f850-4cb2-b300-5f97e6c31a88",
       "slug": "group-cd-04",
-      "name": "Group CD 04",
-      "tagline": "",
-      "description": "Group CD 04 of the 01-04 Group CD English language program, Faculty of Engineering, University of Peradeniya.",
-      "cover_url": "assets/group8-cover.png",
+      "name": "Group CD 04 – Our Shared Story",
+      "tagline": "TOGETHER WE GROW",
+      "description": "Celebrate the friendships, creativity, challenges, and achievements that made this chapter special.",
+      "cover_url": "assets/group-cd-04.jpg",
       "sort_order": 4
     }
   ],

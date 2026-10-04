@@ -63,7 +63,7 @@
 
   <main style="flex:1;">
     <!-- Group Hero Banner -->
-    <section class="border-b" style="border-color:var(--border); background-color:var(--primary-soft);">
+    <section id="groupHeroBanner" class="border-b" style="border-color:var(--border); background-color:var(--primary-soft);">
       <div class="section-shell py-16">
         <a href="groups.html" style="font-size:0.875rem; font-weight:600; color:var(--primary);">← All groups</a>
         <p id="groupTagline" class="eyebrow" style="margin-top:1.5rem;"></p>
@@ -228,6 +228,18 @@
     document.getElementById('groupTagline').textContent = group.tagline;
     document.getElementById('groupName').textContent = group.name;
     document.getElementById('groupDesc').textContent = group.description;
+
+    if (group.cover_url) {
+      const banner = document.getElementById('groupHeroBanner');
+      if (banner) {
+        banner.style.position = 'relative';
+        banner.style.overflow = 'hidden';
+        banner.style.backgroundImage = `linear-gradient(180deg, rgba(10, 25, 47, 0.78) 0%, rgba(10, 25, 47, 0.92) 100%), url('${group.cover_url}')`;
+        banner.style.backgroundSize = 'cover';
+        banner.style.backgroundPosition = 'center';
+        document.getElementById('groupDesc').style.color = 'rgba(255, 255, 255, 0.88)';
+      }
+    }
 
     const groupUploads = getContentByGroupId(group.id);
     const groupMembers = getMembersByGroupId(group.id);

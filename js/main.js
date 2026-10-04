@@ -244,17 +244,22 @@ function renderGroupCards(containerEl) {
   groups.forEach(g => {
     const memberCount = getMembersByGroupId(g.id).length;
     const uploadCount = getContentByGroupId(g.id).length;
+    const hasCover = Boolean(g.cover_url);
 
     html += `
-      <a href="group.html?slug=${g.slug}" class="card card-rounded-2xl card-padding" style="display:flex; flex-direction:column; justify-content:space-between;">
-        <div>
+      <a href="group.html?slug=${g.slug}" class="card card-rounded-2xl card-padding group-card" style="display:flex; flex-direction:column; justify-content:space-between; position:relative; overflow:hidden; min-height:220px;">
+        ${hasCover ? `
+          <div class="group-card-bg" style="position:absolute; inset:0; background-image:url('${g.cover_url}'); background-size:cover; background-position:center; transition:transform 0.5s ease; z-index:0;"></div>
+          <div class="group-card-overlay" style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(10, 25, 47, 0.72) 0%, rgba(10, 25, 47, 0.88) 55%, rgba(10, 25, 47, 0.98) 100%); z-index:1;"></div>
+        ` : ''}
+        <div style="position:relative; z-index:2;">
           ${g.tagline ? `<p class="eyebrow">${g.tagline}</p>` : ""}
-          <h2 style="margin-top:0.75rem; font-size:1.25rem; font-weight:600;">${g.name}</h2>
-          <p class="line-clamp-3" style="margin-top:0.75rem; font-size:0.875rem; color:var(--muted-foreground); line-height:1.5;">${g.description}</p>
+          <h2 style="margin-top:0.75rem; font-size:1.25rem; font-weight:600; color:var(--foreground);">${g.name}</h2>
+          <p class="line-clamp-3" style="margin-top:0.75rem; font-size:0.875rem; color:${hasCover ? 'rgba(255, 255, 255, 0.85)' : 'var(--muted-foreground)'}; line-height:1.5;">${g.description}</p>
         </div>
-        <div style="margin-top:1.25rem; display:flex; gap:0.5rem;">
-          <span class="badge badge-secondary">${memberCount} students</span>
-          <span class="badge badge-outline">${uploadCount} uploads</span>
+        <div style="margin-top:1.25rem; display:flex; gap:0.5rem; position:relative; z-index:2;">
+          <span class="badge badge-secondary" style="${hasCover ? 'backdrop-filter:blur(8px); background:rgba(0, 229, 255, 0.22); border-color:rgba(0, 229, 255, 0.4);' : ''}">${memberCount} students</span>
+          <span class="badge badge-outline" style="${hasCover ? 'backdrop-filter:blur(8px); background:rgba(10, 25, 47, 0.65); border-color:rgba(100, 255, 218, 0.35);' : ''}">${uploadCount} uploads</span>
         </div>
       </a>
     `;
@@ -262,4 +267,5 @@ function renderGroupCards(containerEl) {
 
   containerEl.innerHTML = html;
 }
+
 
