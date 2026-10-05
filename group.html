@@ -108,10 +108,6 @@
             <h2 style="font-size:1.5rem; font-weight:600;">Students</h2>
             <p style="margin-top:0.25rem; font-size:0.875rem; color:var(--muted-foreground);">Students registered under this group.</p>
           </div>
-          <button id="addStudentBtn" class="btn btn-primary btn-sm" style="display:inline-flex; align-items:center; gap:0.4rem; border-radius:0.5rem; font-weight:600;">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-            Add Student
-          </button>
         </div>
 
         <div id="membersContainer" class="grid-3" style="margin-top:1.5rem;">
@@ -145,34 +141,6 @@
     </div>
   </div>
 
-  <!-- Add Student Modal -->
-  <div id="addStudentModal" class="modal-backdrop">
-    <div class="modal-dialog" style="max-width:440px;">
-      <div class="modal-header">
-        <div>
-          <h3 style="font-size:1.15rem; font-weight:600;">Add Student</h3>
-          <p id="addStudentGroupSubtitle" style="margin-top:0.25rem; font-size:0.85rem; color:var(--muted-foreground);"></p>
-        </div>
-        <button id="closeAddStudentModal" class="btn btn-outline btn-sm"
-          style="border-radius:9999px; width:2rem; height:2rem; padding:0;" aria-label="Close">✕</button>
-      </div>
-      <div class="modal-body" style="padding:1.5rem 1.75rem;">
-        <form id="addStudentForm" style="display:flex; flex-direction:column; gap:1.25rem;">
-          <div style="display:flex; flex-direction:column; gap:0.4rem;">
-            <label for="studentNameInput" style="font-size:0.85rem; font-weight:600; color:var(--foreground);">Student Name</label>
-            <input type="text" id="studentNameInput" required placeholder="e.g. Kasun Perera" style="width:100%; height:2.75rem; padding:0 1rem; background:rgba(2, 12, 27, 0.85); border:1px solid rgba(100, 255, 218, 0.3); border-radius:0.5rem; color:var(--foreground); font-size:0.925rem; outline:none;" />
-          </div>
-          <div style="display:flex; flex-direction:column; gap:0.4rem;">
-            <label for="studentRegInput" style="font-size:0.85rem; font-weight:600; color:var(--foreground);">Registration Number (E25/000)</label>
-            <input type="text" id="studentRegInput" required placeholder="e.g. E25/001" style="width:100%; height:2.75rem; padding:0 1rem; background:rgba(2, 12, 27, 0.85); border:1px solid rgba(100, 255, 218, 0.3); border-radius:0.5rem; color:var(--foreground); font-size:0.925rem; outline:none;" />
-          </div>
-          <button type="submit" class="btn btn-primary" style="width:100%; height:2.75rem; font-weight:600; margin-top:0.5rem; border-radius:0.5rem; cursor:pointer;">
-            Save Student
-          </button>
-        </form>
-      </div>
-    </div>
-  </div>
 
 
 
@@ -435,86 +403,7 @@
     }
     updateMembers();
 
-    // Add Student Modal Logic
-    const addStudentModal = document.getElementById('addStudentModal');
-    const addStudentBtn = document.getElementById('addStudentBtn');
-    const closeAddStudentModal = document.getElementById('closeAddStudentModal');
-    const addStudentForm = document.getElementById('addStudentForm');
-    const studentNameInput = document.getElementById('studentNameInput');
-    const studentRegInput = document.getElementById('studentRegInput');
-    const addStudentGroupSubtitle = document.getElementById('addStudentGroupSubtitle');
 
-    if (addStudentGroupSubtitle) addStudentGroupSubtitle.textContent = group.name;
-
-    if (addStudentBtn && addStudentModal) {
-      addStudentBtn.addEventListener('click', () => {
-        addStudentModal.classList.add('open');
-        document.body.style.overflow = 'hidden';
-        studentNameInput.focus();
-      });
-    }
-
-    const hideStudentModal = () => {
-      if (addStudentModal) {
-        addStudentModal.classList.remove('open');
-        document.body.style.overflow = '';
-      }
-    };
-
-    if (closeAddStudentModal) closeAddStudentModal.addEventListener('click', hideStudentModal);
-    if (addStudentModal) {
-      addStudentModal.addEventListener('click', (e) => {
-        if (e.target === addStudentModal) hideStudentModal();
-      });
-    }
-
-    if (addStudentForm) {
-      addStudentForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const name = studentNameInput.value.trim();
-        let reg = studentRegInput.value.trim();
-        if (!name) return;
-        if (!reg) reg = 'E25/000';
-
-        const newStudent = {
-          id: 'custom-' + Date.now(),
-          group_id: group.id,
-          full_name: name,
-          registration_no: reg,
-          role_in_group: 'Student',
-          photo_url: null,
-          committee: null,
-          sort_order: 99
-        };
-
-        // Save to localStorage
-        let customList = [];
-        try {
-          const saved = localStorage.getItem('e25_custom_students');
-          if (saved) customList = JSON.parse(saved);
-        } catch (err) {}
-        customList.push(newStudent);
-        localStorage.setItem('e25_custom_students', JSON.stringify(customList));
-
-        // Sync to Firebase RTDB for cross-device visibility
-        try {
-          if (typeof firebase !== 'undefined' && firebase.database) {
-            firebase.database().ref('students/' + newStudent.id).set(newStudent)
-              .then(() => console.log('Student synced to Firebase RTDB from group page.'))
-              .catch(err => console.warn('Firebase student sync error:', err));
-          }
-        } catch (err) {
-          console.warn('Firebase not ready:', err);
-        }
-
-        // Update local live array immediately
-        groupMembersLive.push(newStudent);
-        document.getElementById('membersBadge').textContent = `${groupMembersLive.length} students`;
-        updateMembers();
-        addStudentForm.reset();
-        hideStudentModal();
-      });
-    }
   </script>
   <!-- Global Auth Navigation & Welcome State -->
   <script type="module" src="js/auth-nav.js"></script>
