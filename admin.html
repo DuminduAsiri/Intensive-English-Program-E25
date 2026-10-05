@@ -1713,6 +1713,7 @@
                   <th>Submission Title</th>
                   <th>Activity Type</th>
                   <th>Group</th>
+                  <th>Student Name</th>
                   <th>Format / Media</th>
                   <th>Date Added</th>
                   <th style="text-align:right;">Actions</th>
@@ -1923,6 +1924,11 @@
           <select id="subGroupSelect" required>
             <!-- Populated via JS -->
           </select>
+        </div>
+
+        <div class="form-row">
+          <label for="subStudentSelect">Student Name *</label>
+          <input type="text" id="subStudentSelect" placeholder="e.g. M. Yuvaraj" required />
         </div>
 
         <div class="form-row">
@@ -2605,7 +2611,7 @@
       if (items.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="6" style="text-align:center; padding:2.5rem; color:var(--muted-foreground);">
+            <td colspan="7" style="text-align:center; padding:2.5rem; color:var(--muted-foreground);">
               No submissions recorded yet. Click "Add New Submission" to publish a report or presentation!
             </td>
           </tr>
@@ -2630,6 +2636,9 @@
             </td>
             <td>
               <span class="group-pill group-pill-cd01">${group ? group.name : 'Unknown Group'}</span>
+            </td>
+            <td>
+              <span style="font-weight:500; font-size:0.85rem;">${i.student_name || 'N/A'}</span>
             </td>
             <td>
               <span class="badge badge-outline" style="text-transform:uppercase;">${i.kind || 'document'}</span>
@@ -2915,6 +2924,7 @@
       const title = document.getElementById('subTitleInput').value.trim();
       const activityId = document.getElementById('subActivitySelect').value;
       const groupId = document.getElementById('subGroupSelect').value;
+      const studentName = document.getElementById('subStudentSelect').value.trim();
       const kind = document.getElementById('subKindSelect').value;
       const url = document.getElementById('subUrlInput').value.trim() || null;
       const desc = document.getElementById('subDescInput').value.trim() || null;
@@ -2939,6 +2949,7 @@
           title: title,
           activity_id: activityId,
           group_id: groupId,
+          student_name: studentName,
           kind: kind,
           external_url: url,
           preview_image: previewImg,
