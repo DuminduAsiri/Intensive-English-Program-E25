@@ -221,11 +221,17 @@ function renderCollage(items, containerEl, emptyText = 'No uploads found.') {
     const safeItemJson = JSON.stringify(item).replace(/'/g, "&#39;");
 
     html += `
-      <div class="collage-item ${aspect}" onclick='openContentModal(${safeItemJson})' title="Open ${item.title}">
-        ${previewContent}
-        <div class="collage-overlay">
-          <p style="font-size:0.75rem; font-weight:600; line-height:1.2; text-shadow: 0 1px 2px rgba(0,0,0,0.8);">${item.title}</p>
-          <p style="font-size:0.6875rem; opacity:0.85; text-transform:capitalize;">${item.kind}${subtitle ? ' · ' + subtitle : ''}</p>
+      <div style="break-inside: avoid; margin-bottom: 1.5rem;">
+        <div class="collage-item ${aspect}" onclick='openContentModal(${safeItemJson})' title="Open ${item.title}" style="margin-bottom: 0.5rem;">
+          ${previewContent}
+          <div class="collage-overlay">
+            <p style="font-size:0.6875rem; opacity:0.85; text-transform:capitalize;">${item.kind}${subtitle ? ' · ' + subtitle : ''}</p>
+          </div>
+        </div>
+        <div style="padding: 0 0.25rem;">
+          <h4 style="font-size:0.95rem; font-weight:600; color:var(--ink-foreground); line-height:1.3; margin-bottom:0.25rem;">${item.title}</h4>
+          <p style="font-size:0.75rem; font-weight:600; color:var(--neon-cyan); margin-bottom:0.4rem;">${item.student_name ? 'By ' + item.student_name : 'Group Submission'}</p>
+          ${item.description ? `<p style="font-size:0.8rem; color:var(--muted-foreground); line-height:1.5; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;">${item.description}</p>` : ''}
         </div>
       </div>
     `;
