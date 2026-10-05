@@ -1911,31 +1911,31 @@
       <form id="submissionForm" onsubmit="saveSubmissionForm(event)">
         <div class="form-row">
           <label for="subTitleInput">Submission Title *</label>
-          <input type="text" id="subTitleInput" placeholder="e.g. Creative Essay: Innovations in Peradeniya" required />
+          <input type="text" id="subTitleInput" placeholder="e.g. Creative Essay: Innovations in Peradeniya" />
         </div>
 
         <div class="form-row">
           <label for="subActivitySelect">Activity Category *</label>
-          <select id="subActivitySelect" required>
+          <select id="subActivitySelect">
             <!-- Populated via JS -->
           </select>
         </div>
 
         <div class="form-row">
           <label for="subGroupSelect">Submitting Group *</label>
-          <select id="subGroupSelect" required>
+          <select id="subGroupSelect">
             <!-- Populated via JS -->
           </select>
         </div>
 
         <div class="form-row">
           <label for="subStudentSelect">Student Name *</label>
-          <input type="text" id="subStudentSelect" placeholder="e.g. M. Yuvaraj" required />
+          <input type="text" id="subStudentSelect" placeholder="e.g. M. Yuvaraj" />
         </div>
 
         <div class="form-row">
           <label for="subKindSelect">Content Format *</label>
-          <select id="subKindSelect" required>
+          <select id="subKindSelect">
             <option value="document">PDF Document / Report</option>
             <option value="presentation">Slide Deck / Presentation</option>
             <option value="video">Video (YouTube / Link)</option>
@@ -2933,7 +2933,15 @@
       const fileInput = document.getElementById('subFileInput');
       const file = fileInput && fileInput.files && fileInput.files[0];
 
-      if (!title) return;
+      if (!title) {
+        showToast("Please enter a Submission Title.");
+        return;
+      }
+      
+      if (!studentName) {
+        showToast("Please enter the Student Name.");
+        return;
+      }
 
       const finishSave = (fileDataUrl = null) => {
         let previewImg = null;
