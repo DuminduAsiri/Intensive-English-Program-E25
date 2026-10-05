@@ -339,17 +339,81 @@
       }
     })();
 
+    // Firebase real-time sync for students/members
+    let groupMembersLive = [...groupMembers]; // working copy updated by Firebase
 
+    (function initFirebaseStudents() {
+      const firebaseConfig = {
+        apiKey: "AIzaSyA3zM_fz3snYxd11zIO-lFuRYNA-VCfvfI",
+        authDomain: "intensive-english-program-e25.firebaseapp.com",
+        databaseURL: "https://intensive-english-program-e25-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "intensive-english-program-e25",
+        storageBucket: "intensive-english-program-e25.firebasestorage.app",
+        messagingSenderId: "819181152560",
+        appId: "1:819181152560:web:de3bf3ad50dbd2c58cc0f5"
+      };
+
+      // Realtime cross-tab sync via localStorage storage event
+      window.addEventListener('storage', (e) => {
+        if (e.key === 'e25_custom_students') {
+          const localStudents = getMembersByGroupId(group.id);
+          localStudents.forEach(ls => {
+            if (!groupMembersLive.some(gl => gl.id === ls.id)) {
+              groupMembersLive.push(ls);
+            }
+          });
+          updateMembers();
+        }
+      });
+
+      try {
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        db.ref('students').on('value', (snapshot) => {
+          const data = snapshot.val();
+          if (!data) return;
+          const allFirebaseStudents = Array.isArray(data) ? data.filter(Boolean) : Object.values(data);
+          // Filter students for this group
+          const thisGroupStudents = allFirebaseStudents.filter(s => isGroupMatch(s.group_id, group));
+
+          // Merge: Firebase takes priority, then local static
+          const localStatic = getMembersByGroupId(group.id);
+          const merged = [...thisGroupStudents];
+          localStatic.forEach(ls => {
+            if (!merged.some(fs => fs.id === ls.id)) merged.push(ls);
+          });
+
+          // Cache to localStorage for offline
+          try {
+            let local = JSON.parse(localStorage.getItem('e25_custom_students') || '[]');
+            allFirebaseStudents.forEach(fs => {
+              const idx = local.findIndex(ls => ls.id === fs.id);
+              if (idx !== -1) { local[idx] = fs; } else { local.push(fs); }
+            });
+            localStorage.setItem('e25_custom_students', JSON.stringify(local));
+          } catch(e) {}
+
+          groupMembersLive = merged;
+          updateMembers();
+          document.getElementById('membersBadge').textContent = `${groupMembersLive.length} students`;
+        }, (err) => {
+          console.warn('Firebase students listener:', err.message);
+        });
+      } catch (err) {
+        console.warn('Firebase not ready on group page (students):', err);
+      }
+    })();
 
     // Render Students
     const membersContainer = document.getElementById('membersContainer');
     function updateMembers() {
-      if (groupMembers.length === 0) {
+      const members = groupMembersLive.length > 0 ? groupMembersLive : groupMembers;
+      if (members.length === 0) {
         membersContainer.innerHTML = '<p style="font-size:0.875rem; color:var(--muted-foreground); grid-column:1/-1;">No students added to this group yet. Click "+ Add Student" to add one.</p>';
         return;
       }
 
-      membersContainer.innerHTML = groupMembers.map(m => `
+      membersContainer.innerHTML = members.map(m => `
         <div class="card card-rounded-2xl card-padding" style="display:flex; flex-direction:column; justify-content:space-between; gap:1rem;">
           <div style="display:flex; align-items:center; gap:1rem;">
             ${m.photo_url
@@ -419,9 +483,11 @@
           registration_no: reg,
           role_in_group: 'Student',
           photo_url: null,
-          committee: null
+          committee: null,
+          sort_order: 99
         };
 
+        // Save to localStorage
         let customList = [];
         try {
           const saved = localStorage.getItem('e25_custom_students');
@@ -430,8 +496,20 @@
         customList.push(newStudent);
         localStorage.setItem('e25_custom_students', JSON.stringify(customList));
 
-        groupMembers.push(newStudent);
-        document.getElementById('membersBadge').textContent = `${groupMembers.length} students`;
+        // Sync to Firebase RTDB for cross-device visibility
+        try {
+          if (typeof firebase !== 'undefined' && firebase.database) {
+            firebase.database().ref('students/' + newStudent.id).set(newStudent)
+              .then(() => console.log('Student synced to Firebase RTDB from group page.'))
+              .catch(err => console.warn('Firebase student sync error:', err));
+          }
+        } catch (err) {
+          console.warn('Firebase not ready:', err);
+        }
+
+        // Update local live array immediately
+        groupMembersLive.push(newStudent);
+        document.getElementById('membersBadge').textContent = `${groupMembersLive.length} students`;
         updateMembers();
         addStudentForm.reset();
         hideStudentModal();

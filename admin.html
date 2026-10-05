@@ -2890,6 +2890,30 @@
       }
 
       localStorage.setItem('e25_custom_students', JSON.stringify(customStudents));
+
+      // Sync to Firebase RTDB for cross-device visibility
+      try {
+        if (typeof firebase !== 'undefined' && firebase.database) {
+          const db = firebase.database();
+          if (editId) {
+            // Update the specific student entry
+            const updatedStudent = customStudents.find(s => s.id === editId) ||
+              { id: editId, full_name: name, registration_no: reg, group_id: groupId, role_in_group: role, committee: committee, photo_url: null };
+            db.ref('students/' + editId).set(updatedStudent)
+              .then(() => console.log('Student updated in Firebase RTDB.'))
+              .catch(err => console.warn('Firebase student update error:', err));
+          } else {
+            // Push new student
+            const newStudentForSync = customStudents[customStudents.length - 1];
+            db.ref('students/' + newStudentForSync.id).set(newStudentForSync)
+              .then(() => console.log('Student synced to Firebase RTDB.'))
+              .catch(err => console.warn('Firebase student sync error:', err));
+          }
+        }
+      } catch (err) {
+        console.warn('Firebase not ready for student sync:', err);
+      }
+
       closeStudentModal();
       refreshDashboard();
     }
@@ -2905,6 +2929,16 @@
       const defaultIdx = DATA.groupMembers.findIndex(s => s.id === id);
       if (defaultIdx !== -1) {
         DATA.groupMembers.splice(defaultIdx, 1);
+      }
+
+      // Remove from Firebase RTDB
+      try {
+        if (typeof firebase !== 'undefined' && firebase.database) {
+          firebase.database().ref('students/' + id).remove()
+            .catch(err => console.warn('Firebase student delete error:', err));
+        }
+      } catch (err) {
+        console.warn('Firebase not ready for student delete:', err);
       }
 
       showToast(`Student "${name}" has been removed.`);
