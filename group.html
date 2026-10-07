@@ -76,6 +76,17 @@
       </div>
     </section>
 
+    <!-- Activities Section -->
+    <section class="section-shell py-16" style="padding-bottom: 0;">
+      <div style="display:flex; flex-direction:column; gap:0.25rem;">
+        <h2 style="font-size:1.5rem; font-weight:600;">Activities</h2>
+        <p style="font-size:0.875rem; color:var(--muted-foreground);">Explore the work submitted by this group for each activity.</p>
+      </div>
+      <div id="activitiesContainer" class="grid-2" style="margin-top:1.5rem;">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
     <!-- Uploaded Work Section -->
     <section class="section-shell py-16">
       <div style="display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:1rem;">
@@ -115,8 +126,22 @@
         </div>
       </div>
     </section>
-  </main>
 
+    <!-- Gallery Section -->
+    <section class="section-shell py-16">
+      <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem;">
+        <div>
+          <h2 style="font-size:1.5rem; font-weight:600;">Gallery</h2>
+          <p style="margin-top:0.25rem; font-size:0.875rem; color:var(--muted-foreground);">Event photos and memories for this group.</p>
+        </div>
+      </div>
+
+      <div id="galleryContainer" class="grid-3" style="margin-top:1.5rem;">
+        <!-- Rendered by JS or empty state -->
+        <p style="font-size:0.875rem; color:var(--muted-foreground); grid-column:1/-1;">No photos available yet. Event photos will appear here.</p>
+      </div>
+    </section>
+  </main>
   <!-- Content Preview Modal -->
   <div id="contentModal" class="modal-backdrop">
     <div class="modal-dialog">
@@ -181,11 +206,8 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="js/data.js"></script>
-  <script src="js/main.js"></script>
-  <!-- Firebase SDKs for real-time submission sync -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+  <script src="js/data.js?v=3"></script>
+  <script src="js/main.js?v=3"></script>
   <script>
     const urlParams = new URLSearchParams(window.location.search);
     const slug = urlParams.get('slug') || 'group-cd-01';
@@ -215,8 +237,25 @@
     document.getElementById('uploadsBadge').textContent = `${groupUploads.length} uploads`;
     document.getElementById('membersBadge').textContent = `${groupMembers.length} students`;
 
-    // Activity Filter
+    // Activity Cards & Filter
     const activityFilter = document.getElementById('activityFilter');
+    const activitiesContainer = document.getElementById('activitiesContainer');
+
+    if (activitiesContainer) {
+      // Use grid-4 for desktop if possible, grid-2 is already set on the container class but we'll let CSS handle it
+      // Actually we can change the container class to grid-4
+      activitiesContainer.className = "grid-4";
+      activitiesContainer.innerHTML = DATA.activities.map(a => `
+        <div class="card card-rounded-2xl shadow-lift" style="cursor:pointer; overflow:hidden; display:flex; flex-direction:column;" onclick="selectActivity('${a.id}')">
+          <img src="${a.image || ''}" alt="${a.title}" style="width:100%; height:10rem; object-fit:cover;" />
+          <div class="card-padding" style="flex:1;">
+            <h3 style="font-size:1.125rem; font-weight:600;">${a.title}</h3>
+            <p style="margin-top:0.5rem; font-size:0.875rem; color:var(--muted-foreground);">${a.description}</p>
+          </div>
+        </div>
+      `).join('');
+    }
+
     DATA.activities.forEach(a => {
       const opt = document.createElement('option');
       opt.value = a.id;
@@ -224,20 +263,42 @@
       activityFilter.appendChild(opt);
     });
 
+    window.selectActivity = function(actId) {
+      activityFilter.value = actId;
+      updateUploads();
+      const collage = document.getElementById('groupCollageContainer');
+      if (collage) {
+        // Offset scroll slightly so the header isn't blocking it
+        const y = collage.getBoundingClientRect().top + window.scrollY - 100;
+        window.scrollTo({top: y, behavior: 'smooth'});
+      }
+    };
+
     const groupCollageContainer = document.getElementById('groupCollageContainer');
     let groupUploadsLive = [...groupUploads]; // working copy, updated by Firebase & storage
+    
+    // We need galleryContainer initialized before updateUploads is called
+    const galleryContainer = document.getElementById('galleryContainer');
 
     function updateUploads() {
       const actId = activityFilter.value;
-      const filtered = groupUploadsLive.filter(u => actId === 'all' || isActivityMatch(u.activity_id, actId));
+      const filtered = groupUploadsLive.filter(u => u.kind !== 'gallery' && (actId === 'all' || u.activity_id === actId));
       renderCollage(filtered, groupCollageContainer, 'No uploads found for this activity.');
-      document.getElementById('uploadsBadge').textContent = `${groupUploadsLive.length} uploads`;
+      
+      // Update badge count to exclude gallery items
+      const totalUploads = groupUploadsLive.filter(u => u.kind !== 'gallery').length;
+      document.getElementById('uploadsBadge').textContent = `${totalUploads} uploads`;
+      
+      // Re-render gallery in case groupUploadsLive was updated by Firebase
+      if (typeof renderGallery === 'function') {
+        renderGallery();
+      }
     }
     activityFilter.addEventListener('change', updateUploads);
     updateUploads();
 
-    // Firebase real-time sync for submissions
-    (function initFirebaseSubmissions() {
+    // Firebase real-time sync (Modular API v12.19.0)
+    (async function initFirebaseSync() {
       const firebaseConfig = {
         apiKey: "AIzaSyA3zM_fz3snYxd11zIO-lFuRYNA-VCfvfI",
         authDomain: "intensive-english-program-e25.firebaseapp.com",
@@ -248,127 +309,103 @@
         appId: "1:819181152560:web:de3bf3ad50dbd2c58cc0f5"
       };
 
-      function syncFromLocal() {
+      function syncSubmissionsFromLocal() {
         const localUploads = getContentByGroupId(group.id);
         localUploads.forEach(lu => {
-          if (!groupUploadsLive.some(gl => gl.id === lu.id)) {
-            groupUploadsLive.unshift(lu);
-          }
+          if (!groupUploadsLive.some(gl => gl.id === lu.id)) groupUploadsLive.unshift(lu);
         });
         updateUploads();
       }
 
-      // Realtime cross-tab sync via local storage event
       window.addEventListener('storage', (e) => {
         if (e.key === 'e25_custom_content') {
-          syncFromLocal();
+          syncSubmissionsFromLocal();
+        } else if (e.key === 'e25_custom_students') {
+          const localStudents = getMembersByGroupId(group.id);
+          localStudents.forEach(ls => {
+            if (!groupMembersLive.some(gl => gl.id === ls.id)) groupMembersLive.push(ls);
+          });
+          updateMembers();
         }
       });
 
       try {
-        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-        db.ref('submissions').on('value', (snapshot) => {
+        const { initializeApp, getApps } = await import("https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js");
+        const { getDatabase, ref, onValue } = await import("https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js");
+
+        let app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // 1. Sync Submissions
+        const submissionsRef = ref(db, 'submissions');
+        onValue(submissionsRef, (snapshot) => {
           const data = snapshot.val();
-          if (!data) return;
-          // Get all Firebase submissions
-          const allFirebaseSubs = Array.isArray(data) ? data.filter(Boolean) : Object.values(data);
-          // Filter submissions for this group using robust isGroupMatch
-          const thisGroupSubs = allFirebaseSubs.filter(s => isGroupMatch(s.group_id, group));
-
-          // Merge with local items without duplicates
-          const localStatic = getContentByGroupId(group.id);
-          const merged = [...thisGroupSubs];
-          localStatic.forEach(ls => {
-            if (!merged.some(fs => fs.id === ls.id)) merged.push(ls);
-          });
-
-          // Also save to localStorage for offline cache
-          try {
-            let local = JSON.parse(localStorage.getItem('e25_custom_content') || '[]');
-            allFirebaseSubs.forEach(fs => {
-              const idx = local.findIndex(ls => ls.id === fs.id);
-              if (idx !== -1) {
-                local[idx] = fs;
-              } else {
-                local.push(fs);
-              }
+          if (data) {
+            const allFirebaseSubs = Array.isArray(data) ? data.filter(Boolean) : Object.values(data);
+            const thisGroupSubs = allFirebaseSubs.filter(s => s.group_id === group.id);
+            const localStatic = getContentByGroupId(group.id);
+            const merged = [...thisGroupSubs];
+            
+            localStatic.forEach(ls => {
+              if (!merged.some(fs => fs.id === ls.id)) merged.push(ls);
             });
-            localStorage.setItem('e25_custom_content', JSON.stringify(local));
-          } catch(e) {}
 
-          groupUploadsLive = merged;
-          updateUploads();
+            try {
+              let local = JSON.parse(localStorage.getItem('e25_custom_content') || '[]');
+              allFirebaseSubs.forEach(fs => {
+                const idx = local.findIndex(ls => ls.id === fs.id);
+                if (idx !== -1) local[idx] = fs;
+                else local.push(fs);
+              });
+              localStorage.setItem('e25_custom_content', JSON.stringify(local));
+            } catch(e) {}
+
+            groupUploadsLive = merged;
+            updateUploads();
+          }
         }, (err) => {
           console.warn('Firebase submissions listener:', err.message);
         });
-      } catch (err) {
-        console.warn('Firebase not ready on group page:', err);
-      }
-    })();
 
-    // Firebase real-time sync for students/members
-    let groupMembersLive = [...groupMembers]; // working copy updated by Firebase
-
-    (function initFirebaseStudents() {
-      const firebaseConfig = {
-        apiKey: "AIzaSyA3zM_fz3snYxd11zIO-lFuRYNA-VCfvfI",
-        authDomain: "intensive-english-program-e25.firebaseapp.com",
-        databaseURL: "https://intensive-english-program-e25-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "intensive-english-program-e25",
-        storageBucket: "intensive-english-program-e25.firebasestorage.app",
-        messagingSenderId: "819181152560",
-        appId: "1:819181152560:web:de3bf3ad50dbd2c58cc0f5"
-      };
-
-      // Realtime cross-tab sync via localStorage storage event
-      window.addEventListener('storage', (e) => {
-        if (e.key === 'e25_custom_students') {
-          const localStudents = getMembersByGroupId(group.id);
-          localStudents.forEach(ls => {
-            if (!groupMembersLive.some(gl => gl.id === ls.id)) {
-              groupMembersLive.push(ls);
-            }
-          });
-          updateMembers();
-        }
-      });
-
-      try {
-        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-        db.ref('students').on('value', (snapshot) => {
+        // 2. Sync Students
+        const studentsRef = ref(db, 'students');
+        onValue(studentsRef, (snapshot) => {
           const data = snapshot.val();
-          if (!data) return;
-          const allFirebaseStudents = Array.isArray(data) ? data.filter(Boolean) : Object.values(data);
-          // Filter students for this group
-          const thisGroupStudents = allFirebaseStudents.filter(s => isGroupMatch(s.group_id, group));
-
-          // Merge: Firebase takes priority, then local static
-          const localStatic = getMembersByGroupId(group.id);
-          const merged = [...thisGroupStudents];
-          localStatic.forEach(ls => {
-            if (!merged.some(fs => fs.id === ls.id)) merged.push(ls);
-          });
-
-          // Cache to localStorage for offline
-          try {
-            let local = JSON.parse(localStorage.getItem('e25_custom_students') || '[]');
-            allFirebaseStudents.forEach(fs => {
-              const idx = local.findIndex(ls => ls.id === fs.id);
-              if (idx !== -1) { local[idx] = fs; } else { local.push(fs); }
+          if (data) {
+            const allFirebaseStudents = Array.isArray(data) ? data.filter(Boolean) : Object.values(data);
+            const thisGroupStudents = allFirebaseStudents.filter(s => s.group_id === group.id);
+            
+            const localStatic = getMembersByGroupId(group.id);
+            const merged = [...thisGroupStudents];
+            localStatic.forEach(ls => {
+              if (!merged.some(fs => fs.id === ls.id)) merged.push(ls);
             });
-            localStorage.setItem('e25_custom_students', JSON.stringify(local));
-          } catch(e) {}
 
-          groupMembersLive = merged;
-          updateMembers();
-          document.getElementById('membersBadge').textContent = `${groupMembersLive.length} students`;
+            try {
+              let local = JSON.parse(localStorage.getItem('e25_custom_students') || '[]');
+              allFirebaseStudents.forEach(fs => {
+                const idx = local.findIndex(ls => ls.id === fs.id);
+                if (idx !== -1) local[idx] = fs;
+                else local.push(fs);
+              });
+              localStorage.setItem('e25_custom_students', JSON.stringify(local));
+            } catch(e) {}
+
+            groupMembersLive = merged;
+            updateMembers();
+            document.getElementById('membersBadge').textContent = `${groupMembersLive.length} students`;
+          } else {
+            // Data cleared/empty
+            groupMembersLive = getMembersByGroupId(group.id);
+            updateMembers();
+            document.getElementById('membersBadge').textContent = `${groupMembersLive.length} students`;
+          }
         }, (err) => {
           console.warn('Firebase students listener:', err.message);
         });
+
       } catch (err) {
-        console.warn('Firebase not ready on group page (students):', err);
+        console.warn('Firebase not ready on group page:', err);
       }
     })();
 
@@ -402,6 +439,45 @@
       `).join('');
     }
     updateMembers();
+
+    // Render Gallery
+    function renderGallery() {
+      if (!galleryContainer) return;
+      
+      const galleryItems = groupUploadsLive.filter(u => u.kind === 'gallery');
+      const staticPhotos = group.gallery || [];
+      
+      if (galleryItems.length === 0 && staticPhotos.length === 0) {
+        galleryContainer.innerHTML = '<p style="font-size:0.875rem; color:var(--muted-foreground); grid-column:1/-1;">No photos available yet. Event photos will appear here.</p>';
+        return;
+      }
+      
+      let html = '';
+      
+      // Render gallery content items (with modals) using renderCollage logic
+      if (galleryItems.length > 0) {
+        galleryContainer.className = ''; // Remove grid-3 for masonry layout
+        const tempDiv = document.createElement('div');
+        renderCollage(galleryItems, tempDiv, '');
+        html += tempDiv.innerHTML;
+      }
+      
+      // Render static group.gallery photos if any
+      if (staticPhotos.length > 0) {
+        if (galleryItems.length === 0) {
+          galleryContainer.className = 'grid-3';
+        }
+        html += staticPhotos.map(photo => `
+          <div class="card card-rounded-2xl shadow-lift" style="overflow:hidden; cursor:pointer;" onclick="window.open('${photo.url}', '_blank')">
+            <img src="${photo.url}" alt="${photo.caption || 'Event photo'}" style="width:100%; height:12rem; object-fit:cover; display:block;" />
+            ${photo.caption ? `<div class="card-padding" style="padding:0.75rem;"><p style="font-size:0.875rem; color:var(--muted-foreground);">${photo.caption}</p></div>` : ''}
+          </div>
+        `).join('');
+      }
+      
+      galleryContainer.innerHTML = html;
+    }
+    renderGallery();
 
 
   </script>

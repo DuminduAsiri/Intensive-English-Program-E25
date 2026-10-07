@@ -104,7 +104,27 @@ function openContentModal(item) {
     const ytId = extractYouTubeId(item.external_url);
     const imgUrl = item.preview_image || (item.kind === 'image' ? (item.external_url || item.file_data) : null);
 
-    if (ytId) {
+    if (item.slides && Array.isArray(item.slides) && item.slides.length > 0) {
+      let slidesHtml = '<div style="display:flex; flex-direction:column; gap:1rem; max-height:70vh; overflow-y:auto; padding-right:0.5rem;">';
+      item.slides.forEach(slide => {
+        slidesHtml += `<img src="${slide}" alt="Slide" style="width:100%; object-fit:contain; border-radius:0.5rem; background:rgba(0,0,0,0.3);" />`;
+      });
+      slidesHtml += '</div>';
+      bodyEl.innerHTML = slidesHtml;
+    } else if (item.external_url && (item.external_url.toLowerCase().endsWith('.pdf') || item.external_url.toLowerCase().endsWith('.html'))) {
+      bodyEl.innerHTML = `
+        <iframe src="${item.external_url}"
+          title="${item.title}"
+          style="width:100%; height:70vh; border:none; border-radius:0.5rem; background: white;">
+        </iframe>`;
+    } else if (item.kind === 'video' && item.external_url && !ytId) {
+      bodyEl.innerHTML = `
+        <video controls autoplay style="width:100%; max-height:70vh; border-radius:0.5rem; background:#000;">
+          <source src="${item.external_url}" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      `;
+    } else if (ytId) {
       bodyEl.innerHTML = `
         <iframe src="https://www.youtube-nocookie.com/embed/${ytId}?autoplay=1&rel=0"
           title="${item.title}"
@@ -114,8 +134,8 @@ function openContentModal(item) {
         </iframe>`;
     } else if (imgUrl) {
       bodyEl.innerHTML = `
-        <div style="display:flex; justify-content:center; align-items:center; background:rgba(0,0,0,0.3); border-radius:0.5rem; padding:1rem;">
-          <img src="${imgUrl}" alt="${item.title}" style="max-height:70vh; max-width:100%; object-fit:contain; border-radius:0.5rem;" />
+        <div style="display:flex; justify-content:center; align-items:center; background:rgba(0,0,0,0.3); border-radius:0.5rem; padding:1rem; max-height:70vh; overflow-y:auto;">
+          <img src="${imgUrl}" alt="${item.title}" style="max-width:100%; object-fit:contain; border-radius:0.5rem;" />
         </div>
       `;
     } else if (item.kind === 'document') {

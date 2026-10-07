@@ -261,14 +261,17 @@
     </section>
 
 
-    <!-- Bottom CTA Banner -->
-    <section class="section-shell py-20">
-      <div class="callout-banner">
-        <h2 style="font-size:2.25rem; font-weight:600; max-width:32rem;">Looking for a specific group activity?</h2>
-        <p style="margin-top:1rem; max-width:36rem; color:color-mix(in oklab, var(--ink-foreground) 75%, transparent);">
-          Choose an activity and a group, and see that group's members, details and everything they submitted.</p>
-        <a href="groups.html" class="btn btn-secondary btn-md" style="margin-top:2rem;">Select activity &amp;
-          group</a>
+    <!-- Teachers' Panel -->
+    <section class="bg-secondary-soft py-20">
+      <div class="section-shell">
+        <div style="display:flex; flex-wrap:wrap; align-items:center; gap:0.75rem;">
+          <h2 style="font-size:2.25rem; font-weight:600;">Teachers' Panel of English</h2>
+          <div class="badge badge-secondary">4 listed</div>
+        </div>
+        <p style="margin-top:0.75rem; max-width:42rem; font-size:1rem; color:var(--muted-foreground);">The lecturers and instructors of the English language program who guide, review and evaluate our work.</p>
+        <div id="teachersContainer" class="grid-3" style="margin-top:2.5rem;">
+          <!-- Rendered by JS -->
+        </div>
       </div>
     </section>
   </main>
@@ -317,6 +320,24 @@
     // Populate Group Cards on Home Page
     const container = document.getElementById('homeGroupsContainer');
     if (container) renderGroupCards(container);
+
+    // Render Teachers' Panel
+    const teachers = DATA.panelMembers.filter(m => m.panel === 'teachers');
+    const teachersContainer = document.getElementById('teachersContainer');
+    if (teachersContainer) {
+      teachersContainer.innerHTML = teachers.map(m => `
+        <div class="card card-rounded-2xl card-padding" style="display:flex; align-items:center; gap:1rem;">
+          ${m.photo_url
+          ? `<img src="${m.photo_url}" alt="${m.full_name}" class="size-12 rounded-full" style="object-fit:cover;" />`
+          : `<span class="size-12 rounded-full icon-bubble icon-bubble-lg font-display" style="font-weight:600; font-size:0.875rem;">${m.full_name.slice(0, 2).toUpperCase()}</span>`
+        }
+          <div>
+            <h3 style="font-size:1rem; font-weight:600;">${m.full_name}</h3>
+            <p style="font-size:0.875rem; color:var(--muted-foreground);">${m.role || 'Member'}</p>
+          </div>
+        </div>
+      `).join('');
+    }
   </script>
 
   <!-- Global Auth Navigation & Welcome State -->
