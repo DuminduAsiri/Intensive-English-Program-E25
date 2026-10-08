@@ -71,9 +71,7 @@
       <div class="section-shell page-banner-content">
         <p class="eyebrow" style="color:color-mix(in oklab, var(--ink-foreground) 70%, transparent);">About us</p>
         <h1 class="page-banner-title">The people behind the English language program</h1>
-        <p class="page-banner-desc">01-04 Group CD is the English language program team of the Faculty of Engineering,
-          University of Peradeniya. Our work is guided by the teachers' panel of English and organised by the web
-          committee.</p>
+        <p class="page-banner-desc">The English Language Program team for Groups 01–04 CD operates under the Faculty of Engineering at the University of Peradeniya. Supervised by the English Language Panel, this platform is maintained by the Web Committee.</p>
       </div>
     </section>
 
@@ -82,21 +80,15 @@
       <div class="grid-3">
         <div class="card card-rounded-2xl card-padding">
           <p class="eyebrow">Who we are</p>
-          <p style="margin-top:0.75rem; font-size:0.875rem; color:var(--muted-foreground); line-height:1.5;">Six student
-            groups working through assignments, presentations and collaborative activities as part of the faculty
-            English language program.</p>
+          <p style="margin-top:0.75rem; font-size:0.875rem; color:var(--muted-foreground); line-height:1.5;">A collective of four student groups participating in coursework, presentations, and collaborative academic activities under the Faculty English Language Program.</p>
         </div>
         <div class="card card-rounded-2xl card-padding">
           <p class="eyebrow">What we do</p>
-          <p style="margin-top:0.75rem; font-size:0.875rem; color:var(--muted-foreground); line-height:1.5;">We document
-            every submission — reports, slide decks, recordings and reflections — so the whole batch can learn from each
-            other.</p>
+          <p style="margin-top:0.75rem; font-size:0.875rem; color:var(--muted-foreground); line-height:1.5;">We systematically archive academic submissions—including written reports, presentation slides, video recordings, and reflections—to foster peer-to-peer learning across the entire batch.</p>
         </div>
         <div class="card card-rounded-2xl card-padding">
           <p class="eyebrow">Why this site</p>
-          <p style="margin-top:0.75rem; font-size:0.875rem; color:var(--muted-foreground); line-height:1.5;">One
-            reliable archive of our English program work, maintained by the web committee and reviewed by the teachers'
-            panel.</p>
+          <p style="margin-top:0.75rem; font-size:0.875rem; color:var(--muted-foreground); line-height:1.5;">Designed as a centralized repository for our English program coursework, this platform is managed by the Web Committee and overseen by the Academic Teaching Panel.</p>
         </div>
       </div>
     </section>
@@ -198,6 +190,12 @@
     // Render Panel Members
     const teachers = DATA.panelMembers.filter(m => m.panel === 'teachers');
     const webCommittee = DATA.panelMembers.filter(m => m.panel === 'web');
+
+    const teachersBadge = document.getElementById('teachersCountBadge');
+    if (teachersBadge) teachersBadge.textContent = `${teachers.length} listed`;
+
+    const webBadge = document.getElementById('webCountBadge');
+    if (webBadge) webBadge.textContent = `${webCommittee.length} listed`;
 
     const teachersContainer = document.getElementById('teachersContainer');
     if (teachersContainer) {
