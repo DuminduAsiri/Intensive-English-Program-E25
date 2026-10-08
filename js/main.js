@@ -111,26 +111,12 @@ function openContentModal(item) {
       });
       slidesHtml += '</div>';
       bodyEl.innerHTML = slidesHtml;
-    } else if (item.external_url && item.external_url.toLowerCase().endsWith('.pdf')) {
-      const pdfUrl = encodeURIComponent(item.external_url);
+    } else if (item.external_url && (item.external_url.toLowerCase().endsWith('.pdf') || item.external_url.toLowerCase().endsWith('.html'))) {
       bodyEl.innerHTML = `
-        <div style="width:100%; height:75vh; min-height:500px; overflow-y:auto; -webkit-overflow-scrolling:touch; border-radius:0.5rem; background:white; position:relative;">
-          <iframe src="https://docs.google.com/viewer?url=${pdfUrl}&embedded=true"
-            title="${item.title}"
-            style="width:100%; height:100%; border:none; display:block;">
-          </iframe>
-          <div style="position:absolute; top:1rem; right:1rem; z-index:10; background:rgba(0,0,0,0.6); color:white; padding:0.5rem 1rem; border-radius:9999px; font-size:0.75rem; pointer-events:none;">
-            Scroll issue? Use "Open original" button below ⬇
-          </div>
-        </div>`;
-    } else if (item.external_url && item.external_url.toLowerCase().endsWith('.html')) {
-      bodyEl.innerHTML = `
-        <div style="width:100%; height:75vh; min-height:500px; overflow-y:auto; -webkit-overflow-scrolling:touch; border-radius:0.5rem; background:white;">
-          <iframe src="${item.external_url}"
-            title="${item.title}"
-            style="width:100%; height:100%; border:none; display:block;">
-          </iframe>
-        </div>`;
+        <iframe src="${item.external_url}"
+          title="${item.title}"
+          style="width:100%; height:85vh; min-height:500px; border:none; border-radius:0.5rem; background: white;">
+        </iframe>`;
     } else if (item.kind === 'video' && item.external_url && !ytId) {
       bodyEl.innerHTML = `
         <video controls autoplay style="width:100%; max-height:70vh; border-radius:0.5rem; background:#000;">

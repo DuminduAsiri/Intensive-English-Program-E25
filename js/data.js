@@ -114,31 +114,76 @@ const DATA = {
       "sort_order": 4
     },
     {
-      "id": "ac964380-d246-4c7a-bff7-f3e4db8c4b8c",
+      "id": "web-comm-1",
       "panel": "web",
-      "full_name": "Dumindu Asiri",
-      "role": "Lead Coordinator",
-      "bio": "Engineering undergraduate contributing to the portal development and maintenance.",
-      "photo_url": "assets/dumindu.jpeg",
+      "full_name": "Senash Nawanjana",
+      "role": "CD 01 Representative",
+      "bio": null,
+      "photo_url": null,
       "sort_order": 1
     },
     {
-      "id": "eefd1662-289b-48e7-9c1f-cfbb2e267f55",
+      "id": "web-comm-2",
       "panel": "web",
-      "full_name": "To be announced",
-      "role": "Content Coordinator",
+      "full_name": "Madhusha Denuwan",
+      "role": "CD 01 Representative",
       "bio": null,
       "photo_url": null,
       "sort_order": 2
     },
     {
-      "id": "cfae0abd-db66-40ae-b20e-6cfb80eb9179",
+      "id": "web-comm-3",
       "panel": "web",
-      "full_name": "To be announced",
-      "role": "Developer",
+      "full_name": "M. Dilusha Sandaru",
+      "role": "CD 02 Representative",
       "bio": null,
       "photo_url": null,
       "sort_order": 3
+    },
+    {
+      "id": "web-comm-4",
+      "panel": "web",
+      "full_name": "S.A.M. Prabhani",
+      "role": "CD 02 Representative",
+      "bio": null,
+      "photo_url": null,
+      "sort_order": 4
+    },
+    {
+      "id": "web-comm-5",
+      "panel": "web",
+      "full_name": "W.A. Pehan Dilmith",
+      "role": "CD 03 Representative",
+      "bio": null,
+      "photo_url": null,
+      "sort_order": 5
+    },
+    {
+      "id": "web-comm-6",
+      "panel": "web",
+      "full_name": "M. Milhan",
+      "role": "CD 03 Representative",
+      "bio": null,
+      "photo_url": null,
+      "sort_order": 6
+    },
+    {
+      "id": "ac964380-d246-4c7a-bff7-f3e4db8c4b8c",
+      "panel": "web",
+      "full_name": "Dumindu Asiri",
+      "role": "CD 04 Lead Coordinator",
+      "bio": "Engineering undergraduate contributing to the portal development and maintenance.",
+      "photo_url": null,
+      "sort_order": 7
+    },
+    {
+      "id": "web-comm-8",
+      "panel": "web",
+      "full_name": "Sithumini Sumanaweera",
+      "role": "CD 04 Representative",
+      "bio": null,
+      "photo_url": null,
+      "sort_order": 8
     }
   ],
   "groupMembers": [
@@ -949,6 +994,272 @@ const DATA = {
     }
   ],
   "contentItems": [
+    {
+      "id": "cd03-presentation-rubber-production",
+      "group_id": "edcd3049-1802-474c-a473-9f1ee8116b53",
+      "activity_id": "49361060-cb6e-48bc-a968-56be93253402",
+      "kind": "presentation",
+      "title": "Rubber Production",
+      "student_name": "Team B (W.J.K.V.D. Poornima, R.A.T.S. Sathsarani, G.P.D.L. Palagama, I.M.S. Dewmini Yasarathne)",
+      "preview_image": "assets/cd03_rubber_production_preview.jpg",
+      "external_url": "assets/cd03_rubber_production.pdf",
+      "description": "A detailed presentation exploring the natural process and technology behind rubber production. Presented by Team B.",
+      "created_at": "2026-10-08T12:45:00Z"
+    },
+    {
+      "id": "cd03-presentation-hydroclean",
+      "group_id": "edcd3049-1802-474c-a473-9f1ee8116b53",
+      "activity_id": "49361060-cb6e-48bc-a968-56be93253402",
+      "kind": "presentation",
+      "title": "Hydroclean Shield",
+      "student_name": "Team A (Sachin Matheesha, Dineth Upeksha, Pramod Tharaka, Dinali Jayawardhana, Navarathinam Rakshiyananth)",
+      "preview_image": "assets/cd03_hydroclean_preview.jpg",
+      "external_url": "assets/cd03_hydroclean_presentation.pdf",
+      "description": "An innovative presentation on 'Hydroclean Shield', a nanotechnology-based protective coating inspired by the Lotus Effect. Presented by Team A.",
+      "created_at": "2026-10-08T12:40:00Z"
+    },
+    {
+      "id": "cd02-presentation-camouflage",
+      "group_id": "87ddf96e-deea-4ebc-b2b8-64bb27480567",
+      "activity_id": "49361060-cb6e-48bc-a968-56be93253402",
+      "kind": "presentation",
+      "title": "Adaptive Camouflage Uniform",
+      "student_name": "Team C (Chamindu Lakshan, Achala Prakash, Dhayakaran Udayakumara)",
+      "preview_image": "assets/cd02_camouflage_preview.jpg",
+      "external_url": "assets/cd02_camouflage_presentation.pdf",
+      "description": "An innovative presentation on a smart camouflage uniform inspired by the chameleon's color-changing ability. Presented by Chamindu Lakshan, Achala Prakash, and Dhayakaran Udayakumara.",
+      "created_at": "2026-10-08T12:30:00Z"
+    },
+    {
+      "id": "cd02-creative-1",
+      "group_id": "87ddf96e-deea-4ebc-b2b8-64bb27480567",
+      "activity_id": "1370eefe-af82-4b20-a466-077df24ed8ba",
+      "kind": "image",
+      "title": "A Life's Lesson: The Race",
+      "student_name": "N.Y.S. Samarasinghe",
+      "preview_image": "assets/cd02_creative_race.jpg",
+      "file_data": "assets/cd02_creative_race.jpg",
+      "external_url": null,
+      "description": "An inspiring story about resilience and overcoming failure, proving that the only true failure is remaining where you fell.",
+      "created_at": "2026-10-08T12:10:00Z"
+    },
+    {
+      "id": "cd02-creative-2",
+      "group_id": "87ddf96e-deea-4ebc-b2b8-64bb27480567",
+      "activity_id": "1370eefe-af82-4b20-a466-077df24ed8ba",
+      "kind": "image",
+      "title": "Small Ideas... Big Impact",
+      "student_name": "R.A. Gethmin Withmal",
+      "preview_image": "assets/cd02_creative_solar.jpg",
+      "file_data": "assets/cd02_creative_solar.jpg",
+      "external_url": null,
+      "description": "A comic illustrating an engineering student's journey from a small idea to building a solar charging station for the campus.",
+      "created_at": "2026-10-08T12:15:00Z"
+    },
+    {
+      "id": "cd02-creative-3",
+      "group_id": "87ddf96e-deea-4ebc-b2b8-64bb27480567",
+      "activity_id": "1370eefe-af82-4b20-a466-077df24ed8ba",
+      "kind": "image",
+      "title": "Engineering in Real Life",
+      "student_name": "G.K.O. Thilasha",
+      "preview_image": "assets/cd02_creative_engineering.jpg",
+      "file_data": "assets/cd02_creative_engineering.jpg",
+      "external_url": null,
+      "description": "A creative infographic explaining how different engineering fields solve real-world problems to build a better tomorrow.",
+      "created_at": "2026-10-08T12:20:00Z"
+    },
+    {
+      "id": "cd02-creative-4",
+      "group_id": "87ddf96e-deea-4ebc-b2b8-64bb27480567",
+      "activity_id": "1370eefe-af82-4b20-a466-077df24ed8ba",
+      "kind": "image",
+      "title": "My Journey: An Engineering Student",
+      "student_name": "H.W.A. Thamarangi",
+      "preview_image": "assets/cd02_creative_journey.jpg",
+      "file_data": "assets/cd02_creative_journey.jpg",
+      "external_url": null,
+      "description": "A personal reflection and comic strip showing the growth, challenges, and big dreams of an engineering student.",
+      "created_at": "2026-10-08T12:25:00Z"
+    },
+    {
+      "id": "cd02-presentation-owldrone",
+      "group_id": "87ddf96e-deea-4ebc-b2b8-64bb27480567",
+      "activity_id": "49361060-cb6e-48bc-a968-56be93253402",
+      "kind": "presentation",
+      "title": "Owl-Inspired Silent Drone Technology",
+      "student_name": "Team B (S.H.Fernando, R.A.G.Withmal, T.G.S.Sanujaya)",
+      "preview_image": "assets/cd02_owldrone_preview.jpg",
+      "external_url": "assets/cd02_owldrone_presentation.pdf",
+      "description": "A presentation on innovative drone technology inspired by the silent flight of owls. Presented by S.H. Fernando, R.A.G. Withmal, and T.G.S. Sanujaya.",
+      "created_at": "2026-10-08T12:05:00Z"
+    },
+    {
+      "id": "cd02-presentation-biosmart",
+      "group_id": "87ddf96e-deea-4ebc-b2b8-64bb27480567",
+      "activity_id": "49361060-cb6e-48bc-a968-56be93253402",
+      "kind": "presentation",
+      "title": "Bio Smart Roof (NatureSync)",
+      "student_name": "Team A (S.A.M.Prabhani, G.K.O.Thilasha, H.W.A.Thamarangi, S.A.Sathruwani)",
+      "preview_image": "assets/cd02_biosmart_preview.jpg",
+      "external_url": "assets/cd02_biosmart_roof.pdf",
+      "description": "An innovative presentation on a self-adaptive eco roof inspired by nature (sunflowers, frog skin, lotus leaves, and bird wings). Presented by S.A.M. Prabhani, G.K.O. Thilasha, H.W.A. Thamarangi, and S.A. Sathruwani.",
+      "created_at": "2026-10-08T12:00:00Z"
+    },
+    {
+      "id": "cd04-gallery-favourite-movie",
+      "group_id": "33170e6f-f850-4cb2-b300-5f97e6c31a88",
+      "activity_id": "49361060-cb6e-48bc-a968-56be93253402",
+      "kind": "gallery",
+      "title": "My Favourite Movie Presentation",
+      "student_name": "Group CD 04",
+      "preview_image": "assets/cd04_favourite_movie_preview.jpg",
+      "slides": [
+        "assets/cd04_favourite_movie_1.jpg",
+        "assets/cd04_favourite_movie_2.jpg",
+        "assets/cd04_favourite_movie_3.jpg",
+        "assets/cd04_favourite_movie_4.jpg",
+        "assets/cd04_favourite_movie_5.jpg",
+        "assets/cd04_favourite_movie_6.jpg",
+        "assets/cd04_favourite_movie_7.jpg",
+        "assets/cd04_favourite_movie_8.jpg",
+        "assets/cd04_favourite_movie_9.jpg",
+        "assets/cd04_favourite_movie_10.jpg",
+        "assets/cd04_favourite_movie_11.jpg",
+        "assets/cd04_favourite_movie_12.jpg"
+      ],
+      "description": "A collection of 12 slides from the My Favourite Movie Presentation.",
+      "created_at": "2026-10-08T11:25:00Z"
+    },
+    {
+      "id": "cd04-gallery-country-tour",
+      "group_id": "33170e6f-f850-4cb2-b300-5f97e6c31a88",
+      "activity_id": "49361060-cb6e-48bc-a968-56be93253402",
+      "kind": "gallery",
+      "title": "Country Tour Presentation",
+      "student_name": "Group CD 04",
+      "preview_image": "assets/cd04_country_tour_preview.jpg",
+      "slides": [
+        "assets/cd04_country_tour_1.jpg",
+        "assets/cd04_country_tour_2.jpg",
+        "assets/cd04_country_tour_3.jpg",
+        "assets/cd04_country_tour_4.jpg",
+        "assets/cd04_country_tour_5.jpg",
+        "assets/cd04_country_tour_6.jpg",
+        "assets/cd04_country_tour_7.jpg",
+        "assets/cd04_country_tour_8.jpg",
+        "assets/cd04_country_tour_9.jpg",
+        "assets/cd04_country_tour_10.jpg",
+        "assets/cd04_country_tour_11.jpg",
+        "assets/cd04_country_tour_12.jpg"
+      ],
+      "description": "A collection of 12 slides from the Country Tour Presentation.",
+      "created_at": "2026-10-08T11:20:00Z"
+    },
+    {
+      "id": "cd01-creative-5",
+      "group_id": "765941e5-ce97-442b-8c01-a45f56c007e4",
+      "activity_id": "1370eefe-af82-4b20-a466-077df24ed8ba",
+      "kind": "image",
+      "title": "The Little Bird Who Was Afraid to Fly",
+      "student_name": "K. Snekan",
+      "preview_image": "assets/cd01_creative_bird.jpg",
+      "file_data": "assets/cd01_creative_bird.jpg",
+      "external_url": null,
+      "description": "An inspiring poem about overcoming fear and finding the courage to take a leap.",
+      "created_at": "2026-10-08T11:00:00Z"
+    },
+    {
+      "id": "cd01-creative-6",
+      "group_id": "765941e5-ce97-442b-8c01-a45f56c007e4",
+      "activity_id": "1370eefe-af82-4b20-a466-077df24ed8ba",
+      "kind": "image",
+      "title": "A Love That Never Fades",
+      "student_name": "S.N. Senanayaka",
+      "preview_image": "assets/cd01_creative_mother.jpg",
+      "file_data": "assets/cd01_creative_mother.jpg",
+      "external_url": null,
+      "description": "A beautiful comic strip depicting a mother's unconditional love and endless support through every stage of life.",
+      "created_at": "2026-10-08T11:05:00Z"
+    },
+    {
+      "id": "cd01-creative-7",
+      "group_id": "765941e5-ce97-442b-8c01-a45f56c007e4",
+      "activity_id": "1370eefe-af82-4b20-a466-077df24ed8ba",
+      "kind": "image",
+      "title": "A Small Step",
+      "student_name": "S.N. Senanayaka",
+      "preview_image": "assets/cd01_creative_smallstep.jpg",
+      "file_data": "assets/cd01_creative_smallstep.jpg",
+      "external_url": null,
+      "description": "A motivational comic strip illustrating how breaking tasks down and taking small steps can lead to big changes.",
+      "created_at": "2026-10-08T11:10:00Z"
+    },
+    {
+      "id": "cd01-group-activity-2",
+      "group_id": "765941e5-ce97-442b-8c01-a45f56c007e4",
+      "activity_id": "e723a2bb-ee67-45e5-a151-9e7a6f311c00",
+      "kind": "image",
+      "title": "Group CD 01 Group Activity 2",
+      "student_name": null,
+      "preview_image": "assets/cd01_group_activity_2_preview.jpg",
+      "file_data": "assets/cd01_group_activity_2.jpg",
+      "external_url": null,
+      "description": "Group Activity for Group CD 01.",
+      "created_at": "2026-10-08T10:15:00Z"
+    },
+    {
+      "id": "cd01-group-activity-3",
+      "group_id": "765941e5-ce97-442b-8c01-a45f56c007e4",
+      "activity_id": "e723a2bb-ee67-45e5-a151-9e7a6f311c00",
+      "kind": "image",
+      "title": "Group CD 01 Group Activity 3",
+      "student_name": null,
+      "preview_image": "assets/cd01_group_activity_3_preview.jpg",
+      "file_data": "assets/cd01_group_activity_3.jpg",
+      "external_url": null,
+      "description": "Group Activity for Group CD 01.",
+      "created_at": "2026-10-08T10:16:00Z"
+    },
+    {
+      "id": "cd01-group-activity-1",
+      "group_id": "765941e5-ce97-442b-8c01-a45f56c007e4",
+      "activity_id": "e723a2bb-ee67-45e5-a151-9e7a6f311c00",
+      "kind": "image",
+      "title": "Group CD 01 Group Activity",
+      "student_name": null,
+      "preview_image": "assets/cd01_group_activity_preview.jpg",
+      "modal_image": "assets/click_here.jpg",
+      "external_url": "https://youtu.be/Sa1u0GQzxng",
+      "description": "Group Activity for Group CD 01.",
+      "created_at": "2026-10-08T10:10:00Z"
+    },
+    {
+      "id": "cd01-project-1",
+      "group_id": "765941e5-ce97-442b-8c01-a45f56c007e4",
+      "activity_id": "c3b51ece-dfda-4e0a-8882-63a78763001e",
+      "kind": "image",
+      "title": "Group CD 01 Project 1",
+      "student_name": null,
+      "preview_image": "assets/cd01_project1_preview.jpg",
+      "modal_image": "assets/click_here.jpg",
+      "external_url": "https://youtu.be/gDhfGxpq2hQ",
+      "description": "Project submission for Group CD 01.",
+      "created_at": "2026-10-08T10:00:01Z"
+    },
+    {
+      "id": "cd01-project-2",
+      "group_id": "765941e5-ce97-442b-8c01-a45f56c007e4",
+      "activity_id": "c3b51ece-dfda-4e0a-8882-63a78763001e",
+      "kind": "image",
+      "title": "Group CD 01 Project 2",
+      "student_name": null,
+      "preview_image": "assets/cd01_project2_preview.jpg",
+      "modal_image": "assets/click_here.jpg",
+      "external_url": "https://youtu.be/Gv7rqwIa79Q",
+      "description": "Project submission for Group CD 01.",
+      "created_at": "2026-10-08T10:00:02Z"
+    },
     {
       "id": "cd01-presentation-1",
       "group_id": "765941e5-ce97-442b-8c01-a45f56c007e4",
@@ -1888,7 +2199,17 @@ function getActivityById(id) {
 }
 
 function getMembersByGroupId(groupId) {
-  return DATA.groupMembers.filter(m => m.group_id === groupId).sort((a, b) => a.sort_order - b.sort_order);
+  let members = DATA.groupMembers.filter(m => m.group_id === groupId);
+  try {
+    const custom = JSON.parse(localStorage.getItem('e25_custom_students') || '[]');
+    const groupCustom = custom.filter(m => m.group_id === groupId);
+    for(const c of groupCustom) {
+      if(!members.some(m => m.id === c.id || m.registration_no === c.registration_no)) {
+        members.push(c);
+      }
+    }
+  } catch (e) {}
+  return members.sort((a, b) => a.sort_order - b.sort_order);
 }
 
 function getAllMembers() {
@@ -1896,7 +2217,17 @@ function getAllMembers() {
 }
 
 function getContentByGroupId(groupId) {
-  return DATA.contentItems.filter(c => c.group_id === groupId).sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+  let content = DATA.contentItems.filter(c => c.group_id === groupId);
+  try {
+    const custom = JSON.parse(localStorage.getItem('e25_custom_content') || '[]');
+    const groupCustom = custom.filter(c => c.group_id === groupId);
+    for(const c of groupCustom) {
+      if(!content.some(m => m.id === c.id)) {
+        content.push(c);
+      }
+    }
+  } catch (e) {}
+  return content.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 }
 
 function getAllContentItems() {
