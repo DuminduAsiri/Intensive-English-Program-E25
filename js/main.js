@@ -91,7 +91,7 @@ function openContentModal(item) {
 
   if (descEl) {
     descEl.textContent = item.description || '';
-    descEl.style.display = item.description ? 'block' : 'none';
+    descEl.style.display = 'none'; // User requested to hide the description above the preview
   }
 
   if (dateEl) {
