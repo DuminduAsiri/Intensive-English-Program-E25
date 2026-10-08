@@ -868,7 +868,7 @@ header.site-header {
 .modal-body {
   flex: 1;
   overflow: auto;
-  background-color: rgba(241, 245, 249, 0.6);
+  background-color: transparent;
   min-height: 20rem;
   display: flex;
   align-items: flex-start;

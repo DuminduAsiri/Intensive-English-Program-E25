@@ -134,7 +134,7 @@ function openContentModal(item) {
         </iframe>`;
     } else if (imgUrl) {
       bodyEl.innerHTML = `
-        <div style="display:flex; justify-content:center; align-items:center; background:rgba(0,0,0,0.3); border-radius:0.5rem; padding:1rem; height:70vh; width: 100%;">
+        <div style="display:flex; justify-content:center; align-items:center; background:transparent; border-radius:0.5rem; padding:1rem; height:70vh; width: 100%;">
           <img src="${imgUrl}" alt="${item.title}" style="max-width:100%; max-height:100%; object-fit:contain; border-radius:0.5rem;" />
         </div>
       `;
