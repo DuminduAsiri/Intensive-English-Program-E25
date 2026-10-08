@@ -113,10 +113,12 @@ function openContentModal(item) {
       bodyEl.innerHTML = slidesHtml;
     } else if (item.external_url && (item.external_url.toLowerCase().endsWith('.pdf') || item.external_url.toLowerCase().endsWith('.html'))) {
       bodyEl.innerHTML = `
-        <iframe src="${item.external_url}"
-          title="${item.title}"
-          style="width:100%; height:85vh; min-height:500px; border:none; border-radius:0.5rem; background: white;">
-        </iframe>`;
+        <div style="width:100%; height:75vh; min-height:500px; overflow-y:auto; -webkit-overflow-scrolling:touch; border-radius:0.5rem; background:white;">
+          <iframe src="${item.external_url}"
+            title="${item.title}"
+            style="width:100%; height:100%; border:none; display:block;">
+          </iframe>
+        </div>`;
     } else if (item.kind === 'video' && item.external_url && !ytId) {
       bodyEl.innerHTML = `
         <video controls autoplay style="width:100%; max-height:70vh; border-radius:0.5rem; background:#000;">
