@@ -111,6 +111,21 @@
       </div>
     </section>
 
+    <!-- Gallery Section -->
+    <section class="section-shell py-16">
+      <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem;">
+        <div>
+          <h2 style="font-size:1.5rem; font-weight:600;">Gallery</h2>
+          <p style="margin-top:0.25rem; font-size:0.875rem; color:var(--muted-foreground);">Event photos and memories for this group.</p>
+        </div>
+      </div>
+
+      <div id="galleryContainer" class="grid-3" style="margin-top:1.5rem;">
+        <!-- Rendered by JS or empty state -->
+        <p style="font-size:0.875rem; color:var(--muted-foreground); grid-column:1/-1;">No photos available yet. Event photos will appear here.</p>
+      </div>
+    </section>
+
     <!-- Students Section -->
     <section class="bg-secondary-soft py-16">
       <div class="section-shell">
@@ -124,21 +139,6 @@
         <div id="membersContainer" class="grid-3" style="margin-top:1.5rem;">
           <!-- Rendered by JS -->
         </div>
-      </div>
-    </section>
-
-    <!-- Gallery Section -->
-    <section class="section-shell py-16">
-      <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem;">
-        <div>
-          <h2 style="font-size:1.5rem; font-weight:600;">Gallery</h2>
-          <p style="margin-top:0.25rem; font-size:0.875rem; color:var(--muted-foreground);">Event photos and memories for this group.</p>
-        </div>
-      </div>
-
-      <div id="galleryContainer" class="grid-3" style="margin-top:1.5rem;">
-        <!-- Rendered by JS or empty state -->
-        <p style="font-size:0.875rem; color:var(--muted-foreground); grid-column:1/-1;">No photos available yet. Event photos will appear here.</p>
       </div>
     </section>
   </main>
