@@ -991,6 +991,50 @@ const DATA = {
       "photo_url": null,
       "sort_order": 20,
       "committee": "Content"
+    },
+    {
+      "id": "cd02-student-extra-1",
+      "group_id": "87ddf96e-deea-4ebc-b2b8-64bb27480567",
+      "full_name": "J.R.C.L Rathnayaka",
+      "role_in_group": "Student",
+      "registration_no": "E/25/327",
+      "bio": null,
+      "photo_url": null,
+      "sort_order": 50,
+      "committee": "Content"
+    },
+    {
+      "id": "cd02-student-extra-2",
+      "group_id": "87ddf96e-deea-4ebc-b2b8-64bb27480567",
+      "full_name": "H.T. Achala prakash",
+      "role_in_group": "Student",
+      "registration_no": "E/25/347",
+      "bio": null,
+      "photo_url": null,
+      "sort_order": 51,
+      "committee": "Media"
+    },
+    {
+      "id": "cd02-student-extra-3",
+      "group_id": "87ddf96e-deea-4ebc-b2b8-64bb27480567",
+      "full_name": "Dayakaran",
+      "role_in_group": "Student",
+      "registration_no": "E/25/393",
+      "bio": null,
+      "photo_url": null,
+      "sort_order": 52,
+      "committee": "Media"
+    },
+    {
+      "id": "cd02-student-extra-4",
+      "group_id": "87ddf96e-deea-4ebc-b2b8-64bb27480567",
+      "full_name": "K.R.Prabashwara",
+      "role_in_group": "Student",
+      "registration_no": "E/25/301",
+      "bio": null,
+      "photo_url": null,
+      "sort_order": 53,
+      "committee": "Media"
     }
   ],
   "contentItems": [
@@ -1523,6 +1567,24 @@ const DATA = {
       "created_at": "2026-10-05T00:00:00Z"
     },
     {
+      "id": "cd03-gallery-group-presentation-day",
+      "group_id": "edcd3049-1802-474c-a473-9f1ee8116b53",
+      "activity_id": "e723a2bb-ee67-45e5-a151-9e7a6f311c00",
+      "kind": "gallery",
+      "title": "Group Presentation Day",
+      "student_name": "Group CD 03",
+      "preview_image": "assets/group_presentation daypreview.jpg",
+      "slides": [
+        "assets/cd3group_presentation day01.jpg",
+        "assets/cd3group_presentation day02.jpg",
+        "assets/cd3group_presentation day03.jpg",
+        "assets/cd3group_presentation day04.jpg",
+        "assets/cd3group_presentation day05.jpg"
+      ],
+      "description": "A collection of 5 photos from our Group Presentation Day.",
+      "created_at": "2026-10-09T10:05:00Z"
+    },
+    {
       "id": "cd04-where-dreams-meet-the-hills",
       "group_id": "33170e6f-f850-4cb2-b300-5f97e6c31a88",
       "activity_id": "1370eefe-af82-4b20-a466-077df24ed8ba",
@@ -1787,6 +1849,24 @@ const DATA = {
       "created_at": "2026-10-06T19:28:00Z"
     },
     {
+      "id": "cd01-gallery-group-photo-day",
+      "group_id": "765941e5-ce97-442b-8c01-a45f56c007e4",
+      "activity_id": "e723a2bb-ee67-45e5-a151-9e7a6f311c00",
+      "kind": "gallery",
+      "title": "Group Photo Day",
+      "student_name": "Group CD 01",
+      "preview_image": "assets/group_photo daypreview.jpg",
+      "slides": [
+        "assets/group_photo day01.jpg",
+        "assets/group_photo day02.jpg",
+        "assets/group_photo day03.jpg",
+        "assets/group_photo day04.jpg",
+        "assets/group_photo day05.jpg"
+      ],
+      "description": "A collection of 5 photos from our Group Photo Day.",
+      "created_at": "2026-10-09T09:35:00Z"
+    },
+    {
       "id": "cd04-project-video",
       "group_id": "33170e6f-f850-4cb2-b300-5f97e6c31a88",
       "activity_id": "c3b51ece-dfda-4e0a-8882-63a78763001e",
@@ -1887,6 +1967,29 @@ const DATA = {
       "external_url": "assets/hexavan_presentation.pdf",
       "description": "An innovative presentation on the HEXAVAN, a go-anywhere, off-grid modular camper van. Its design is inspired by the strength and efficiency of honeycombs, utilizing materials like wood, aluminium, glass, and solar panels for sustainable travel.",
       "created_at": "2026-10-07T00:20:00Z"
+    },
+    {
+      "id": "cd02-gallery-group-presentation-day",
+      "group_id": "87ddf96e-deea-4ebc-b2b8-64bb27480567",
+      "activity_id": "e723a2bb-ee67-45e5-a151-9e7a6f311c00",
+      "kind": "gallery",
+      "title": "Group Presentation Day",
+      "student_name": "Group CD 02",
+      "preview_image": "assets/group_presentation daypreview.jpg",
+      "slides": [
+        "assets/group_presentation day01.jpg",
+        "assets/group_presentation day02.jpg",
+        "assets/group_presentation day03.jpg",
+        "assets/group_presentation day04.jpg",
+        "assets/group_presentation day05.jpg",
+        "assets/group_presentation day06.jpg",
+        "assets/group_presentation day07.jpg",
+        "assets/group_presentation day08.jpg",
+        "assets/group_presentation day09.jpg",
+        "assets/group_presentation day10.jpg"
+      ],
+      "description": "A collection of 10 photos from our Group Presentation Day.",
+      "created_at": "2026-10-09T10:00:00Z"
     },
     {
       "id": "cd04-gallery-teaching",
