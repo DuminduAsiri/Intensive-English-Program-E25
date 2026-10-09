@@ -1205,7 +1205,7 @@ const DATA = {
       "preview_image": "assets/cd01_group_activity_2_preview.jpg",
       "file_data": "assets/cd01_group_activity_2.jpg",
       "external_url": null,
-      "description": "Group Activity for Group CD 01.",
+      "description": "An engaging group activity highlighting collaborative teamwork and interactive English learning by Group CD 01.",
       "created_at": "2026-10-08T10:15:00Z"
     },
     {
@@ -1218,7 +1218,7 @@ const DATA = {
       "preview_image": "assets/cd01_group_activity_3_preview.jpg",
       "file_data": "assets/cd01_group_activity_3.jpg",
       "external_url": null,
-      "description": "Group Activity for Group CD 01.",
+      "description": "A dynamic group activity showcasing active participation and communication skills by Group CD 01.",
       "created_at": "2026-10-08T10:16:00Z"
     },
     {
@@ -1231,7 +1231,7 @@ const DATA = {
       "preview_image": "assets/cd01_group_activity_preview.jpg",
       "modal_image": "assets/click_here.jpg",
       "external_url": "https://youtu.be/Sa1u0GQzxng",
-      "description": "Group Activity for Group CD 01.",
+      "description": "A collaborative group activity demonstrating excellent teamwork and English language practice by Group CD 01.",
       "created_at": "2026-10-08T10:10:00Z"
     },
     {
@@ -1821,20 +1821,60 @@ const DATA = {
       "student_name": "Group CD 04",
       "preview_image": "assets/cd04_group_activity_preview.jpg",
       "external_url": "assets/cd04_group_activity.mp4",
-      "description": "Group Activity video submitted by Group CD 04.",
+      "description": "An interactive video presentation showcasing collaborative English learning and teamwork by Group CD 04.",
       "created_at": "2026-10-07T00:10:00Z"
     },
     {
       "id": "cd02-project-video",
       "group_id": "87ddf96e-deea-4ebc-b2b8-64bb27480567",
       "activity_id": "c3b51ece-dfda-4e0a-8882-63a78763001e",
-      "kind": "video",
+      "kind": "image",
       "title": "Group CD 02 Project",
       "student_name": "Group CD 02",
       "preview_image": "assets/cd02_project_preview.jpg",
-      "external_url": "assets/cd02_project.mp4",
+      "modal_image": "assets/click_here.jpg",
+      "external_url": "https://youtu.be/kcGF2NTxC1c",
       "description": "Project video submitted by Group CD 02.",
       "created_at": "2026-10-07T00:15:00Z"
+    },
+    {
+      "id": "cd02-project-video-2",
+      "group_id": "87ddf96e-deea-4ebc-b2b8-64bb27480567",
+      "activity_id": "c3b51ece-dfda-4e0a-8882-63a78763001e",
+      "kind": "image",
+      "title": "Group CD 2 project 2",
+      "student_name": "Group CD 02",
+      "preview_image": "assets/cd02_project_preview2.jpg",
+      "modal_image": "assets/click_here.jpg",
+      "external_url": "https://youtu.be/89Y5NPvryuk",
+      "description": "Second project video submitted by Group CD 02.",
+      "created_at": "2026-10-07T00:16:00Z"
+    },
+    {
+      "id": "cd02-project-video-3",
+      "group_id": "87ddf96e-deea-4ebc-b2b8-64bb27480567",
+      "activity_id": "c3b51ece-dfda-4e0a-8882-63a78763001e",
+      "kind": "image",
+      "title": "Group CD 2 project 3",
+      "student_name": "Group CD 02",
+      "preview_image": "assets/cd02_project_preview3.jpg",
+      "modal_image": "assets/click_here.jpg",
+      "external_url": "https://youtube.com/shorts/3JblE7wCR8U?feature=share",
+      "description": "Third project video submitted by Group CD 02.",
+      "created_at": "2026-10-07T00:17:00Z"
+    },
+    {
+      "id": "cd02-project-video-4",
+      "group_id": "87ddf96e-deea-4ebc-b2b8-64bb27480567",
+      "activity_id": "c3b51ece-dfda-4e0a-8882-63a78763001e",
+      "kind": "image",
+      "title": "Group CD 2 project 4",
+      "student_name": "Group CD 02",
+      "preview_image": "assets/cd02_project_preview4.jpg",
+      "modal_image": "assets/click_here.jpg",
+      "external_url": "https://youtu.be/KLCUcpTag-0",
+      "description": "Fourth project video submitted by Group CD 02.",
+      "created_at": "2026-10-07T00:18:00Z"
     },
     {
       "id": "cd02-presentation-hexavan",
@@ -1863,7 +1903,7 @@ const DATA = {
         "assets/teaching_to_learn_4.jpg",
         "assets/teaching_to_learn_5.jpg"
       ],
-      "description": "A collection of 5 photos from our English peer teaching sessions.",
+      "description": "A visual showcase of our English peer teaching sessions, highlighting collaborative learning and knowledge sharing by Group CD 04.",
       "created_at": "2026-10-07T00:30:00Z"
     },
     {
@@ -1883,7 +1923,7 @@ const DATA = {
         "assets/reading_project_6.jpg",
         "assets/reading_project_7.jpg"
       ],
-      "description": "A collection of 7 photos from our Reading Project.",
+      "description": "A visual collection capturing our immersive Reading Project, focusing on comprehension and literature exploration by Group CD 04.",
       "created_at": "2026-10-07T00:35:00Z"
     },
     {
